@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAYWING D1–D5 & EF-150 | 10-Year HK & GBA Electric Maritime Master Plan (HKD)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { tech: { cyan: '#00f2ff', emerald: '#10b981', amber: '#f59e0b', slate: '#94a3b8' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0c0e12; color: #d4d4d8; }
+        .data-card { background-color: #11141b; border: 1px solid #222733; transition: all 0.2s ease; }
+        .data-card:hover { border-color: #384152; }
+        .cad-grid-bg {
+            background-size: 36px 36px;
+            background-image: linear-gradient(to right, rgba(148, 163, 184, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-zinc-700 selection:text-white min-h-screen flex flex-col">
+
+    <!-- SHARED DATA & REUSABLE HEADER -->
+    <script src="site-data.js"></script>
+    <script src="header.js"></script>
+    <site-header></site-header>
+
+    <main>
+        <!-- SECTION 1: PLATFORM HERO & PORTAL DIRECTORY -->
+        <section id="vessel" class="relative pt-28 pb-16 md:pt-32 md:pb-20 border-b border-zinc-800/80 cad-grid-bg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                    <div class="inline-flex items-center space-x-2 text-[11px] font-mono text-zinc-200 bg-zinc-900 border border-tech-emerald/50 px-3 py-1 rounded">
+                        <span class="w-2 h-2 bg-tech-emerald rounded-full animate-pulse"></span>
+                        <span class="font-semibold uppercase tracking-wider" data-i18n="hero_badge">HKE 22kV (+7.0mPD) + CLP 11kV KOWLOON CIQ HUB + MACAO 400V-BESS ALIGNED</span>
+                    </div>
+                    <div class="text-[11px] font-mono text-zinc-500">
+                        <span data-i18n="doc_id_lbl">DOC ID:</span> <span class="text-white font-bold">AM-EF150-FS-2026 (REV 7.2)</span>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-10 items-start">
+                    <div class="lg:col-span-7 space-y-5">
+                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-mono font-bold text-white tracking-tight leading-tight uppercase">
+                            <span data-i18n="hero_title">BAYWING EF-150 EXPRESS</span>
+                            <span class="block text-zinc-400 text-xl sm:text-2xl font-sans font-normal mt-2" data-i18n="hero_subtitle">Full-Stack Electric Hydrofoil Fleet & Twin-Hub 22kV/11kV Terminal Platform</span>
+                        </h1>
+                        <p class="text-sm md:text-base text-zinc-300 leading-relaxed max-w-2xl" data-i18n="hero_desc">
+                            Aero-Marine Systems is engineering the vertically integrated future of Hong Kong and Greater Bay Area maritime transit: combining 100Hz Fly-by-Wire carbon-composite electric hydrofoils (slashing energy burn by 80% from HK$ 175.50/NM down to HK$ 38.22/NM) with dedicated Greenfield EV &amp; GBA Passport Control (CIQ) Terminals on both sides of Victoria Harbour—anchored by HK Electric’s 22 kV Concrete Substation (+7.0 mPD) at Sheung Wan, CLP’s 11 kV + BESS architecture in Kowloon, and 400V-to-BESS buffers in Macao.
+                        </p>
+                        <div class="pt-2 flex flex-wrap gap-3">
+                            <a href="digital-twin.html" class="inline-flex items-center space-x-2 px-4 py-2.5 bg-tech-cyan text-slate-950 font-bold text-xs font-mono rounded hover:opacity-90 transition-all">
+                                <span data-i18n="btn_twin">7-DOMAIN ENGINEERING &amp; CFD/FEA WORKBENCH (22 MODULES)</span>
+                                <span>→</span>
+                            </a>
+                            <a href="capital-stakeholders.html#twin-hub-ciq" class="inline-flex items-center space-x-2 px-4 py-2.5 bg-tech-emerald/15 border border-tech-emerald/50 text-tech-emerald text-xs font-mono font-bold rounded hover:bg-tech-emerald/25 transition-colors">
+                                <span data-i18n="btn_ciq">HKE 22kV + CLP 11kV + MACAO 400V TERMINAL MATRIX</span>
+                                <span>→</span>
+                            </a>
+                            <a href="routes-calculator.html" class="inline-flex items-center space-x-2 px-4 py-2.5 bg-zinc-900 border border-zinc-700 text-zinc-200 text-xs font-mono rounded hover:border-tech-amber transition-colors">
+                                <span data-i18n="btn_routes">28 ROUTES &amp; HKD OPEX SIMULATOR</span>
+                                <span>→</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 data-card p-6 rounded-xl">
+                        <div class="flex items-center justify-between border-b border-zinc-800 pb-3 mb-4">
+                            <span class="text-xs font-mono font-bold text-white uppercase tracking-wider" data-i18n="spec_title">Flagship Operational Envelope</span>
+                            <span class="text-[10px] font-mono text-tech-cyan bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800" data-i18n="spec_class">150 PASSENGER CIQ CLASS</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="p-3.5 bg-zinc-950 rounded border border-zinc-800">
+                                <div class="text-[10px] font-mono text-zinc-500 uppercase" data-i18n="spec_speed">Target Cruise Speed</div>
+                                <div class="text-2xl font-mono font-bold text-white mt-1">38.0 <span class="text-xs text-zinc-400" data-i18n="unit_knots">KNOTS</span></div>
+                                <div class="text-[9.5px] font-mono text-tech-emerald mt-1" data-i18n="spec_speed_sub">18m Kowloon → HKIA SkyPier</div>
+                            </div>
+                            <div class="p-3.5 bg-zinc-950 rounded border border-zinc-800">
+                                <div class="text-[10px] font-mono text-zinc-500 uppercase" data-i18n="spec_range">Effective Range</div>
+                                <div class="text-2xl font-mono font-bold text-white mt-1">38.0 <span class="text-xs text-zinc-400" data-i18n="unit_nm">NM</span></div>
+                                <div class="text-[9.5px] font-mono text-zinc-500 mt-1" data-i18n="spec_range_sub">(w/ 20% Reserve | 45 NM Max)</div>
+                            </div>
+                            <div class="p-3.5 bg-zinc-950 rounded border border-zinc-800">
+                                <div class="text-[10px] font-mono text-zinc-500 uppercase" data-i18n="spec_battery">Battery Architecture</div>
+                                <div class="text-2xl font-mono font-bold text-white mt-1">1.8 <span class="text-xs text-zinc-400">MWh</span></div>
+                                <div class="text-[9.5px] font-mono text-zinc-500 mt-1" data-i18n="spec_battery_sub">1,000V Marine LFP (&lt;2C MCS)</div>
+                            </div>
+                            <div class="p-3.5 bg-zinc-950 rounded border border-zinc-800">
+                                <div class="text-[10px] font-mono text-zinc-500 uppercase" data-i18n="spec_turnaround">Tri-Grid Shore Hubs</div>
+                                <div class="text-2xl font-mono font-bold text-white mt-1">10–12 <span class="text-xs text-zinc-400" data-i18n="unit_mins">MINS</span></div>
+                                <div class="text-[9.5px] font-mono text-tech-cyan mt-1" data-i18n="spec_turnaround_sub">22kV HKE • 11kV CLP • 400V-BESS</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5-MODULE CONSOLIDATED PORTAL DIRECTORY -->
+                <div class="mt-14 pt-10 border-t border-zinc-800/80">
+                    <div class="text-[11px] font-mono text-tech-cyan uppercase tracking-widest mb-4" data-i18n="dir_heading">
+                        FULL-STACK ARCHITECTURE DIRECTORY (SELECT ANY MODULE)
+                    </div>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                        <a href="#vision-10yr" class="data-card p-4 rounded-xl hover:border-tech-emerald block">
+                            <div class="flex justify-between items-center font-mono text-xs font-bold text-tech-emerald mb-1">
+                                <span data-i18n="dir_1_t">01. 10-Yr Plan &amp; Fleet</span><span>↓</span>
+                            </div>
+                            <p class="text-xs text-zinc-400" data-i18n="dir_1_d">Dual Science Park (HKSTP + SZ/Zhuhai) industrial flywheel &amp; D2–EF150 fleet.</p>
+                        </a>
+
+                        <a href="routes-calculator.html" class="data-card p-4 rounded-xl hover:border-tech-cyan block">
+                            <div class="flex justify-between items-center font-mono text-xs font-bold text-tech-cyan mb-1">
+                                <span data-i18n="dir_2_t">02. 28 Routes &amp; OPEX</span><span>→</span>
+                            </div>
+                            <p class="text-xs text-zinc-400" data-i18n="dir_2_d">Interactive hydrographic chart of all 23 HK routes + 5 GBA CIQ corridors.</p>
+                        </a>
+
+                        <a href="engineering-rd.html" class="data-card p-4 rounded-xl hover:border-tech-amber block">
+                            <div class="flex justify-between items-center font-mono text-xs font-bold text-tech-amber mb-1">
+                                <span data-i18n="dir_3_t">03. R&amp;D CAD Blueprints</span><span>→</span>
+                            </div>
+                            <p class="text-xs text-zinc-400" data-i18n="dir_3_d">1600×900 schematics for D1, D2 &amp; EF-150 + Froude scaling (Fn=1.17).</p>
+                        </a>
+
+                        <a href="digital-twin.html" class="data-card p-4 rounded-xl hover:border-sky-400 block">
+                            <div class="flex justify-between items-center font-mono text-xs font-bold text-sky-400 mb-1">
+                                <span data-i18n="dir_4_t">04. Digital Twin (22 Mods)</span><span>→</span>
+                            </div>
+                            <p class="text-xs text-zinc-400" data-i18n="dir_4_d">7-Domain CFD, FEA, 2oo3 Fly-by-Wire, Pod Drivetrain &amp; IMO/DNV rules workbench.</p>
+                        </a>
+
+                        <a href="capital-stakeholders.html" class="data-card p-4 rounded-xl hover:border-purple-400 block">
+                            <div class="flex justify-between items-center font-mono text-xs font-bold text-purple-400 mb-1">
+                                <span data-i18n="dir_5_t">05. Twin-Hub &amp; 13 Logs</span><span>→</span>
+                            </div>
+                            <p class="text-xs text-zinc-400" data-i18n="dir_5_d">Sheung Wan 22kV + Kowloon 11kV CIQ + Macao 400V-BESS &amp; 13 agency filings.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: FULL-STACK MOAT (BOAT + TWIN-HUB CIQ TERMINALS + TRI-GRID BESS) -->
+        <section id="moat" class="py-16 md:py-24 bg-[#090b0f] border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mb-12">
+                    <div class="text-xs font-mono text-tech-cyan uppercase tracking-widest mb-2" data-i18n="moat_tag">VERTICALLY INTEGRATED FULL-STACK MOAT: FLEET + TWIN-HUB TERMINALS + BESS</div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase" data-i18n="moat_title">
+                        Why Clean-Sheet Hydrofoils &amp; Greenfield Terminals Beat Retrofitting Heavy Boats
+                    </h2>
+                    <p class="text-sm text-zinc-400 mt-3 leading-relaxed" data-i18n="moat_desc">
+                        Legacy electric ferry trials fail physics by bolting heavy batteries into high-drag displacement hulls and attempting to retrofit congested, heritage-restricted piers. BAYWING solves the entire thermodynamic and infrastructure equation simultaneously.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="data-card p-6 rounded-xl">
+                        <div class="text-xs font-mono text-zinc-500 uppercase mb-1" data-i18n="m1_sub">01. Hydrofoil Physics</div>
+                        <div class="text-3xl font-mono font-bold text-white mb-2">-80%</div>
+                        <h3 class="text-sm font-mono font-bold text-tech-cyan mb-2 uppercase" data-i18n="m1_t">Wave Drag Decoupling</h3>
+                        <p class="text-xs text-zinc-400 leading-relaxed" data-i18n="m1_d">
+                            Submerged carbon T-foils lift the hull completely clear of surface waves at 18+ knots, enabling 38-knot long-range GBA transit without oversized battery weight.
+                        </p>
+                        <div class="mt-4 pt-3 border-t border-zinc-800 text-[11px] font-mono text-zinc-500 flex justify-between">
+                            <span data-i18n="m1_f_l">Energy OPEX:</span><span class="text-tech-emerald font-bold">HK$ 38.22 / NM (-78%)</span>
+                        </div>
+                    </div>
+
+                    <div class="data-card p-6 rounded-xl">
+                        <div class="text-xs font-mono text-zinc-500 uppercase mb-1" data-i18n="m2_sub">02. HK Island Anchor (HKE)</div>
+                        <div class="text-3xl font-mono font-bold text-white mb-2">22<span class="text-lg">kV</span></div>
+                        <h3 class="text-sm font-mono font-bold text-tech-emerald mb-2 uppercase" data-i18n="m2_t">Sheung Wan +7.0 mPD Hub</h3>
+                        <p class="text-xs text-zinc-400 leading-relaxed" data-i18n="m2_d">
+                            Confirmed with HK Electric (21–22 Oct 2026): permanent Concrete Customer Substation (FFL ≥ +7.0 mPD) banking N × 1,500 kVA transformers 150m from the Zone Substation.
+                        </p>
+                        <div class="mt-4 pt-3 border-t border-zinc-800 text-[11px] font-mono text-zinc-500 flex justify-between">
+                            <span data-i18n="m2_f_l">Capacity:</span><span class="text-white font-bold">4.5 → 9.0 MVA + BESS</span>
+                        </div>
+                    </div>
+
+                    <div class="data-card p-6 rounded-xl">
+                        <div class="text-xs font-mono text-zinc-500 uppercase mb-1" data-i18n="m3_sub">03. Kowloon CIQ Hub (CLP)</div>
+                        <div class="text-3xl font-mono font-bold text-white mb-2">11<span class="text-lg">kV</span></div>
+                        <h3 class="text-sm font-mono font-bold text-tech-amber mb-2 uppercase" data-i18n="m3_t">Greenfield + Passport CIQ</h3>
+                        <p class="text-xs text-zinc-400 leading-relaxed" data-i18n="m3_d">
+                            Established on our 28 Oct 2026 CLP call: bypasses heritage-locked TST Pier via a Greenfield 11 kV + BESS Terminal with GBA customs clearance (18m to SkyPier, Macau, Foshan).
+                        </p>
+                        <div class="mt-4 pt-3 border-t border-zinc-800 text-[11px] font-mono text-zinc-500 flex justify-between">
+                            <span data-i18n="m3_f_l">Fallback Option:</span><span class="text-tech-amber font-bold">Floating BESS Pontoon</span>
+                        </div>
+                    </div>
+
+                    <div class="data-card p-6 rounded-xl">
+                        <div class="text-xs font-mono text-zinc-500 uppercase mb-1" data-i18n="m4_sub">04. Dual-Hub Industrial Scale</div>
+                        <div class="text-3xl font-mono font-bold text-white mb-2">100<span class="text-lg">Yr</span></div>
+                        <h3 class="text-sm font-mono font-bold text-purple-400 mb-2 uppercase" data-i18n="m4_t">HKSTP IP + GBA Shipyards</h3>
+                        <p class="text-xs text-zinc-400 leading-relaxed" data-i18n="m4_d">
+                            Pairs Hong Kong Science Park (HKSTP) flight-control IP &amp; top-down bureau backing with high-velocity Shenzhen/Zhuhai composite shipyard manufacturing.
+                        </p>
+                        <div class="mt-4 pt-3 border-t border-zinc-800 text-[11px] font-mono text-zinc-500 flex justify-between">
+                            <span data-i18n="m4_f_l">Macao DSMM:</span><span class="text-tech-cyan font-bold">400V Reserve + BESS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: 10-YEAR MASTER PLAN & TOP-DOWN INDUSTRIAL FLYWHEEL (2026–2036+) -->
+        <section id="vision-10yr" class="py-20 md:py-28 border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mb-14">
+                    <div class="text-xs font-mono text-tech-emerald uppercase tracking-widest mb-2" data-i18n="vis_badge">
+                        HONG KONG &amp; GBA 2026–2050 // TOP-DOWN FULL-STACK ELECTRIFICATION ROADMAP
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-mono font-bold text-white uppercase leading-snug" data-i18n="vis_title">
+                        Hardware-First Industrial Velocity Paired with Twin-Hub Greenfield Terminals
+                    </h2>
+                    <p class="text-sm sm:text-base text-zinc-400 mt-4 leading-relaxed" data-i18n="vis_desc">
+                        Rather than waiting on fragmented bottom-up retrofits of aging piers, BAYWING executes a top-down, hardware-first rollout: proving the digital twin and 1:8 D1 demonstrator at Hong Kong Science Park, initiating D2–EF150 hull fabrication in Shenzhen/Zhuhai shipyards, and commissioning dedicated 22 kV (HKE) and 11 kV (CLP) Greenfield EV &amp; Customs Terminals.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="data-card p-5 rounded-xl grid md:grid-cols-12 gap-4 items-center border-l-4 border-l-tech-cyan">
+                        <div class="md:col-span-3 font-mono">
+                            <span class="text-[10px] text-tech-cyan block" data-i18n="tl1_yr">STAGE 1 // YEARS 1–2 (2026–2027)</span>
+                            <span class="text-sm font-bold text-white" data-i18n="tl1_title">Digital Twin, D1 &amp; D2 Shipyard Build</span>
+                        </div>
+                        <div class="md:col-span-9 text-xs text-zinc-300 leading-relaxed" data-i18n="tl1_desc">
+                            Complete 100Hz flight-control validation in Tolo Harbour (D1, HK$ 3.198M Phase 0–1 budget, 93.5% grant-backed), leverage HKSTP executive channels to advance the Sheung Wan 22 kV (+7.0 mPD) and Kowloon 11 kV Greenfield Terminal allocations, and build the 15m BAYWING-D2 pilot in a GBA shipyard (HK$ 20.0M total budget with 1:1 ITC ESS matching).
+                        </div>
+                    </div>
+
+                    <div class="data-card p-5 rounded-xl grid md:grid-cols-12 gap-4 items-center border-l-4 border-l-sky-400">
+                        <div class="md:col-span-3 font-mono">
+                            <span class="text-[10px] text-sky-400 block" data-i18n="tl2_yr">STAGE 2 // YEARS 3–4 (2028–2029)</span>
+                            <span class="text-sm font-bold text-white" data-i18n="tl2_title">D3 Cross-Harbour &amp; D4 SkyPier Express</span>
+                        </div>
+                        <div class="md:col-span-9 text-xs text-zinc-300 leading-relaxed" data-i18n="tl2_desc">
+                            Electrify all 8 Victoria Harbour crossings with the 120-passenger D3 shuttle (charging at Sheung Wan 22 kV &amp; Kowloon 11 kV/Floating BESS nodes while operating touch-and-go at heritage TST Pier) and launch 18-minute Kowloon → HKIA SkyPier and Outlying Island express services with the 220-passenger D4.
+                        </div>
+                    </div>
+
+                    <div class="data-card p-5 rounded-xl grid md:grid-cols-12 gap-4 items-center border-l-4 border-l-tech-amber">
+                        <div class="md:col-span-3 font-mono">
+                            <span class="text-[10px] text-tech-amber block" data-i18n="tl3_yr">STAGE 3 // YEARS 5–6 (2030–2031)</span>
+                            <span class="text-sm font-bold text-white" data-i18n="tl3_title">D5 Trunk Liners &amp; Ro-Ro Freight</span>
+                        </div>
+                        <div class="md:col-span-9 text-xs text-zinc-300 leading-relaxed" data-i18n="tl3_desc">
+                            Deploy 400-passenger D5 vessels on Central–Cheung Chau and Central–Mui Wo trunk routes alongside dedicated D5-Freighter Ro-Ro vessels (50t payload) for 90-second modular island supermarket and municipal pallet swaps.
+                        </div>
+                    </div>
+
+                    <div class="data-card p-5 rounded-xl grid md:grid-cols-12 gap-4 items-center border-l-4 border-l-purple-400">
+                        <div class="md:col-span-3 font-mono">
+                            <span class="text-[10px] text-purple-400 block" data-i18n="tl4_yr">STAGE 4 // YEARS 7–10+ (2032–2050+)</span>
+                            <span class="text-sm font-bold text-white" data-i18n="tl4_title">EF-150 GBA Customs (CIQ) Network</span>
+                        </div>
+                        <div class="md:col-span-9 text-xs text-zinc-300 leading-relaxed" data-i18n="tl4_desc">
+                            Scale the 38-knot EF-150 flagship across Sheung Wan 22 kV, Kowloon 11 kV CIQ, HKIA SkyPier, and Macao Outer Harbour/Taipa (400V-to-BESS buffer)—linking Hong Kong and Kowloon directly to Macau, Zhuhai, Shenzhen Shekou, SZX Airport, Nansha, and Foshan with continuous generational platform upgrades through 2050 and beyond.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: DYNAMIC 5-VESSEL LINEUP + 3-STAGE GALLERY -->
+        <section id="fleet-lineup" class="py-20 md:py-28 bg-[#090b0f]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mb-12">
+                    <div class="text-xs font-mono text-tech-cyan uppercase tracking-widest mb-2" data-i18n="fl_tag">MODULAR PRODUCT ARCHITECTURE (D2 → D3 → D4 → D5 → EF-150)</div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase" data-i18n="fl_title">
+                        Five Vessel Classes Scaled from One Core Powertrain
+                    </h2>
+                    <p class="text-sm text-zinc-400 mt-2 leading-relaxed" data-i18n="fl_desc">
+                        Every vessel shares the same 800V–1,000V marine LFP battery modules, SiC pod drive units, and 100Hz flight-control computer—manufactured in GBA shipyards to serve all 23 Hong Kong ferry routes and 5 cross-border GBA corridors.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6 mb-10">
+                    <div class="data-card rounded-xl overflow-hidden group">
+                        <div class="relative aspect-video overflow-hidden bg-zinc-950">
+                            <img src="D1.jpg" alt="BAYWING-D1 Tolo Harbour Testbed" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-zinc-950/90 border border-tech-cyan/50 text-tech-cyan font-mono text-[10px] font-bold" data-i18n="img_d1_badge">
+                                PHASE 1 // BAYWING-D1 (3.56m)
+                            </span>
+                        </div>
+                        <div class="p-4 flex justify-between items-center font-mono text-xs gap-2">
+                            <span class="text-white font-bold" data-i18n="img_d1_cap">Tolo Harbour 1:8 Autonomous Drone</span>
+                            <span class="text-zinc-400 shrink-0" data-i18n="img_d1_spec">13.4 KT (Fn 1.17)</span>
+                        </div>
+                    </div>
+
+                    <div class="data-card rounded-xl overflow-hidden group">
+                        <div class="relative aspect-video overflow-hidden bg-zinc-950">
+                            <img src="D2.jpg" alt="BAYWING-D2 Victoria Harbour Pilot" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-zinc-950/90 border border-tech-emerald/50 text-tech-emerald font-mono text-[10px] font-bold" data-i18n="img_d2_badge">
+                                PHASE 2 // BAYWING-D2 (15.0m)
+                            </span>
+                        </div>
+                        <div class="p-4 flex justify-between items-center font-mono text-xs gap-2">
+                            <span class="text-white font-bold" data-i18n="img_d2_cap">25–40 Pax Harbour &amp; Island Pilot</span>
+                            <span class="text-tech-emerald shrink-0" data-i18n="img_d2_spec">32.0 KT | 500kW</span>
+                        </div>
+                    </div>
+
+                    <div class="data-card rounded-xl overflow-hidden group">
+                        <div class="relative aspect-video overflow-hidden bg-zinc-950">
+                            <img src="ef150.jpg" alt="BAYWING EF-150" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-zinc-950/90 border border-purple-400/50 text-purple-300 font-mono text-[10px] font-bold" data-i18n="img_ef_badge">
+                                PHASE 3+ // BAYWING EF-150 (28.5m)
+                            </span>
+                        </div>
+                        <div class="p-4 flex justify-between items-center font-mono text-xs gap-2">
+                            <span class="text-white font-bold" data-i18n="img_ef_cap">150-Pax GBA CIQ Flagship</span>
+                            <span class="text-purple-400 shrink-0" data-i18n="img_ef_spec">38.0 KT | 3.5MW</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="fleet-list-container" class="space-y-4 font-mono"></div>
+            </div>
+        </section>
+    </main>
+
+    <site-footer></site-footer>
+
+    <script>
+        window.PAGE_I18N = {
+            en: {
+                fl_lbl_cap: "PAYLOAD",
+                fl_lbl_bat: "BATTERY",
+                fl_lbl_chg: "CHARGE"
+            },
+            tc: {
+                hero_badge: "港燈 22kV (+7.0mPD) + 中電 11kV 九龍跨境樞紐 + 澳門 400V 儲能全面對接",
+                hero_title: "BAYWING EF-150 高速水翼船",
+                hero_subtitle: "全棧式純電水翼船隊及維港兩岸 22kV/11kV 綠地口岸碼頭平台",
+                hero_desc: "Aero-Marine Systems 打造面向香港及粵港澳大灣區的垂直整合純電水翼船及碼頭生態系：結合 100Hz 主動線傳飛控碳纖維水翼（每海里能源成本由柴油 HK$ 175.50 降至 HK$ 38.22，削減 80% 阻力）與維港兩岸全新綠地純電及大灣區跨境口岸 (CIQ) 碼頭——涵蓋港島上環 22 kV 混凝土變電站 (+7.0 mPD)、九龍中電 11 kV + 儲能跨境碼頭，以及澳門外港/氹仔 400V 儲能緩衝樞紐。",
+                btn_twin: "7大領域工程及 CFD/FEA 驗證工作台 (22項模組)",
+                btn_ciq: "港燈 22kV + 中電 11kV + 澳門 400V 碼頭總表",
+                btn_routes: "28條航線圖及港幣 OPEX 模擬器",
+                fl_lbl_cap: "載客/載貨",
+                fl_lbl_bat: "電池容量",
+                fl_lbl_chg: "靠泊快充"
+            }
+        };
+
+        function renderFleetCards() {
+            const lang = window.getSiteLang();
+            const container = document.getElementById('fleet-list-container');
+            if (!container || !window.SITE_DATA || !window.SITE_DATA.fleet) return;
+
+            const capLbl = (window.PAGE_I18N[lang] && window.PAGE_I18N[lang].fl_lbl_cap) || 'PAYLOAD';
+            const batLbl = (window.PAGE_I18N[lang] && window.PAGE_I18N[lang].fl_lbl_bat) || 'BATTERY';
+            const chgLbl = (window.PAGE_I18N[lang] && window.PAGE_I18N[lang].fl_lbl_chg) || 'CHARGE';
+
+            container.innerHTML = window.SITE_DATA.fleet.map(v => {
+                const loc = v[lang] || v.en;
+                const specsDisp = lang === 'tc' ? (v.specsTc || v.specsEn) : (v.specsEn || v.specs);
+                return `
+                <div class="data-card p-6 rounded-xl grid md:grid-cols-12 gap-6 items-center border-l-4 ${v.borderCls}">
+                    <div class="md:col-span-3">
+                        <div class="text-lg font-bold text-white">${v.code}</div>
+                        <div class="text-xs text-zinc-400 font-sans mt-0.5">${loc.role}</div>
+                        <div class="${v.accentCls} text-xs mt-1">${specsDisp}</div>
+                    </div>
+                    <div class="md:col-span-5 text-xs text-zinc-300 font-sans leading-relaxed">
+                        ${loc.desc}
+                    </div>
+                    <div class="md:col-span-4 grid grid-cols-3 gap-2 text-center text-xs bg-zinc-950 p-3 rounded border border-zinc-800">
+                        <div><span class="text-zinc-500 block text-[9px]">${capLbl}</span><span class="text-white">${loc.payload}</span></div>
+                        <div><span class="text-zinc-500 block text-[9px]">${batLbl}</span><span class="text-white">${v.battery}</span></div>
+                        <div><span class="text-zinc-500 block text-[9px]">${chgLbl}</span><span class="text-tech-emerald">${loc.charge}</span></div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        window.addEventListener('baywing:langchange', renderFleetCards);
+        document.addEventListener('DOMContentLoaded', () => {
+            window.applySiteTranslations(window.getSiteLang());
+            renderFleetCards();
+        });
+    </script>
+</body>
+</html>
