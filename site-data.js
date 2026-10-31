@@ -2729,3 +2729,412 @@ window.BAYWING_BOLTONS.push({
         window.updateRelayThdSim();
     }
 });
+// ============================================================================
+// BATCH 4B: CAPITAL-STAKEHOLDERS COMPACTOR + COMPONENTS 15 & 16
+// Append to the bottom of site-data.js
+// ============================================================================
+
+window.CS_CONSOLE_DATA = {
+    walkoverPhotos: [
+        ['assets/IMG_1595.jpeg', 'border-tech-emerald/50 text-tech-emerald', 'FIELD RECORD 01 // ANNOTATED SHEET', 'On-Site Walkover Notes (Sheung Wan No. 1)', 'Records HKE engineer notes: "1 set TP/HVDP", "4.7 (L) × 2.5 × 3m (H)", "1.6m clearance all round", and "Land status! Ask for sea".'],
+        ['assets/IMG_1596.jpeg', 'border-tech-cyan/50 text-tech-cyan', 'HKE DRAWING // P505/00/R2 (PLAN)', 'HKE Baseline Pillar & Cable Trench Plan', 'Baseline single-unit specification (P505/00/R2); upgraded per Mr. Ting (22 Oct) to a permanent Concrete Customer Substation at FFL ≥ +7.0 mPD housing N × 1,500 kVA transformers.'],
+        ['assets/IMG_1594.jpeg', 'border-tech-amber/50 text-tech-amber', 'HKE DRAWING // SIDE C & D ELEVATION', 'HKE Enclosure Elevation Profile (3.0m Height)', 'Side "C" (4500mm width) and Side "D" (3000mm height) elevation blueprints provided on-site by HK Electric at Sheung Wan Landing No. 1.']
+    ],
+    utilityNodes: [
+        { tag: "CLP KOWLOON CROSS-HARBOUR NODE // VH-01, VH-02, VH-03 & VH-04", name: "Tsim Sha Tsui & Hung Hom Ferry Piers (BAYWING-D3 Shuttle)", badge: "✓ PHASE 1 ASYMMETRIC RELIEF: 100% CHARGED AT HKE SHEUNG WAN 22kV", p1: "Touch & Go / 400V LV", bess: "750 kWh – 1.0 MWh BESS", dc: "800 kW – 1.2 MW (3–4m)", p2: "11 kV (1×1,500 kVA)", vessel: "BAYWING-D3 (20m, 120 Pax) // Every 5–8 Mins MTR-Style Frequency", logic: "Per 28 Oct CLP call: TST Pier heritage rules preclude retrofit; shuttles charge at Sheung Wan 22kV Hub", action: "Operate TST as frictionless 60s domestic feeder into Sheung Wan CIQ Water-Airport" },
+        { tag: "CLP PHASE 1 QUICK-WIN PILOT NODE // REG-02 CORRIDOR", name: "Tsuen Wan West Pier ⟷ Ma Wan Park Island (BAYWING-D2 Pilot)", badge: "✓ COMPACT 15m PILOT: ONLY 42 kWh PER TRIP (ZERO HV TRENCHING NEEDED)", p1: "400V / 250–300 kVA LV", bess: "500 kWh Skid BESS Buffer", dc: "500 kW Fast Top-Up (5m)", p2: "400V + BESS (No HV Needed)", vessel: "BAYWING-D2 (15m, 40 Pax) // 6-Minute Transit (12 Round-Trips/Day)", logic: "Draws steady ~180 kW from CLP street supply to buffer 5-minute 500 kW opportunity boosts", action: "Evaluate Tsuen Wan West waterfront LV pillar availability with CLP Marine eMobility" },
+        { tag: "CLP NORTHWEST NT REGIONAL ANCHOR // REG-01 CORRIDOR", name: "Tuen Mun Ferry Terminal ⟷ Tung Chung ⟷ Sha Lo Wan ⟷ Tai O", badge: "✓ HUB-AND-SPOKE: ZERO GRID POWER NEEDED AT SHA LO WAN OR TAI O", p1: "11 kV / 1×1,500 kVA + BESS", bess: "1.5 MWh Container BESS", dc: "1.8 MW – 2.5 MW MCS (11m)", p2: "11 kV / 22 kV (2×1,500 kVA)", vessel: "BAYWING-D4 (24m, 200 Pax, 35 KT) // 26-Min Transit (Touch & Go at Tai O)", logic: "100% charged at Tuen Mun CLP Hub; vessels fly through Chinese White Dolphin park with zero rural grid CapEx", action: "Assess Tuen Mun Ferry Pier 11 kV substation bay allocation with CLP Distribution Planning" },
+        { tag: "CLP CBD2 EAST HARBOUR NODE // VH-06 & VH-08 CORRIDORS", name: "Kwun Tong & Kai Tak Runway Park Ferry Piers", badge: "✓ LINKS HK ISLAND EAST TO CBD2 & KAI TAK SPORTS PARK IN 5 MINS", p1: "400V / 400 kVA LV + BESS", bess: "1.0 MWh Modular BESS", dc: "800 kW – 1.2 MW (4m)", p2: "11 kV (1×1,500 kVA Sub)", vessel: "BAYWING-D3 (20m, 120 Pax + Bikes) // 4.5–5 Min Crossing to North Point & Sai Wan Ho", logic: "Synchronizes with HKE North Point / Sai Wan Ho feeders to balance East Harbour demand", action: "Align Kwun Tong Pier feeder capacity with CLP Marine eMobility & Energizing Kowloon East office" },
+        { tag: "CLP / AAHK AIRPORT INTERMODAL HUB // GBA-03 & GBA-05 CORRIDORS", name: "HKIA SkyPier Terminal ⟷ Shenzhen Airport (SZX) & Nansha", badge: "✓ ROUTED TO AAHK ENGINEERING & TECH DIVISION (16 OCT 2026)", p1: "11 kV / 22 kV + 1.5 MWh BESS", bess: "1.5 MWh – 2.0 MWh BESS", dc: "3.5 MW – 3.8 MW MCS (11m)", p2: "22 kV (3×1,500 kVA Bank)", vessel: "BAYWING EF-150 (28.5m, 150 Pax + Luggage, 38 KT) // 40-Min SZX Link", logic: "High-voltage air-to-sea transfer hub powered by CLP Lantau/Airport 22 kV ring + BESS peak-shaving", action: "Coordinate joint AAHK Engineering & CLP Marine eMobility technical review for SkyPier berth MCS arm" },
+        { tag: "MACAO SAR DSMM CONFIRMED NODE (27 OCT 2026) // GBA-01 CORRIDOR", name: "Macao Outer Harbour & Taipa Ferry Terminals (400V Reserve to BESS)", badge: "✓ DSMM CONFIRMED (27 OCT): 400V SURPLUS RESERVES AVAILABLE AT BOTH TERMINALS", p1: "400V Surplus Terminal Reserve", bess: "2.0 MWh Dockside LFP BESS", dc: "2.5 MW – 3.5 MW MCS Boost", p2: "400V Trickle + BESS Step-Up", vessel: "BAYWING EF-150 (28.5m, 150 VIP Pax, 38 KT) // 55-Min HK–Macao Transit", logic: "Draws steady 400V surplus power between sailings into 2.0 MWh BESS; steps up internally to 1,000V DC for 12-min turnaround", action: "Follow up with Macao DSPA & Environmental Protection and Energy Conservation Fund for green BESS/vessel incentives" }
+    ],
+    twinHubData: [
+        { tag: "KOWLOON DOMESTIC FEEDER & TSING YI MRO (CLP TERRITORY) // CONFIRMED 28 OCT 2026", title: "Kowloon Frictionless Domestic Feeders + Tsing Yi 11 kV Overnight MRO Base", badge: "✓ BYPASSES TST HERITAGE BLOCKADE & CONSOLIDATES CIQ AT SHEUNG WAN", k1: "100% HKE 22kV Charged", k2: "Tsing Yi 11kV MRO Base", k3: "60s Domestic Turnstile", k4: "3-Min Hop to Sheung Wan CIQ", r1: "CLP confirmed legacy TST Pier cannot be retrofitted due to heritage rules & zero substation space", r2: "Cross-harbour shuttles charge 100% on HK Island (22 kV) and perform 60-second unpowered touch-and-go stops at TST", r3: "Tsing Yi / Stonecutters industrial marine lots provide 11 kV overnight haul-out maintenance & foil inspection" },
+        { tag: "HONG KONG ISLAND FLAGSHIP ANCHOR (HKE TERRITORY) // CONFIRMED 21–22 OCT 2026", title: "Sheung Wan 22 kV Concrete Customer Substation (FFL ≥ +7.0 mPD) & Open MCS Hub", badge: "✓ ~50m FROM 132/22 kV ZONE SUBSTATION // BUILD IT ONCE, GET IT RIGHT", k1: "HKE Direct 22 kV HV", k2: "1 → 3 → 6 × 1,500 kVA", k3: "FFL ≥ +7.0 mPD Concrete Sub", k4: "All Outlying Islands + GBA", r1: "HKE proactively championed a clean-sheet 22 kV greenfield build rather than digging up old Central footpaths", r2: "3 × 1,500 kVA (4.5 MVA) transformers + 1.5 MWh BESS deliver continuous 3.5 MW+ MCS charging", r3: "Serves as primary charging anchor for both GBA cross-border flights and domestic cross-harbour shuttles" },
+        { tag: "MACAO SAR CROSS-BORDER HUB (DSMM CONFIRMED 27 OCT 2026) // GBA-01 CORRIDOR", title: "Outer Harbour & Taipa Ferry Terminals: 400V Surplus Reserve to 2.0 MWh BESS Step-Up", badge: "✓ DSMM OFFICIAL REPLY (27 OCT): SURPLUS 400V RESERVES AVAILABLE AT BOTH PIERS", k1: "DSMM 400V Surplus Reserve", k2: "2.0 MWh Dockside BESS", k3: "Existing Macau CIQ Berths", k4: "Sheung Wan ⟷ Macau (55m)", r1: "DSMM confirmed surplus electrical reserves at Outer Harbour & Taipa terminals capped at 400V", r2: "Onshore 2.0 MWh BESS trickle-charges at 400V between sailings and steps up to 1,000V DC for 12m turnarounds", r3: "Eligible for Macao Environmental Protection and Energy Conservation Fund (DSPA) green transition support" },
+        { tag: "TOP-DOWN EXECUTION PLAYBOOK // HKSTP + SHENZHEN/ZHUHAI INDUSTRIAL VELOCITY", title: "Why Top-Down Executive & Shipyard Momentum Replaces Bottom-Up Bureaucracy", badge: "✓ DUAL SCIENCE PARK (HKSTP + SZ) + GBA SHIPYARD MANUFACTURING FIRST", k1: "Phase 0–1: Digital Twin & D1", k2: "GBA Shipyard: D2 → EF-150", k3: "HKSTP / CEPU Top-Down Push", k4: "100-Year EV Fleet Moat", r1: "Working-level district departments lack mandate for new terminals; HKSTP & Policy Unit drive top-down execution", r2: "Building hulls in Shenzhen/Zhuhai shipyards triggers immediate mainland industrial & port alignment", r3: "HKE and CLP engineers are now directly connected to harmonize 22 kV (HK Island) and 11 kV (Kowloon/NT) standards" }
+    ],
+    waterAirportTabs: [
+        {
+            tag: "SUBSYSTEM 01 // GIS SITE GEOMETRY, CAP. 127 RECLAIMED DECK & LAST-MILE MTR LINK",
+            title: "Sheung Wan Landing No. 1 (22.290175° N, 114.148746° E) — Next to Zone Substation & Fire Station",
+            badge: "✓ FILED W/ LANDSD & EEB (28 OCT 2026) // CAP. 127 & NOMINAL PTG",
+            k1l: "WGS84 GIS COORDINATES", k1v: "22.290175, 114.148746", k2l: "HKE ZONE SUB & FSD HQ", k2v: "~50m South / Next Door", k3l: "MARINE LEGAL PATHWAY", k3v: "Cap. 127 Seabed + $1 PTG", k4l: "MTR / BUS LAST-MILE LINK", k4v: "350m Travellator + Shuttle",
+            chdr: "GIS SITE PLAN // 22.290175° N, 114.148746° E (SAI FIRE SERVICES ST, HKE ZONE SUB, FSD HQ & SHUN TAK LINK)",
+            rows: [
+                ["1. Unmatched Power & Fire-Safety Geography:", "Sits directly across Chung Kong Rd from HK Electric's Sheung Wan 132/22 kV Zone Substation and immediately next to the Fire Services Dept (FSD) HK Island Headquarters."],
+                ["2. Why Reclaimed Marine Deck (Cap. 127) Wins:", "Every ferry terminal in HK extends into the sea; building on marine piles over foreshore/seabed avoids congested terrestrial land battles and qualifies for a Public Utility Grant."],
+                ["3. Solving the 350m Walk to MTR & Bus Terminus:", "Proposes (a) an elevated +7.0 mPD covered airport-style travellator along the promenade to Shun Tak Centre's footbridge network and (b) a dedicated electric shuttle loop on Sai Fire Services St."],
+                ["4. Replacing Aging 1980s Diesel Infrastructure:", "Provides a modern, flood-elevated (+7.0 mPD) 2050-grade electric water-airport immediately west of the 40-year-old Shun Tak Macau Ferry Terminal."]
+            ]
+        },
+        {
+            tag: "SUBSYSTEM 02 // 1.5 MWh LFP BESS BUFFER & 3.5 MW CHARIN MEGA-CHARGER (MCS) BUILD",
+            title: "22 kV Multi-Transformer (3×1,500 kVA) + 1.5 MWh BESS + 3.5 MW Overhead Robotic MCS Arm",
+            badge: "✓ ZERO GRID SHOCK • <2C CHARGE RATE • 100% UNIDIRECTIONAL PROTECTION",
+            k1l: "HKE TRANSFORMER BANK", k1v: "3 × 1,500 kVA (4.5 MVA)", k2l: "ONSHORE BESS BUFFER", k2v: "1.5 MWh Liquid-Cooled LFP", k3l: "COMMON DC BUSBAR", k3v: "1,250V DC (SiC Rectifiers)", k4l: "DISPENSER & MOORING", k4v: "3.5 MW MCS + 12s Vacuum",
+            chdr: "SINGLE-LINE ELECTRICAL SCHEMATIC // 22 kV HKE FEEDER → 3×1,500 kVA → 1,250V DC BUS + 1.5 MWh BESS → 3.5 MW MCS",
+            rows: [
+                ["1. Phased 1,500 kVA Transformer Scaling:", "Stage 1 uses 1×1,500 kVA (1.23 MW DC) + 1.5 MWh BESS to deliver 3.5 MW peaks; Stage 2 banks 3×1,500 kVA (4.5 MVA) for continuous back-to-back 3.5 MW MCS turnarounds; civil bays reserved for 6×1,500 kVA (9.0 MVA)."],
+                ["2. 1.5 MWh Onshore LFP BESS Architecture:", "4 × 375 kWh marine-grade LFP racks with glycol-water chillers, Aspen aerogel cell barriers, Novec 1230 clean-agent suppression, and <15 µs SiC solid-state breakers."],
+                ["3. 3.5 MW CharIN MCS Robotic Pantograph:", "Overhead articulated charging arm mounted on the 25m × 8m pontoon; hardware-interlocked to 2 × 100 kN vacuum mooring pads (12s lock) with <100ms emergency break-away."],
+                ["4. Macao Outer Harbour / Taipa 400V-to-BESS Twin:", "At Macao terminals (where DSMM confirmed 400V surplus power on 27 Oct), an identical 2.0 MWh BESS container trickle-charges off 400V AC and steps up to 1,000V DC for 12-min boosts."]
+            ]
+        },
+        {
+            tag: "SUBSYSTEM 03 // 2-STORY 'WATER-AIRPORT' TERMINAL (DOMESTIC LANDSIDE + INTERNATIONAL CIQ AIRSIDE)",
+            title: "Airport-Style Dual-Zone Terminal: Consolidating 100% of GBA Passport Control at Sheung Wan",
+            badge: "✓ DROPS KOWLOON CIQ RED TAPE // KOWLOON OPERATES AS FRICTIONLESS DOMESTIC FEEDER",
+            k1l: "LEVEL 2 (+7.0 mPD DECK)", k1v: "HKE Concrete Sub + CIQ Hall", k2l: "LEVEL 1 (+3.8 mPD DECK)", k2v: "Domestic Gates + 1.5MWh BESS", k3l: "STERILE AIRSIDE BERTH", k3v: "e-Channel + X-Ray Baggage", k4l: "KOWLOON FEEDER MODEL", k4v: "3-Min Shuttle / Bus to Central",
+            chdr: "WATER-AIRPORT PASSENGER & SECURITY FLOW // STERILE INTERNATIONAL (CIQ) VS. UNRESTRICTED DOMESTIC FEEDER LANE",
+            rows: [
+                ["1. Why Consolidating CIQ at Sheung Wan Wins:", "Building a second passport-control terminal in congested Kowloon doubles cost and security red tape. Concentrating CIQ at Sheung Wan plugs directly into the existing Macau Terminal Immigration/Customs sector."],
+                ["2. Sterile International Airside Zone (GBA & Macau):", "Automated Immigration e-Channels, Customs X-ray baggage drop, and sterile boarding gangway for 38-knot EF-150 flights to Macau, Shenzhen Shekou, SZX Airport, and Zhuhai."],
+                ["3. Unrestricted Domestic Landside Zone (Harbour & Islands):", "Physically separated Octopus-gate concourse allowing Kowloon cross-harbour shuttles (TST/Hung Hom) and Outlying Island ferries to dock in 60 seconds with zero customs friction."],
+                ["4. Seamless Kowloon-to-GBA Transfer:", "Kowloon passengers either hop a 3-minute domestic BAYWING shuttle across to the Sheung Wan domestic berth or take a bus/MTR to Central/Sheung Wan and walk straight into the CIQ departure hall."]
+            ]
+        },
+        {
+            tag: "SUBSYSTEM 04 // OFF-SITE OVERNIGHT MAINTENANCE, FOIL INSPECTION & BATTERY SWAP DEPOT",
+            title: "Tsing Yi / Stonecutters Industrial Marine Depot (Separating Revenue Berths from Heavy Maintenance)",
+            badge: "✓ NO TOWING BACK TO ZHUHAI SHIPYARDS // MARDEP DAILY HSC FOIL & DEBRIS COMPLIANCE",
+            k1l: "REVENUE HUB (SHEUNG WAN)", k1v: "10–12m Passenger Turnaround", k2l: "MAINTENANCE DEPOT SITE", k2v: "Tsing Yi / Stonecutters STT", k3l: "HAUL-OUT & FOIL NDT", k3v: "50-Ton Travel-Lift + Ultrasonic", k4l: "OVERNIGHT GRID TIE", k4v: "400V / 11 kV Slow Balance",
+            chdr: "OPERATIONAL SPLIT ARCHITECTURE // SHEUNG WAN HIGH-YIELD WATER-AIRPORT VS. TSING YI OVERNIGHT MAINTENANCE BASE",
+            rows: [
+                ["1. Why You Cannot Tow Boats Back to Zhuhai for Repairs:", "Operating at 38 knots in Pearl River Delta waters requires daily inspection for floating timber/debris impacts. Towing to mainland yards for routine service would cripple fleet uptime."],
+                ["2. Tsing Yi / Stonecutters Industrial Marine Base:", "Located 12 minutes from Sheung Wan in industrial marine-zoned waters (CLP territory), keeping expensive Sheung Wan berths 100% dedicated to high-yield passenger turnarounds."],
+                ["3. Nightly Syncrolift / Travel-Lift Haul-Out:", "Vessels finish their final evening run at Sheung Wan and deadhead 12 minutes to Tsing Yi for 15-minute crane haul-out, carbon T-foil leading-edge inspection, and water-strainer clearing."],
+                ["4. Modular Pod & Battery Rack Swap-Outs:", "Stores pre-certified spare 800V/1,000V LFP battery modules, titanium flap servos, and contra-rotating pod drives on rack standby so any damaged unit is swapped overnight in <3 hours."]
+            ]
+        },
+        {
+            tag: "SUBSYSTEM 05 // MEDIUM-RANGE UNCAPPED COMMERCIAL FARE YIELD VS. CAPPED DOMESTIC ECONOMICS",
+            title: "Why Medium-Range Cross-Border & SkyPier Airside Routes Are the True Profit Engine (HKD)",
+            badge: "✓ UNCAPPED COMMERCIAL FARES (HK$ 220–480) VS. GOVERNMENT-CAPPED DOMESTIC FARES",
+            k1l: "DOMESTIC HARBOUR FARE", k1v: "HK$ 6–25 (TD Price-Capped)", k2l: "GBA / MACAU VIP FARE", k2v: "HK$ 220–480 (Uncapped)", k3l: "HYDROFOIL SWEET SPOT", k3v: "15–40 NM (20–55 Mins)", k4l: "ANNUAL EBITDA / VESSEL", k4v: "HK$ 28.5M/yr on GBA Routes",
+            chdr: "ROUTE UNIT ECONOMICS COMPARISON // CAPPED DOMESTIC HARBOUR SHUTTLE VS. UNCAPPED MEDIUM-RANGE GBA & SKYPIER ROUTES",
+            rows: [
+                ["1. The Short-Route Domestic Price-Cap Trap:", "Local HK routes are regulated public utilities with Transport Department fare caps. While electric foils cut fuel OPEX by 78%, ticket revenue upside is capped by policy."],
+                ["2. The 15–40 NM Electric Hydrofoil Sweet Spot:", "Medium-range cross-border routes (Sheung Wan to Macau/Shekou/Zhuhai & SkyPier to Shenzhen Airport/Macau) operate at peak foil L/D efficiency (38–55 mins) with uncapped commercial pricing."],
+                ["3. HKIA SkyPier Airside Airline Feeder Model:", "Plugging into SkyPier's underground Automated People Mover (APM) lets international airline passengers transfer customs-free between HKIA Terminal 1 and Shenzhen/Macau."],
+                ["4. Hub-and-Feeder Profit Maximization:", "Lightweight domestic shuttles act as high-frequency passenger funnels into the Sheung Wan Water-Airport, where the medium-range EF-150 fleet captures HK$ 220–480+ per ticket."]
+            ]
+        }
+    ]
+};
+
+// Wire interactive consoles and compact ledgers on capital-stakeholders.html
+document.addEventListener('DOMContentLoaded', () => {
+    const wpEl = document.querySelector('[data-compact-ledger="cs_walkover_photos"]');
+    if (wpEl && window.CS_CONSOLE_DATA) {
+        wpEl.innerHTML = window.CS_CONSOLE_DATA.walkoverPhotos.map(p => `
+            <div class="data-card rounded-xl overflow-hidden bg-zinc-950 flex flex-col justify-between">
+                <a href="${p[0]}" target="_blank" class="relative aspect-[3/4] overflow-hidden bg-black block group">
+                    <img src="${p[0]}" onerror="if(this.src.includes('assets/'))this.src=this.src.replace('assets/','');" alt="${p[3]}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded bg-zinc-950/90 border ${p[1]} font-mono text-[10px] font-bold">${p[2]}</span>
+                    <span class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-zinc-950/80 text-zinc-300 font-mono text-[10px]">Click to Enlarge ↗</span>
+                </a>
+                <div class="p-4"><h3 class="font-mono text-xs font-bold text-white mb-1">${p[3]}</h3><p class="text-xs text-zinc-400 leading-relaxed">${p[4]}</p></div>
+            </div>`).join('');
+    }
+
+    const ttEl = document.querySelector('[data-compact-ledger="cs_term_tables"]');
+    if (ttEl) {
+        ttEl.innerHTML = `
+            <div class="data-card rounded-2xl overflow-hidden">
+                <div class="p-6 bg-zinc-950 border-b border-zinc-800 flex flex-wrap justify-between items-center gap-4">
+                    <div><span class="text-xs font-mono text-tech-cyan uppercase block">TERMINAL TABLE 01 // ONE UNIFIED OPEN-STANDARD BERTH</span><h3 class="text-xl font-mono font-bold text-white mt-0.5">Universal Berth Compatibility (D2 → D5 → EF-150 & Third-Party Ferries)</h3></div>
+                    <span class="font-mono text-xs px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-bold">CharIN MCS (IEC 61851-23-3) + ISO 15118-20</span>
+                </div>
+                <div class="divide-y divide-zinc-800/80 text-sm">
+                    <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div><div class="font-mono font-bold text-tech-cyan text-base">Phase 1: BAYWING-D2 (15.0m LOA | 25–40 Pax Shuttle)</div><p class="text-zinc-300 mt-1">400 kWh LFP Battery • Powered by Stage 1 HKE 1×1,500 kVA Transformer + 1.5 MWh BESS Buffer</p></div><div class="font-mono text-right shrink-0"><span class="text-base font-bold text-tech-emerald block">500 kW – 1.0 MW Charge</span><span class="text-xs text-zinc-400">Turnaround: 5–6 Mins</span></div></div>
+                    <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div><div class="font-mono font-bold text-sky-400 text-base">Phase 2: BAYWING D3 / D4 / D5 (20m–28m | 120–400 Pax & Freight)</div><p class="text-zinc-300 mt-1">600 kWh – 1.4 MWh LFP Battery • Synchronized across Sheung Wan HKE Hub & CLP Kowloon/NT Hubs + 90s Cargo Swap</p></div><div class="font-mono text-right shrink-0"><span class="text-base font-bold text-tech-emerald block">800 kW – 2.5 MW MCS</span><span class="text-xs text-zinc-400">Turnaround: 4–9 Mins</span></div></div>
+                    <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div><div class="font-mono font-bold text-purple-400 text-base">Phase 3+: BAYWING EF-150 & Open Third-Party Ferries (28.5m | 150 VIP Pax)</div><p class="text-zinc-300 mt-1">1.8 MWh 1,000V LFP Battery • Powered by 3×1,500 kVA (4.5 MVA) HKE Bank • Open-access ISO 15118-20 billing</p></div><div class="font-mono text-right shrink-0"><span class="text-base font-bold text-tech-emerald block">3.5 MW+ Direct MCS</span><span class="text-xs text-zinc-400">Turnaround: 10–12 Mins</span></div></div>
+                </div>
+            </div>
+            <div class="data-card rounded-2xl overflow-hidden">
+                <div class="p-6 bg-zinc-950 border-b border-zinc-800 flex flex-wrap justify-between items-center gap-4">
+                    <div><span class="text-xs font-mono text-tech-emerald uppercase block">TERMINAL TABLE 02 // DUAL-UTILITY (HKE + CLP) NETWORK ROLLOUT</span><h3 class="text-xl font-mono font-bold text-white mt-0.5">Territorial "Hub-and-Spoke" Energy Architecture (Zero Rural Grid CapEx)</h3></div>
+                    <span class="font-mono text-xs px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-bold">HKE HK Island + CLP Kowloon/NT</span>
+                </div>
+                <div class="divide-y divide-zinc-800/80 text-sm">
+                    <div class="p-5"><div class="flex justify-between font-mono mb-1"><span class="text-base font-bold text-tech-emerald">TIER 1: URBAN 22 kV MEGAWATT HUBS (HKE Sheung Wan + CLP SkyPier & Tuen Mun)</span><span class="text-xs px-2.5 py-0.5 rounded bg-emerald-950 text-tech-emerald border border-tech-emerald/40">3.5 MW+ MCS & BESS</span></div><p class="text-zinc-300">Concentrates high-voltage infrastructure at primary urban terminals adjacent to existing zone substations.</p></div>
+                    <div class="p-5"><div class="flex justify-between font-mono mb-1"><span class="text-base font-bold text-tech-cyan">TIER 2: OVERNIGHT ISLAND & MRO DEPOTS (Tsing Yi, Cheung Chau, Mui Wo & DB)</span><span class="text-xs px-2.5 py-0.5 rounded bg-zinc-900 text-tech-cyan border border-tech-cyan/40">400V / 11kV Overnight Trickle</span></div><p class="text-zinc-300">Uses existing 400V/11kV connections for slow 6–8 hour overnight cell-balancing while vessels are out of service.</p></div>
+                    <div class="p-5"><div class="flex justify-between font-mono mb-1"><span class="text-base font-bold text-tech-amber">TIER 3: UNPOWERED "TOUCH-AND-GO" SPOKES (TST Heritage Pier, Chi Ma Wan, Peng Chau, Tai O)</span><span class="text-xs px-2.5 py-0.5 rounded bg-zinc-900 text-tech-amber border border-tech-amber/40">0 kW Pier Power Needed</span></div><p class="text-zinc-300">Vessels depart Tier 1 Urban Hubs at 85–90% SoC and perform 60-second boarding stops with zero shore-power draw.</p></div>
+                </div>
+            </div>`;
+    }
+
+    const vcEl = document.querySelector('[data-compact-ledger="cs_vc_ledgers"]');
+    if (vcEl) {
+        const p0Rows = [
+            ['01. R&D Engineering Talent (ITF RTH Subsidized)', '2x Full-Time Control Systems & Marine Mechatronics Engineers (100% covered via ITF RTH)', 'HK$ 1,450,000', 'text-white'],
+            ['02. Simulation Software & Multi-Physics Cloud', 'MATLAB/Simulink Control Toolboxes, Star-CCM+ / ANSYS CFD licenses, Gazebo/ROS2 compute', 'HK$ 280,000', 'text-white'],
+            ['03. HIL Benchtop & D1 Avionics/Sub-Scale Rig', 'NVIDIA Jetson Orin Nano, dual STM32H7 ECUs, SBG IMU, LiDAR sensors & carbon T-foil rig', 'HK$ 320,000', 'text-white'],
+            ['04. Systems Architecture, Project Management & Operational Runway', 'Principal Systems Architect leadership, HKE/CLP/HKMD regulatory interfacing & 18-mo runway', 'HK$ 720,000', 'text-tech-emerald'],
+            ['05. Intellectual Property & Freedom-to-Operate', 'PCT & regional patent filings for 100Hz active foil stabilization & BESS telemetry (90% PAG)', 'HK$ 278,000', 'text-white'],
+            ['06. HKSTP Lab Setup, Marine Insurance & Tolo Trials', 'Science Park bench space, third-party marine test insurance, and Tolo Harbour slipway logistics', 'HK$ 150,000', 'text-white']
+        ];
+        vcEl.innerHTML = `
+            <div class="data-card rounded-2xl overflow-hidden">
+                <div class="p-6 bg-zinc-950 border-b border-zinc-800 flex flex-wrap justify-between items-center gap-4">
+                    <div><span class="text-xs font-mono uppercase text-zinc-400 block mb-1">LEDGER 01 // PHASE 0–1 (18-MONTH INCUBATION): SIL, HIL & D1 PROTOTYPE</span><h3 class="text-xl font-bold text-white">Compliance-Audited R&D Budget Breakdown</h3></div>
+                    <div class="text-right font-mono"><span class="text-xs text-zinc-500 block">TOTAL PHASE 0–1 BUDGET</span><span class="text-2xl font-bold text-tech-emerald">HK$ 3,198,000</span></div>
+                </div>
+                <div class="divide-y divide-zinc-800/70 text-sm">
+                    ${p0Rows.map(r => `<div class="p-5 flex justify-between items-center gap-4"><div><h4 class="font-semibold text-white text-base">${r[0]}</h4><p class="text-zinc-400 mt-1">${r[1]}</p></div><div class="font-mono font-bold ${r[3]} text-base shrink-0">${r[2]}</div></div>`).join('')}
+                </div>
+                <div class="p-6 bg-zinc-950 border-t border-zinc-800 flex flex-wrap justify-between items-center gap-4">
+                    <div class="max-w-xl"><span class="font-mono text-xs font-bold uppercase text-tech-emerald block">93.5% NON-DILUTIVE COVERAGE RATIO</span><h4 class="text-base font-bold text-white mt-1">Net Unsubsidized Equity Gap: Only HK$ 208,000 (6.5%)</h4><p class="text-sm text-zinc-400 mt-1">Public grants reimburse HK$ 2,990,000 of the HK$ 3,198,000 budget (15.4× equity leverage).</p></div>
+                    <div class="font-mono text-right bg-[#11141b] px-5 py-3 rounded-xl border border-zinc-800"><div class="text-xs text-zinc-500">PUBLIC GRANT STACK</div><div class="text-xl font-bold text-white">HK$ 2.99M / 3.20M</div><div class="text-xs text-tech-cyan">15.4x Equity Leverage</div></div>
+                </div>
+            </div>`;
+    }
+
+    // Bind interactive console functions on capital-stakeholders.html
+    if (document.getElementById('unode-tag') && window.CS_CONSOLE_DATA) {
+        window.selectUtilityNode = function (idx) {
+            const n = window.CS_CONSOLE_DATA.utilityNodes[idx] || window.CS_CONSOLE_DATA.utilityNodes[0];
+            for (let i = 0; i < 6; i++) {
+                const b = document.getElementById(`unode-btn-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-amber text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('unode-tag').textContent = n.tag;
+            document.getElementById('unode-name').textContent = n.name;
+            document.getElementById('unode-badge').textContent = n.badge;
+            document.getElementById('unode-grid-p1').textContent = n.p1;
+            document.getElementById('unode-bess').textContent = n.bess;
+            document.getElementById('unode-dc').textContent = n.dc;
+            document.getElementById('unode-grid-p2').textContent = n.p2;
+            document.getElementById('unode-vessel').textContent = n.vessel;
+            document.getElementById('unode-logic').textContent = n.logic;
+            document.getElementById('unode-action').textContent = n.action;
+        };
+        window.selectUtilityNode(0);
+    }
+
+    if (document.getElementById('thub-tag') && window.CS_CONSOLE_DATA) {
+        window.selectTwinHubTab = function (idx) {
+            const d = window.CS_CONSOLE_DATA.twinHubData[idx] || window.CS_CONSOLE_DATA.twinHubData[0];
+            for (let i = 0; i < 4; i++) {
+                const b = document.getElementById(`thub-btn-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('thub-tag').textContent = d.tag;
+            document.getElementById('thub-title').textContent = d.title;
+            document.getElementById('thub-badge').textContent = d.badge;
+            document.getElementById('thub-k1').textContent = d.k1;
+            document.getElementById('thub-k2').textContent = d.k2;
+            document.getElementById('thub-k3').textContent = d.k3;
+            document.getElementById('thub-k4').textContent = d.k4;
+            document.getElementById('thub-r1').textContent = d.r1;
+            document.getElementById('thub-r2').textContent = d.r2;
+            document.getElementById('thub-r3').textContent = d.r3;
+        };
+        window.selectTwinHubTab(0);
+    }
+
+    if (document.getElementById('wa-tag') && window.CS_CONSOLE_DATA) {
+        window.selectWaterAirportTab = function (idx) {
+            const d = window.CS_CONSOLE_DATA.waterAirportTabs[idx] || window.CS_CONSOLE_DATA.waterAirportTabs[0];
+            for (let i = 0; i < 5; i++) {
+                const b = document.getElementById(`wa-btn-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('wa-tag').textContent = d.tag;
+            document.getElementById('wa-title').textContent = d.title;
+            document.getElementById('wa-badge').textContent = d.badge;
+            document.getElementById('wa-k1-l').textContent = d.k1l; document.getElementById('wa-k1-v').textContent = d.k1v;
+            document.getElementById('wa-k2-l').textContent = d.k2l; document.getElementById('wa-k2-v').textContent = d.k2v;
+            document.getElementById('wa-k3-l').textContent = d.k3l; document.getElementById('wa-k3-v').textContent = d.k3v;
+            document.getElementById('wa-k4-l').textContent = d.k4l; document.getElementById('wa-k4-v').textContent = d.k4v;
+            document.getElementById('wa-canvas-hdr').textContent = d.chdr;
+            document.getElementById('wa-specs-rows').innerHTML = d.rows.map(r => `<div class="py-3.5 flex flex-col sm:flex-row sm:justify-between gap-2"><span class="text-zinc-400 shrink-0">${r[0]}</span><span class="text-white font-bold sm:text-right">${r[1]}</span></div>`).join('');
+
+            const c = document.getElementById('wa-master-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+            ctx.strokeStyle = '#112236'; ctx.lineWidth = 1;
+            for (let x = 0; x < c.width; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, c.height); ctx.stroke(); }
+            for (let y = 0; y < c.height; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(c.width, y); ctx.stroke(); }
+            ctx.font = 'bold 12px JetBrains Mono';
+            const boxes = [
+                { x: 30, w: 215, c: '#10b981', t1: d.k1l, t2: d.k1v },
+                { x: 265, w: 215, c: '#00f2ff', t1: d.k2l, t2: d.k2v },
+                { x: 500, w: 215, c: '#f59e0b', t1: d.k3l, t2: d.k3v },
+                { x: 735, w: 215, c: '#a855f7', t1: d.k4l, t2: d.k4v }
+            ];
+            boxes.forEach((b, i) => {
+                ctx.fillStyle = '#07111e'; ctx.strokeStyle = b.c; ctx.lineWidth = 2.5;
+                ctx.fillRect(b.x, 65, b.w, 120); ctx.strokeRect(b.x, 65, b.w, 120);
+                ctx.fillStyle = b.c; ctx.fillText(b.t1, b.x + 14, 108);
+                ctx.fillStyle = '#ffffff'; ctx.fillText(b.t2, b.x + 14, 142);
+                if (i < 3) { ctx.strokeStyle = '#00f2ff'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(b.x + b.w, 125); ctx.lineTo(boxes[i + 1].x, 125); ctx.stroke(); }
+            });
+        };
+        window.selectWaterAirportTab(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 15: INTERACTIVE HKSTP ADMISSION PANEL Q&A DEFENSE MATRIX
+// Mounts automatically on: index.html & capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-hkstp-qa',
+    navLabel: '🛡️ HKSTP Panel Q&A Defense',
+    pages: ['index', 'capital'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-hkstp-qa" class="py-16 md:py-20 bg-[#080c14] border-t border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                            <span>🛡️ JANUARY 2027 HKSTP INCU-TECH PANEL // TECHNICAL &amp; COMMERCIAL DUE-DILIGENCE MATRIX</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            Interactive Assessor Q&amp;A Defense Matrix (12 Hard Panel Questions Answered)
+                        </h2>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <button onclick="filterQaCat('all')" id="qa-cat-all" class="px-3.5 py-1.5 rounded bg-tech-cyan text-slate-950 font-bold">All Panel Questions (12)</button>
+                        <button onclick="filterQaCat('tech')" id="qa-cat-tech" class="px-3.5 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700">⚙️ Deep-Tech &amp; R&amp;D (4)</button>
+                        <button onclick="filterQaCat('grid')" id="qa-cat-grid" class="px-3.5 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700">⚡ Grid, Land &amp; Safety (4)</button>
+                        <button onclick="filterQaCat('biz')" id="qa-cat-biz" class="px-3.5 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700">💰 Commercial &amp; Grants (4)</button>
+                    </div>
+                </div>
+                <div id="hkstp-qa-grid" class="grid md:grid-cols-2 gap-4 font-mono text-xs"></div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        const QA_ITEMS = [
+            { cat: 'tech', q: '1. Why build a 3.56m 1:8 model (D1) instead of jumping straight to a full-size ferry?', a: 'By Froude scaling (Fn = 1.17), pitch/heave natural frequency scales with √(g/L). Our 3.56m D1 oscillates 2.83× faster than our 28.5m flagship—so stabilizing D1 at 100Hz in Tolo Harbour mathematically proves 283Hz stability on the full-scale vessel at <3% of the capital cost.' },
+            { cat: 'tech', q: '2. What happens if the hydrofoil strikes a floating log in Victoria Harbour at 38 knots?', a: 'Sacrificial CNC Ti-6Al-4V titanium fuse-bolts shear cleanly backwards at >0.8g longitudinal impact without breaching the watertight carbon hull; the vessel settles smoothly onto its wide catamaran sponsons and transits to the pier at 10 knots.' },
+            { cat: 'tech', q: '3. How do you prevent cavitation and surface air ventilation on the foils at 38 knots?', a: 'We use sub-cavitating Eppler E817 / Modified OG foil sections (-Cp_min = 0.44 < σ = 0.68), 2.5° wingtip washout, and dual boundary-layer anti-ventilation fences on the vertical struts.' },
+            { cat: 'tech', q: '4. What is the genuineness of Hong Kong R&D versus mainland shipyard work?', a: '100% of the 100Hz 2oo3 RTOS flight control code, 15-state EKF sensor fusion, LiDAR wave-feedforward IP (3 PCT filings), and HIL benchtop testing are executed at Hong Kong Science Park by ITF RTH engineers; GBA yards only perform VARTM composite hull layup.' },
+            { cat: 'grid', q: '5. How can rural outlying island piers (Peng Chau, Tai O, Chi Ma Wan) handle megawatt charging?', a: 'They don’t need to. Under our Hub-and-Spoke architecture, vessels charge at our Urban 22 kV Hub (Sheung Wan / Tuen Mun) and perform 60-second unpowered "touch-and-go" stops at rural piers with zero rural grid CapEx.' },
+            { cat: 'grid', q: '6. What if legacy piers like Tsim Sha Tsui Star Ferry Pier cannot be retrofitted due to heritage rules?', a: 'Confirmed with CLP on 28 Oct 2026: cross-harbour BAYWING-D3 shuttles charge 100% on the Hong Kong Island (Sheung Wan 22 kV) side and dock at TST for 60 seconds with zero shore-power draw.' },
+            { cat: 'grid', q: '7. How do you fast-charge in Macau when DSMM confirmed only 400V surplus power is available?', a: 'Our dockside 2.0 MWh LFP BESS container trickle-charges continuously from Macau’s 400V terminal reserve between sailings and steps up internally via SiC DC/DC converters to 1,000V DC for 12-minute vessel turnarounds.' },
+            { cat: 'grid', q: '8. Why is Sheung Wan Landing No. 1 (22.290175, 114.148746) the ideal Water-Airport site?', a: 'It sits ~50m directly across Chung Kong Road from HK Electric’s Sheung Wan 132/22 kV Zone Substation and immediately next door to the Fire Services Dept HK Island HQ, pursued via a Cap. 127 marine deck.' },
+            { cat: 'biz', q: '9. Domestic HK ferry fares are capped by the Transport Department—where does high margin come from?', a: 'Domestic routes act as high-frequency passenger funnels into our Sheung Wan Water-Airport and HKIA SkyPier airside hub, where medium-range GBA routes (Macau, Shekou, SZX Airport) command uncapped commercial fares of HK$ 220–480/seat.' },
+            { cat: 'biz', q: '10. How is the HK$ 3,198,000 Phase 0–1 R&D budget financed with minimal founder dilution?', a: '93.5% (HK$ 2,990,000) is covered by non-dilutive HKSTP Incu-Tech (HK$ 1.29M), ITF Research Talent Hub (HK$ 1.45M), and PAG patent grants (HK$ 250k)—leaving a net equity gap of only HK$ 208,000.' },
+            { cat: 'biz', q: '11. How do you fund the HK$ 20M 15-meter BAYWING-D2 commercial pilot in Phase 2?', a: 'We combine HK$ 10M private Seed VC with the HK Innovation & Technology Commission (ITC) Enterprise Support Scheme (ESS) 1:1 matching grant (HK$ 10M) plus EEB Green Tech Fund shore BESS support.' },
+            { cat: 'biz', q: '12. Where do you perform daily hydrofoil inspection and maintenance without cluttering passenger piers?', a: 'Vessels deadhead 12 minutes after midnight to our Tsing Yi / Stonecutters industrial marine depot (CLP territory) for 50-ton travel-lift haul-out, ultrasonic foil NDT, and 45-minute modular pod/battery LRU swaps.' }
+        ];
+
+        window.filterQaCat = function (cat) {
+            ['all', 'tech', 'grid', 'biz'].forEach(c => {
+                const b = document.getElementById(`qa-cat-${c}`);
+                if (b) b.className = (c === cat) ? 'px-3.5 py-1.5 rounded bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700';
+            });
+            const list = cat === 'all' ? QA_ITEMS : QA_ITEMS.filter(x => x.cat === cat);
+            document.getElementById('hkstp-qa-grid').innerHTML = list.map(item => `
+                <div class="data-card p-5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-2">
+                    <div class="text-tech-cyan font-bold text-xs">${item.q}</div>
+                    <p class="text-zinc-300 font-sans text-xs leading-relaxed">${item.a}</p>
+                </div>`).join('');
+        };
+        window.filterQaCat('all');
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 16: MODULAR RO-RO ISLAND FREIGHT & SKYPIER AIRSIDE ULD LOGISTICS SIM
+// Mounts automatically on: routes-calculator.html & engineering-rd.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-roro-freight',
+    pages: ['routes', 'rd'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-roro-freight" class="py-16 md:py-20 bg-[#080d16] border-b border-zinc-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-amber/15 border border-tech-amber/40 text-tech-amber font-mono text-xs font-bold mb-2">
+                        <span>📦 DUAL-REVENUE LOGISTICS ENGINE // 90-SECOND MODULAR ULD PODS &amp; OFF-PEAK ISLAND RO-RO FREIGHT</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        Interactive Airside ULD Baggage &amp; Outlying Island Ro-Ro Cold-Chain Freight Calculator
+                    </h2>
+                    <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                        Passenger ferries sit idle during mid-day and late-evening off-peak hours. BAYWING utilizes quick-release deck rails to swap 90-second aviation ULD baggage pods (for HKIA SkyPier — SZX/Macau) and temperature-controlled island retail/medical pallet containers (for Cheung Chau, Mui Wo &amp; Lamma).
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Daily Off-Peak Modular Freight / ULD Runs per Vessel:</span>
+                                <span id="frt-runs-val" class="text-tech-cyan font-bold">6 Cargo / ULD Runs / Day</span>
+                            </div>
+                            <input id="frt-runs-slider" type="range" min="2" max="12" step="1" value="6" class="w-full accent-cyan-400 cursor-pointer" oninput="updateFreightSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. Revenue per Modular Pallet / ULD Container (HKD):</span>
+                                <span id="frt-rate-val" class="text-tech-emerald font-bold">HK$ 1,450 / Container Pod</span>
+                            </div>
+                            <input id="frt-rate-slider" type="range" min="600" max="2600" step="50" value="1450" class="w-full accent-emerald-400 cursor-pointer" oninput="updateFreightSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">PIER ROLL-ON / ROLL-OFF SWAP</span>
+                            <span class="text-base font-bold text-tech-cyan mt-1 block">90 Seconds (Auto-Latch)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">DAILY PODS MOVED / VESSEL</span>
+                            <span id="frt-out-pods" class="text-base font-bold text-white mt-1 block">48 Modular ULD Pods</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">INCREMENTAL ANNUAL REVENUE</span>
+                            <span id="frt-out-rev" class="text-base font-bold text-tech-emerald mt-1 block">+HK$ 24.36M / Yr / Vessel</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">MARGIN CONTRIBUTION</span>
+                            <span class="text-base font-bold text-tech-amber mt-1 block">82% (Uses Existing Crew/BESS)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.updateFreightSim = function () {
+            const runs = parseInt(document.getElementById('frt-runs-slider')?.value || 6);
+            const rate = parseInt(document.getElementById('frt-rate-slider')?.value || 1450);
+            const podsPerDay = runs * 8;
+            const annualRevM = ((podsPerDay * rate * 350) / 1e6).toFixed(2);
+            document.getElementById('frt-runs-val').textContent = `${runs} Cargo / ULD Runs / Day`;
+            document.getElementById('frt-rate-val').textContent = `HK$ ${rate.toLocaleString()} / Container Pod`;
+            document.getElementById('frt-out-pods').textContent = `${podsPerDay} Modular ULD Pods / Day`;
+            document.getElementById('frt-out-rev').textContent = `+HK$ ${annualRevM}M / Yr / Vessel`;
+        };
+        window.updateFreightSim();
+    }
+});
+
+// Update Floating Demo Switcher to include all 16 Components
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const dockList = document.querySelector('#hkstp-dock-panel .overflow-y-auto');
+        if (dockList) {
+            const EXTRA_4 = [
+                ['13. HKSTP Tolo Harbour Sea-Trial Planner', 'engineering-rd.html#bolton-tolo-planner', 'text-tech-cyan'],
+                ['14. 22kV Relay, THD & Zero-Export Sim', 'digital-twin.html#mod-m36', 'text-tech-emerald'],
+                ['15. 12-Question HKSTP Panel Defense Matrix', 'capital-stakeholders.html#bolton-hkstp-qa', 'text-tech-amber'],
+                ['16. 90s Ro-Ro Island & Airside ULD Freight', 'routes-calculator.html#bolton-roro-freight', 'text-purple-400']
+            ];
+            dockList.innerHTML += EXTRA_4.map(item => `
+                <a href="${item[1]}" class="block p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-tech-cyan transition-all">
+                    <span class="${item[2]} font-bold block text-[11px]">${item[0]}</span>
+                    <span class="text-[10px] text-zinc-400">${item[1]}</span>
+                </a>`).join('');
+        }
+    }, 200);
+});
