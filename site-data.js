@@ -1744,3 +1744,630 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+// ============================================================================
+// BATCH 3 VISUAL DESIGN COMPONENTS PACK (APPEND TO BOTTOM OF site-data.js)
+// Includes Components 09–12 + Auto-Sync for 14 Logs, 28+ Twin Mods & Demo Dock
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// COMPONENT 09: LIVE VICTORIA HARBOUR & GBA FLEET RADAR & CHARGER DISPATCH MAP
+// Mounts automatically on: routes-calculator.html & index.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-live-radar',
+    pages: ['routes', 'index'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-live-radar" class="py-16 md:py-20 bg-[#060a12] border-t border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                            <span class="w-2 h-2 rounded-full bg-tech-emerald animate-ping"></span>
+                            <span>🛰️ REAL-TIME FLEET OPERATIONS CENTER // HKE 22kV + CLP 11kV + MACAO 400V-BESS TELEMETRY</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-4xl font-mono font-bold text-white uppercase">
+                            Interactive Victoria Harbour &amp; GBA Live Fleet Radar &amp; Charger Load Dispatcher
+                        </h2>
+                        <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                            Click any active corridor filter or inspect the live animated radar display below to monitor real-time foil-borne vessel speeds, battery State-of-Charge (SoC %), and megawatt shore-power draw across Sheung Wan (22.290175, 114.148746), HKIA SkyPier, Tuen Mun, and Macao.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <button onclick="setRadarSector('all')" id="rad-sec-all" class="px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold">All Sectors (6 Active Vessels)</button>
+                        <button onclick="setRadarSector('harbour')" id="rad-sec-harbour" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Victoria Harbour &amp; Islands</button>
+                        <button onclick="setRadarSector('gba')" id="rad-sec-gba" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">GBA &amp; SkyPier Airside</button>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-6 items-stretch">
+                    <!-- Left: Animated Maritime Radar & GIS Hub Canvas -->
+                    <div class="lg:col-span-8 data-card rounded-2xl p-4 bg-[#03070e] border border-zinc-800 flex flex-col justify-between">
+                        <div class="flex flex-wrap justify-between items-center font-mono text-[11px] text-zinc-400 pb-3 mb-2 border-b border-zinc-800/80 gap-2">
+                            <span class="text-tech-cyan font-bold">AIS + RTK-GNSS FLEET TELEMETRY OVERLAY (WGS84)</span>
+                            <span id="radar-clock-readout" class="text-tech-emerald font-bold">HKE 22kV HUB: 3.42 MW • MACAO BESS: 84% SoC</span>
+                        </div>
+                        <canvas id="bolton-radar-canvas" width="760" height="360" class="w-full h-auto rounded-xl bg-[#020509] border border-[#122438]"></canvas>
+                        <div class="grid grid-cols-3 gap-3 pt-3 mt-2 border-t border-zinc-800/80 font-mono text-[11px]">
+                            <div class="p-2.5 rounded bg-zinc-950 border border-zinc-800">
+                                <span class="text-zinc-500 block text-[9.5px]">SHEUNG WAN 22kV HUB (HKE)</span>
+                                <span class="text-tech-emerald font-bold">3×1,500 kVA + 1.5MWh BESS</span>
+                            </div>
+                            <div class="p-2.5 rounded bg-zinc-950 border border-zinc-800">
+                                <span class="text-zinc-500 block text-[9.5px]">SKYPIER / TUEN MUN (CLP)</span>
+                                <span class="text-tech-amber font-bold">11kV/22kV + Airside APM</span>
+                            </div>
+                            <div class="p-2.5 rounded bg-zinc-950 border border-zinc-800">
+                                <span class="text-zinc-500 block text-[9.5px]">MACAO TAIPA/OUTER (DSMM)</span>
+                                <span class="text-tech-cyan font-bold">400V Reserve → 2MWh BESS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Live Vessel AIS & Battery Telemetry Cards -->
+                    <div class="lg:col-span-4 data-card rounded-2xl p-5 bg-zinc-950 border border-zinc-800 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between border-b border-zinc-800 pb-3 mb-3 font-mono text-xs">
+                                <span class="text-white font-bold uppercase">ACTIVE VESSEL TRANSPONDERS</span>
+                                <span class="text-tech-emerald font-bold">100Hz LOCK</span>
+                            </div>
+                            <div id="radar-vessel-list" class="space-y-2.5 font-mono text-xs"></div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-zinc-800 font-mono text-[11px] text-zinc-400 flex justify-between">
+                            <span>FLEET ON-TIME DISPATCH:</span>
+                            <span class="text-tech-emerald font-bold">99.42% (ZERO WAKE VIOLATION)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        const HUBS = [
+            { id: 'SW', name: 'Sheung Wan 22kV Water-Airport', x: 540, y: 215, color: '#10b981', sub: '22.290175, 114.148746' },
+            { id: 'TST', name: 'TST Pier (Touch & Go)', x: 575, y: 175, color: '#38bdf8', sub: '60s Domestic Feeder' },
+            { id: 'CC', name: 'Cheung Chau / Mui Wo', x: 430, y: 285, color: '#00f2ff', sub: 'Outlying Islands' },
+            { id: 'SKY', name: 'HKIA SkyPier Airside APM', x: 350, y: 205, color: '#f59e0b', sub: '3.8 MW MCS Hub' },
+            { id: 'SZX', name: 'Shenzhen Shekou / SZX', x: 245, y: 78, color: '#a855f7', sub: '38-Min GBA Link' },
+            { id: 'MAC', name: 'Macao Outer / Taipa', x: 115, y: 295, color: '#00f2ff', sub: '400V → 2MWh BESS' }
+        ];
+
+        const VESSELS = [
+            { callsign: 'BW-EF150-01', route: 'Sheung Wan ⟷ Macao (GBA-01)', sector: 'gba', x1: 540, y1: 215, x2: 115, y2: 295, spd: '38.0 KT', soc: 78, ride: '+1.80m', color: '#10b981', phase: 0.15 },
+            { callsign: 'BW-EF150-02', route: 'HKIA SkyPier ⟷ SZ Airport (GBA-03)', sector: 'gba', x1: 350, y1: 205, x2: 245, y2: 78, spd: '37.8 KT', soc: 84, ride: '+1.75m', color: '#f59e0b', phase: 0.55 },
+            { callsign: 'BW-EF150-03', route: 'Sheung Wan ⟷ Shekou (GBA-02)', sector: 'gba', x1: 540, y1: 215, x2: 245, y2: 78, spd: '38.2 KT', soc: 71, ride: '+1.82m', color: '#a855f7', phase: 0.75 },
+            { callsign: 'BW-D3-01', route: 'Sheung Wan ⟷ TST Shuttle (VH-01)', sector: 'harbour', x1: 540, y1: 215, x2: 575, y2: 175, spd: '24.5 KT', soc: 91, ride: '+1.20m', color: '#00f2ff', phase: 0.30 },
+            { callsign: 'BW-D5-01', route: 'Central/SW ⟷ Cheung Chau (ISL-01)', sector: 'harbour', x1: 540, y1: 215, x2: 430, y2: 285, spd: '34.0 KT', soc: 82, ride: '+1.55m', color: '#38bdf8', phase: 0.45 },
+            { callsign: 'BW-D4-02', route: 'SkyPier/Tung Chung ⟷ Mui Wo', sector: 'harbour', x1: 350, y1: 205, x2: 430, y2: 285, spd: '35.0 KT', soc: 88, ride: '+1.50m', color: '#10b981', phase: 0.85 }
+        ];
+
+        let activeSector = 'all';
+        let radarTick = 0;
+
+        window.setRadarSector = function (sec) {
+            activeSector = sec;
+            ['all', 'harbour', 'gba'].forEach(s => {
+                const b = document.getElementById(`rad-sec-${s}`);
+                if (b) b.className = (s === sec) ? 'px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            });
+            renderVesselCards();
+        };
+
+        function renderVesselCards() {
+            const listEl = document.getElementById('radar-vessel-list');
+            if (!listEl) return;
+            const visible = activeSector === 'all' ? VESSELS : VESSELS.filter(v => v.sector === activeSector);
+            listEl.innerHTML = visible.map(v => `
+                <div class="p-3 rounded-xl bg-[#070b12] border border-zinc-800/90 hover:border-tech-cyan transition-all">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-white">${v.callsign}</span>
+                        <span class="text-tech-emerald font-bold">${v.spd} • ${v.ride}</span>
+                    </div>
+                    <div class="text-[11px] text-zinc-400 truncate mt-0.5">${v.route}</div>
+                    <div class="flex items-center justify-between mt-2 text-[10px]">
+                        <span class="text-tech-cyan">PACK SoC: ${v.soc}%</span>
+                        <span class="text-zinc-500">PITCH RMS: 0.14°</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function animateRadar() {
+            const c = document.getElementById('bolton-radar-canvas');
+            if (c && c.offsetParent !== null) {
+                radarTick += 0.004;
+                const ctx = c.getContext('2d');
+                ctx.clearRect(0, 0, c.width, c.height);
+
+                // Radar polar rings & grid
+                ctx.strokeStyle = 'rgba(0, 242, 255, 0.07)';
+                ctx.lineWidth = 1;
+                for (let r = 80; r <= 360; r += 80) {
+                    ctx.beginPath(); ctx.arc(380, 190, r, 0, Math.PI * 2); ctx.stroke();
+                }
+
+                // Stylized Pearl River Estuary Coastline Polygons
+                ctx.fillStyle = '#0a1524'; ctx.strokeStyle = '#1e3a5f'; ctx.lineWidth = 1.5;
+                // HK Island
+                ctx.beginPath(); ctx.moveTo(520, 210); ctx.lineTo(650, 210); ctx.lineTo(640, 265); ctx.lineTo(530, 255); ctx.closePath(); ctx.fill(); ctx.stroke();
+                // Kowloon & NT
+                ctx.beginPath(); ctx.moveTo(310, 40); ctx.lineTo(680, 40); ctx.lineTo(620, 180); ctx.lineTo(480, 155); ctx.closePath(); ctx.fill(); ctx.stroke();
+                // Lantau Island
+                ctx.beginPath(); ctx.moveTo(320, 210); ctx.lineTo(465, 225); ctx.lineTo(445, 295); ctx.lineTo(310, 280); ctx.closePath(); ctx.fill(); ctx.stroke();
+                // Macau Peninsula / Taipa
+                ctx.beginPath(); ctx.moveTo(45, 265); ctx.lineTo(135, 275); ctx.lineTo(125, 335); ctx.lineTo(45, 325); ctx.closePath(); ctx.fill(); ctx.stroke();
+
+                const visible = activeSector === 'all' ? VESSELS : VESSELS.filter(v => v.sector === activeSector);
+
+                // Draw Corridors
+                visible.forEach(v => {
+                    ctx.strokeStyle = v.color; ctx.lineWidth = 1.6; ctx.setLineDash([5, 5]);
+                    ctx.beginPath(); ctx.moveTo(v.x1, v.y1); ctx.lineTo(v.x2, v.y2); ctx.stroke(); ctx.setLineDash([]);
+
+                    // Ping-pong vessel position along corridor
+                    const rawP = (radarTick + v.phase) % 2.0;
+                    const p = rawP <= 1.0 ? rawP : 2.0 - rawP;
+                    const vx = v.x1 + (v.x2 - v.x1) * p;
+                    const vy = v.y1 + (v.y2 - v.y1) * p;
+
+                    ctx.fillStyle = v.color;
+                    ctx.beginPath(); ctx.arc(vx, vy, 5.5, 0, Math.PI * 2); ctx.fill();
+                    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
+
+                    ctx.fillStyle = '#e2e8f0'; ctx.font = 'bold 10px JetBrains Mono';
+                    ctx.fillText(v.callsign, vx + 9, vy - 5);
+                });
+
+                // Draw Hubs
+                HUBS.forEach(h => {
+                    ctx.fillStyle = '#040b14'; ctx.strokeStyle = h.color; ctx.lineWidth = 2.2;
+                    ctx.beginPath(); ctx.arc(h.x, h.y, 7, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                    ctx.fillStyle = h.color; ctx.font = 'bold 11px JetBrains Mono';
+                    ctx.fillText(h.name, h.x - 35, h.y + 20);
+                });
+            }
+            requestAnimationFrame(animateRadar);
+        }
+
+        renderVesselCards();
+        requestAnimationFrame(animateRadar);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 10: STM32H743VIT6 PINOUT & LIVE 64-BYTE CAN-FD BUS INSPECTOR
+// Mounts automatically on: digital-twin.html (Adds Domain 11 to Command Console)
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'mod-m35',
+    modId: 'm35',
+    navLabel: '11.1 STM32H7 Pinout & 64B CAN-FD Frame',
+    pages: ['twin'],
+    twinDomain: {
+        key: 'hilbus',
+        badge: 'DOMAIN 11',
+        shortLabel: '🔌 STM32 & CAN-FD Bus',
+        title: 'DOMAIN 11 // STM32H743VIT6 HARDWARE PINOUT, DUAL RS-422 INS & 64-BYTE CAN-FD PACKET INSPECTOR'
+    },
+    renderHtml: function () {
+        return `
+        <section id="mod-m35" data-mod-id="m35" data-dom="hilbus" class="twin-mod-sec py-12 bg-[#090b0f] border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="text-xs font-mono text-tech-cyan uppercase tracking-widest mb-1">DOMAIN 11 • SUB-MODULE 11.1 // EMBEDDED AVIONICS HARDWARE PINOUT &amp; CAN-FD PROTOCOL</div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">STM32H743VIT6 Flight Controller Pin Mapping &amp; 64-Byte Deterministic CAN-FD Frame Decoder</h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        Inspect the physical hardware interface of our Science Park HIL benchtop and D1 flight computer: dual isolated FDCAN1/FDCAN2 transceivers (1 Mbps nominal / 5 Mbps data phase), dual DMA-driven UART/RS-422 channels for SBG Ellipse-N INS, and hardware watchdog GPIO interlocks.
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="flex flex-wrap gap-2 pb-4 border-b border-zinc-800 font-mono text-xs">
+                        <button onclick="selectHilBusTab(0)" id="hilb-btn-0" class="px-4 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold">01. STM32H743 Pinout &amp; DMA Map</button>
+                        <button onclick="selectHilBusTab(1)" id="hilb-btn-1" class="px-4 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">02. 64-Byte CAN-FD Servo Frame</button>
+                        <button onclick="selectHilBusTab(2)" id="hilb-btn-2" class="px-4 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">03. Hardware Watchdog &amp; 2oo3 Voter</button>
+                    </div>
+
+                    <div id="hilb-content-stage" class="space-y-4 font-mono text-xs"></div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        const VIEWS = [
+            `
+            <div class="overflow-x-auto rounded-xl border border-zinc-800">
+                <table class="w-full text-left font-mono text-xs">
+                    <thead class="bg-zinc-900 text-zinc-400 border-b border-zinc-800 uppercase text-[10px]">
+                        <tr>
+                            <th class="py-3 px-4">STM32H743 Pin / Peripheral</th>
+                            <th class="py-3 px-4">Connected Marine Subsystem</th>
+                            <th class="py-3 px-4">Bus Protocol &amp; Speed</th>
+                            <th class="py-3 px-4 text-right">DMA / Isolation</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-800/70 bg-[#070b12] text-zinc-200">
+                        <tr>
+                            <td class="py-3 px-4 text-tech-cyan font-bold">PD0 / PD1 (FDCAN1_RX/TX)</td>
+                            <td class="py-3 px-4">Primary Subsea Titanium Servo Bus A (4× Actuators)</td>
+                            <td class="py-3 px-4">ISO 11898-2 CAN-FD (1M / 5Mbps)</td>
+                            <td class="py-3 px-4 text-right text-tech-emerald font-bold">2.5 kVrms Galvanic ISO</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 text-tech-emerald font-bold">PB5 / PB6 (FDCAN2_RX/TX)</td>
+                            <td class="py-3 px-4">Hot-Standby Subsea Servo Bus B + BMS Telemetry</td>
+                            <td class="py-3 px-4">ISO 11898-2 CAN-FD (1M / 5Mbps)</td>
+                            <td class="py-3 px-4 text-right text-tech-emerald font-bold">0.5 ms Auto-Failover</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 text-tech-amber font-bold">PA9 / PA10 (USART1_DMA)</td>
+                            <td class="py-3 px-4">SBG Ellipse-N Dual-Antenna INS/RTK #1</td>
+                            <td class="py-3 px-4">RS-422 Differential @ 921,600 baud</td>
+                            <td class="py-3 px-4 text-right text-white font-bold">DMA2_Stream0 Zero-CPU</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 text-purple-400 font-bold">PD5 / PD6 (USART2_DMA)</td>
+                            <td class="py-3 px-4">SBG Ellipse-N Dual-Antenna INS/RTK #2</td>
+                            <td class="py-3 px-4">RS-422 Differential @ 921,600 baud</td>
+                            <td class="py-3 px-4 text-right text-white font-bold">DMA1_Stream5 Zero-CPU</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 text-sky-400 font-bold">PE7 / PE8 (UART7 +ETHRMII)</td>
+                            <td class="py-3 px-4">Bow Solid-State Marine Wave LiDAR + Dual Ultrasonic</td>
+                            <td class="py-3 px-4">100BASE-TX UDP + RS-485 @ 200Hz</td>
+                            <td class="py-3 px-4 text-right text-tech-cyan font-bold">5–15m Lookahead Buffer</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>`,
+            `
+            <div class="p-5 rounded-xl bg-[#050b14] border border-zinc-800 space-y-4">
+                <div class="flex flex-wrap justify-between items-center gap-2 border-b border-zinc-800 pb-3">
+                    <span class="text-tech-cyan font-bold">64-BYTE DETERMINISTIC 100Hz CAN-FD CONTROL FRAME (ID: 0x0A1)</span>
+                    <span class="text-tech-emerald font-bold">WIRE TIME: 142 µs @ 5 Mbps DATA PHASE</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                    <div class="p-3 rounded bg-zinc-950 border border-tech-cyan/40">
+                        <span class="text-[10px] text-zinc-500 block">BYTES 00–07 // HEADER</span>
+                        <span class="text-tech-cyan font-bold block mt-0.5">0xAA 0x55 + 100Hz Seq#</span>
+                        <span class="text-[10px] text-zinc-400">Monotonic Counter + Node ID</span>
+                    </div>
+                    <div class="p-3 rounded bg-zinc-950 border border-tech-emerald/40">
+                        <span class="text-[10px] text-zinc-500 block">BYTES 08–23 // 4× FLAP CMD</span>
+                        <span class="text-tech-emerald font-bold block mt-0.5">Float32 δ_FL, FR, AL, AR</span>
+                        <span class="text-[10px] text-zinc-400">±15.00° Target + Slew Limit</span>
+                    </div>
+                    <div class="p-3 rounded bg-zinc-950 border border-tech-amber/40">
+                        <span class="text-[10px] text-zinc-500 block">BYTES 24–47 // EKF STATE</span>
+                        <span class="text-tech-amber font-bold block mt-0.5">Heave z, Pitch θ, Roll φ</span>
+                        <span class="text-[10px] text-zinc-400">+ LiDAR Wave Orbital V_z</span>
+                    </div>
+                    <div class="p-3 rounded bg-zinc-950 border border-purple-400/40">
+                        <span class="text-[10px] text-zinc-500 block">BYTES 48–63 // VOTER &amp; CRC</span>
+                        <span class="text-purple-300 font-bold block mt-0.5">2oo3 Quorum + CRC-16-CCITT</span>
+                        <span class="text-[10px] text-zinc-400">Hardware Rejects Corrupt Frame</span>
+                    </div>
+                </div>
+            </div>`,
+            `
+            <div class="p-5 rounded-xl bg-[#050b14] border border-zinc-800 space-y-3 text-xs">
+                <div class="text-tech-emerald font-bold text-sm">Hardware-Interlocked Window Watchdog (WWDG) &amp; Tri-State Transceiver Isolation</div>
+                <p class="text-zinc-300 font-sans leading-relaxed">
+                    Each STM32H743 node must toggle its dedicated hardware watchdog pin within a strict 10.0 ms ± 0.2 ms window. If an MCU misses a single 100Hz deadline or outputs a flap command diverging by &gt;0.5° from the other two nodes, the external hardware voter pulls the faulty node's CAN-FD transceiver <code class="text-tech-cyan">SILENT/DISABLE</code> pin high in 0.4 milliseconds—guaranteeing bump-less fail-operational flight.
+                </p>
+            </div>`
+        ];
+
+        window.selectHilBusTab = function (idx) {
+            for (let i = 0; i < 3; i++) {
+                const b = document.getElementById(`hilb-btn-${i}`);
+                if (b) b.className = (i === idx) ? 'px-4 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold' : 'px-4 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('hilb-content-stage').innerHTML = VIEWS[idx] || VIEWS[0];
+        };
+        window.selectHilBusTab(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 11: 5-YEAR PRO-FORMA FINANCIAL CASHFLOW & IRR SENSITIVITY WORKBENCH
+// Mounts automatically on: capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-proforma-irr',
+    navLabel: '📈 5-Yr Pro-Forma & IRR',
+    pages: ['capital'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-proforma-irr" class="py-16 md:py-24 bg-[#070b12] border-t border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-mono text-xs font-bold mb-2">
+                        <span>📈 INSTITUTIONAL FINANCIAL MODEL (2027–2031) // ALL FIGURES IN HKD MILLIONS</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-mono font-bold text-white uppercase">
+                        Interactive 5-Year Pro-Forma Revenue, EBITDA &amp; Investor IRR Sensitivity Workbench
+                    </h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        Stress-test our 5-year commercial ramp from Phase 0–1 HKSTP incubation (2027) and Phase 2 D2 pilot launch (2028) to full GBA Water-Airport &amp; SkyPier EF-150 fleet scaling (2029–2031).
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="grid md:grid-cols-3 gap-6 pb-5 border-b border-zinc-800 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Year 5 Active Commercial Fleet:</span>
+                                <span id="pf-fleet-val" class="text-tech-cyan font-bold">18 Vessels (10 GBA + 8 Domestic)</span>
+                            </div>
+                            <input id="pf-fleet-slider" type="range" min="6" max="30" step="2" value="18" class="w-full accent-cyan-400 cursor-pointer" oninput="updateProFormaSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. Avg GBA / SkyPier Ticket Fare:</span>
+                                <span id="pf-fare-val" class="text-tech-emerald font-bold">HK$ 320 / Passenger</span>
+                            </div>
+                            <input id="pf-fare-slider" type="range" min="200" max="460" step="20" value="320" class="w-full accent-emerald-400 cursor-pointer" oninput="updateProFormaSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">3. Load Factor &amp; Charter Utilization:</span>
+                                <span id="pf-load-val" class="text-amber-400 font-bold">72% Average Load Factor</span>
+                            </div>
+                            <input id="pf-load-slider" type="range" min="50" max="90" step="2" value="72" class="w-full accent-amber-400 cursor-pointer" oninput="updateProFormaSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">YEAR 5 ANNUAL REVENUE</span>
+                            <span id="pf-out-rev5" class="text-lg font-bold text-white mt-1 block">HK$ 648.0M</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">YEAR 5 EBITDA (44% MARGIN)</span>
+                            <span id="pf-out-ebitda5" class="text-lg font-bold text-tech-emerald mt-1 block">HK$ 285.1M</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">5-YR CUMULATIVE EBITDA</span>
+                            <span id="pf-out-cum" class="text-lg font-bold text-tech-cyan mt-1 block">HK$ 542.4M</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">PROJECTED INVESTOR IRR / MOIC</span>
+                            <span id="pf-out-irr" class="text-lg font-bold text-tech-amber mt-1 block">48.5% IRR • 7.4× MOIC</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#050b14] rounded-xl border border-zinc-800 p-4">
+                        <div class="flex flex-wrap justify-between font-mono text-xs mb-2 gap-2">
+                            <span class="text-tech-cyan font-bold">■ ANNUAL GROSS REVENUE (HK$ MILLIONS)</span>
+                            <span class="text-tech-emerald font-bold">■ ANNUAL OPERATING EBITDA (HK$ MILLIONS)</span>
+                        </div>
+                        <canvas id="proforma-chart-canvas" width="960" height="200" class="w-full h-auto rounded bg-[#03070e]"></canvas>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-zinc-800">
+                        <table class="w-full text-left font-mono text-xs">
+                            <thead class="bg-zinc-900 text-zinc-400 border-b border-zinc-800 uppercase text-[10px]">
+                                <tr>
+                                    <th class="py-3 px-4">Financial Metric (HKD)</th>
+                                    <th class="py-3 px-4">2027 (Ph 0–1 HKSTP)</th>
+                                    <th class="py-3 px-4">2028 (Ph 2 D2 Pilot)</th>
+                                    <th class="py-3 px-4">2029 (GBA Launch)</th>
+                                    <th class="py-3 px-4">2030 (Fleet Expansion)</th>
+                                    <th class="py-3 px-4 text-right">2031 (Scale Hub)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="proforma-tbody" class="divide-y divide-zinc-800/70 bg-[#070b12] text-zinc-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.updateProFormaSim = function () {
+            const y5Fleet = parseInt(document.getElementById('pf-fleet-slider')?.value || 18);
+            const fare = parseInt(document.getElementById('pf-fare-slider')?.value || 320);
+            const loadPct = parseInt(document.getElementById('pf-load-slider')?.value || 72);
+
+            document.getElementById('pf-fleet-val').textContent = `${y5Fleet} Active Vessels`;
+            document.getElementById('pf-fare-val').textContent = `HK$ ${fare} Avg Fare`;
+            document.getElementById('pf-load-val').textContent = `${loadPct}% Load Factor`;
+
+            const fleetRamp = [0, 2, Math.max(3, Math.round(y5Fleet * 0.28)), Math.max(6, Math.round(y5Fleet * 0.60)), y5Fleet];
+            const revPerVesselM = (fare / 320) * (loadPct / 72) * 36.0;
+            const revs = fleetRamp.map((f, i) => i === 0 ? 3.0 : +(f * revPerVesselM * (i === 1 ? 0.45 : 1.0)).toFixed(1));
+            const ebitdas = revs.map((r, i) => i === 0 ? -0.2 : +(r * (i === 1 ? 0.28 : 0.44)).toFixed(1));
+            const cumEbitda = ebitdas.reduce((a, b) => a + Math.max(0, b), 0).toFixed(1);
+            const irr = Math.min(68, (32 + (y5Fleet / 18) * (fare / 320) * 16.5)).toFixed(1);
+            const moic = (irr / 6.5).toFixed(1);
+
+            document.getElementById('pf-out-rev5').textContent = `HK$ ${revs[4].toFixed(1)}M`;
+            document.getElementById('pf-out-ebitda5').textContent = `HK$ ${ebitdas[4].toFixed(1)}M`;
+            document.getElementById('pf-out-cum').textContent = `HK$ ${cumEbitda}M`;
+            document.getElementById('pf-out-irr').textContent = `${irr}% IRR • ${moic}× MOIC`;
+
+            document.getElementById('proforma-tbody').innerHTML = `
+                <tr>
+                    <td class="py-3 px-4 text-zinc-400">Active Revenue Fleet</td>
+                    <td class="py-3 px-4">D1 Testbed (TRL 6)</td>
+                    <td class="py-3 px-4">${fleetRamp[1]} Vessels (D2)</td>
+                    <td class="py-3 px-4">${fleetRamp[2]} Vessels</td>
+                    <td class="py-3 px-4">${fleetRamp[3]} Vessels</td>
+                    <td class="py-3 px-4 text-right font-bold text-tech-cyan">${fleetRamp[4]} Vessels</td>
+                </tr>
+                <tr>
+                    <td class="py-3 px-4 text-zinc-400">Gross Revenue (Grants / Fares)</td>
+                    <td class="py-3 px-4">HK$ 2.99M (Grants)</td>
+                    <td class="py-3 px-4">HK$ ${revs[1]}M</td>
+                    <td class="py-3 px-4">HK$ ${revs[2]}M</td>
+                    <td class="py-3 px-4">HK$ ${revs[3]}M</td>
+                    <td class="py-3 px-4 text-right font-bold text-white">HK$ ${revs[4]}M</td>
+                </tr>
+                <tr>
+                    <td class="py-3 px-4 text-zinc-400">Operating EBITDA (78% Fuel Save)</td>
+                    <td class="py-3 px-4 text-tech-emerald">-HK$ 0.21M Net</td>
+                    <td class="py-3 px-4 text-tech-emerald">+HK$ ${ebitdas[1]}M</td>
+                    <td class="py-3 px-4 text-tech-emerald">+HK$ ${ebitdas[2]}M</td>
+                    <td class="py-3 px-4 text-tech-emerald">+HK$ ${ebitdas[3]}M</td>
+                    <td class="py-3 px-4 text-right font-bold text-tech-emerald">+HK$ ${ebitdas[4]}M</td>
+                </tr>
+            `;
+
+            const c = document.getElementById('proforma-chart-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            const maxVal = Math.max(750, revs[4] * 1.15);
+            const years = ['2027 (Ph0-1)', '2028 (Ph2 D2)', '2029 (GBA)', '2030 (Scale)', '2031 (Hub)'];
+            years.forEach((yr, i) => {
+                const bx = 95 + i * 175;
+                const rH = Math.max(6, (revs[i] / maxVal) * 145);
+                const eH = Math.max(4, (Math.max(0, ebitdas[i]) / maxVal) * 145);
+
+                ctx.fillStyle = '#00f2ff';
+                ctx.fillRect(bx, 165 - rH, 42, rH);
+                ctx.fillStyle = '#10b981';
+                ctx.fillRect(bx + 48, 165 - eH, 42, eH);
+
+                ctx.fillStyle = '#e2e8f0'; ctx.font = 'bold 11px JetBrains Mono';
+                ctx.fillText(yr, bx - 5, 186);
+                ctx.fillStyle = '#00f2ff';
+                ctx.fillText(`$${revs[i]}M`, bx - 2, 158 - rH);
+            });
+        };
+        window.updateProFormaSim();
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 12: SUBMERGED CONTRA-ROTATING POD THRUSTER & ETA_P WORKBENCH
+// Mounts automatically on: engineering-rd.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-pod-thruster',
+    pages: ['rd'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-pod-thruster" class="py-16 md:py-24 bg-[#070b12] border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                        <span>⚙️ SUBSEA PROPULSION HYDRODYNAMICS // PERMANENT-MAGNET POD THRUSTER VS. WATERJET</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-mono font-bold text-white uppercase">
+                        Submerged Contra-Rotating Rim/Pod Thruster &amp; Propulsive Efficiency (η_P = 76.4%) Workbench
+                    </h2>
+                    <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                        Conventional high-speed catamarans use surface waterjets that suffer 38%–45% inlet ram drag and entrainment losses. Integrating flooded-gap permanent-magnet brushless motors directly inside the submerged T-foil torpedo bulbs recovers rotational wake swirl and achieves 76.4% open-water propulsive efficiency ($\eta_P$).
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6 pb-4 border-b border-zinc-800 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Propeller Pitch-to-Diameter Ratio (P/D):</span>
+                                <span id="pod-pd-val" class="text-tech-cyan font-bold">P/D = 1.35 (High-Speed Foil Match)</span>
+                            </div>
+                            <input id="pod-pd-slider" type="range" min="0.95" max="1.65" step="0.05" value="1.35" class="w-full accent-cyan-400 cursor-pointer" oninput="updatePodSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. Pod Motor Shaft Speed (RPM):</span>
+                                <span id="pod-rpm-val" class="text-tech-emerald font-bold">1,450 RPM (Direct-Drive PM Motor)</span>
+                            </div>
+                            <input id="pod-rpm-slider" type="range" min="900" max="2200" step="50" value="1450" class="w-full accent-emerald-400 cursor-pointer" oninput="updatePodSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">CONTRA-ROTATING POD η_P</span>
+                            <span id="pod-out-eta" class="text-base font-bold text-tech-emerald mt-1 block">76.4% (vs 54% Waterjet)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">SWIRL RECOVERY GAIN</span>
+                            <span class="text-base font-bold text-tech-cyan mt-1 block">+9.2% Aft Rotor Recovery</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">MOTOR COOLING ARCHITECTURE</span>
+                            <span class="text-base font-bold text-white mt-1 block">Direct Seawater Stator Jacket</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">GEARBOX / SHAFT SEAL LOSS</span>
+                            <span class="text-base font-bold text-tech-emerald mt-1 block">0.0% (Gearless Wet-Gap PM)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.updatePodSim = function () {
+            const pd = parseFloat(document.getElementById('pod-pd-slider')?.value || 1.35);
+            const rpm = parseInt(document.getElementById('pod-rpm-slider')?.value || 1450);
+            const eta = (76.4 - Math.abs(pd - 1.35) * 14.0 - Math.abs(rpm - 1450) * 0.004).toFixed(1);
+            document.getElementById('pod-pd-val').textContent = `P/D = ${pd.toFixed(2)}`;
+            document.getElementById('pod-rpm-val').textContent = `${rpm} RPM`;
+            document.getElementById('pod-out-eta').textContent = `${eta}% (vs 54% Waterjet)`;
+        };
+        window.updatePodSim();
+    }
+});
+
+// ----------------------------------------------------------------------------
+// AUTO-SYNC PATCH: FIXES RETIRED hke-walkover-handout.html LINKS, UPDATES
+// LIVE COUNTERS (14 FILINGS & 28+ MODULES), AND POPULATES ALL 12 DEMO LINKS
+// ----------------------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        // 1. Point any legacy hke-walkover-handout.html links to the inline archive on capital-stakeholders.html
+        document.querySelectorAll('a[href*="hke-walkover-handout.html"]').forEach(a => {
+            a.setAttribute('href', 'capital-stakeholders.html#walkover-archive');
+            a.addEventListener('click', () => {
+                if (typeof window.toggleWalkoverSheetModal === 'function') {
+                    setTimeout(() => window.toggleWalkoverSheetModal(), 150);
+                }
+            });
+        });
+        document.querySelectorAll('option[value*="hke-walkover-handout.html"]').forEach(opt => {
+            opt.value = 'capital-stakeholders.html#walkover-archive';
+        });
+
+        // 2. Sync live Stakeholder Log count (14 Filings) on capital-stakeholders.html
+        const logCount = (window.SITE_DATA && window.SITE_DATA.stakeholderLogs) ? window.SITE_DATA.stakeholderLogs.length : 14;
+        const kpi4 = document.querySelector('[data-i18n="kpi_4_v"]');
+        if (kpi4) kpi4.textContent = `${logCount} Official Filings`;
+        const btnAll = document.getElementById('btn-f-all');
+        if (btnAll && btnAll.textContent.includes('12')) {
+            btnAll.textContent = `ALL DISPATCHES (${logCount})`;
+        }
+
+        // 3. Upgrade Floating HKSTP Demo Switcher to list all 12 Components
+        const dockList = document.querySelector('#hkstp-dock-panel .overflow-y-auto');
+        if (dockList) {
+            const ALL_12 = [
+                ['01. Multi-Deck Cabin & 90s Evac CAD', 'engineering-rd.html#bolton-cabin-cad', 'text-tech-cyan'],
+                ['02. HKSTP 18-Mo Gate & Cavitation Sim', 'digital-twin.html#mod-m34', 'text-tech-emerald'],
+                ['03. Cap. 127 & Dual-Utility Statutory Map', 'capital-stakeholders.html#bolton-statutory-map', 'text-tech-amber'],
+                ['04. ISO 2631-1 Seasickness & Wave Sim', 'routes-calculator.html#bolton-msi-comfort', 'text-purple-400'],
+                ['05. Executive 10-Slide HKSTP Pitch Deck', 'index.html#bolton-hkstp-deck', 'text-tech-cyan'],
+                ['06. 1,000V LFP Pack & <2ms Pyro-Fuse CAD', 'engineering-rd.html#bolton-bms-cutaway', 'text-tech-emerald'],
+                ['07. GBA Shipyard VARTM & CNC Tooling Sim', 'engineering-rd.html#bolton-gba-shipyard', 'text-tech-amber'],
+                ['08. -168k T CO₂ & Green Bond ESG Calculator', 'routes-calculator.html#bolton-carbon-esg', 'text-tech-emerald'],
+                ['09. Live HK & GBA Fleet Radar & Charger Map', 'routes-calculator.html#bolton-live-radar', 'text-tech-cyan'],
+                ['10. STM32H743 Pinout & 64B CAN-FD Inspector', 'digital-twin.html#mod-m35', 'text-purple-400'],
+                ['11. 5-Year Pro-Forma EBITDA & IRR Workbench', 'capital-stakeholders.html#bolton-proforma-irr', 'text-tech-emerald'],
+                ['12. Contra-Rotating Pod Thruster (η_P 76%)', 'engineering-rd.html#bolton-pod-thruster', 'text-tech-cyan']
+            ];
+            dockList.innerHTML = ALL_12.map(item => `
+                <a href="${item[1]}" class="block p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-tech-cyan transition-all">
+                    <span class="${item[2]} font-bold block text-[11px]">${item[0]}</span>
+                    <span class="text-[10px] text-zinc-400">${item[1]}</span>
+                </a>
+            `).join('');
+        }
+    }, 140);
+});
