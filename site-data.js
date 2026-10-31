@@ -1698,3 +1698,49 @@ window.BAYWING_BOLTONS.push({
         window.updateEsgSim();
     }
 });
+// ============================================================================
+// DECLARATIVE LEDGER COMPACTOR (APPEND TO site-data.js TO SHRINK HTML FILES)
+// Automatically hydrates any <div data-compact-ledger="key"></div> placeholder
+// ============================================================================
+window.COMPACT_LEDGERS = {
+    grants_uni: [
+        ['border-l-tech-cyan', 'text-tech-cyan', '01. HKSTP INCU-TECH + PAG', 'HK$ 1,540,000', '18-Month Science Park Incubation & Tolo Harbour Trials', 'Combines HK$ 1,290,000 HKSTP Incu-Tech grant with HK$ 250,000 Patent Application Grant (90% PCT coverage) across 3 6-month milestone gates (6-DOF SIL, HIL/D1 Build, and 13.4-knot Tolo Harbour trials).'],
+        ['border-l-tech-amber', 'text-tech-amber', '02. ITC ENTERPRISE SUPPORT SCHEME (ESS)', 'HK$ 10,000,000 MATCH', 'HK$ 20.0M Co-Matching for BAYWING-D2 Commercial Pilot', 'Consultation filed Oct 16, 2026 with the ITC ESS Secretariat to match HK$ 10.0M private seed capital with HK$ 10.0M ESS grant funds for D2 human-rated 100Hz flight computer certification.'],
+        ['border-l-tech-emerald', 'text-tech-emerald', '03. EEB GREEN TECH FUND (GTF)', '-168,000 T CO₂/YR', 'Zero-Emission Marine Transport & 22 kV Charging Hub', 'Confirmed on the official EEB Green Tech Fund notification list (Oct 16, 2026) under Category (c) Local Companies, targeting 168,000 tonnes/year CO₂ reduction.'],
+        ['border-l-sky-400', 'text-sky-400', '04. ITF RESEARCH TALENT HUB (RTH)', 'HK$ 1,450,000', 'HKUST Robotics Institute & PolyU Mechatronics Hiring', '100% salary coverage (HK$ 725,000 each over 18 months) for two full-time graduates: Flight Control RTOS Engineer & Marine Mechatronics Engineer.']
+    ],
+    utilities_class: [
+        ['border-l-tech-amber', 'text-tech-amber', 'UTILITY PARTNER // CLP POWER (MARINE eMOBILITY)', 'Kowloon, Tuen Mun & Lantau 11kV/22kV Sync (28 Oct Call)', 'Aligned on 28 Oct 2026 Teams session to pair Sheung Wan 22 kV asymmetric charging with Greenfield 11 kV + BESS hubs in Kowloon and New Territories.'],
+        ['border-l-sky-400', 'text-sky-400', 'AIRPORT FACILITY // AAHK SKYPIER', 'SkyPier 3.8 MW MCS & Airside APM Routing', 'AAHK confirmed direct management of SkyPier berths; our 3.8 MW MCS shore-power brief is routed to AAHK Engineering & Technology Division.'],
+        ['border-l-tech-emerald', 'text-tech-emerald', 'LAND & POLICY // LANDSD & EEB', 'Sheung Wan Cap. 127 Marine Deck & STT', 'Confirmed by CEDD (22 Oct 2026): LandsD (DLO/HKW&S) leads the Short Term Tenancy (STT) land allocation while EEB leads green transport policy support.'],
+        ['border-l-zinc-400', 'text-zinc-400', 'ELECTRICAL SAFETY // EMSD', '800V–1,000V DC & 22 kV Switchgear Safety', 'Formal acknowledgment received from EMSD for our marine battery architecture, onshore switchgear demarcation, and zero-export grid protection.'],
+        ['border-l-purple-400', 'text-purple-400', 'CLASSIFICATION // DNV HONG KONG', 'DNV High-Speed Craft (HSC) Advisory', 'Backed by a dedicated HK$ 1,500,000 D2 certification budget covering cell-level LFP thermal isolation, dual pod drives, and 100Hz RTOS fail-safe rules.'],
+        ['border-l-tech-cyan', 'text-tech-cyan', 'MARITIME POLICY // HKMPB & MACAO DSMM', 'Sovereign Green Hub & Macao 400V Reserve', 'Briefed HKMPB Secretariat on 78% OPEX reduction and confirmed 400V surplus shore reserves with Macao DSMM (27 Oct 2026) for 2.0 MWh BESS step-up.']
+    ]
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-compact-ledger]').forEach(el => {
+        const key = el.getAttribute('data-compact-ledger');
+        const rows = window.COMPACT_LEDGERS[key];
+        if (!rows) return;
+        if (key === 'grants_uni') {
+            el.innerHTML = rows.map(r => `
+                <div class="data-card p-6 rounded-2xl border-l-4 ${r[0]}">
+                    <div class="flex justify-between font-mono text-xs mb-1.5">
+                        <span class="${r[1]} font-bold">${r[2]}</span>
+                        <span class="text-white font-bold">${r[3]}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">${r[4]}</h3>
+                    <p class="text-sm text-zinc-300 leading-relaxed">${r[5]}</p>
+                </div>`).join('');
+        } else if (key === 'utilities_class') {
+            el.innerHTML = rows.map(r => `
+                <div class="data-card p-6 rounded-xl border-l-4 ${r[0]}">
+                    <span class="font-mono text-[10px] ${r[1]} uppercase font-bold">${r[2]}</span>
+                    <h3 class="text-base font-bold text-white mt-1 mb-2">${r[3]}</h3>
+                    <p class="text-xs text-zinc-300 leading-relaxed">${r[4]}</p>
+                </div>`).join('');
+        }
+    });
+});
