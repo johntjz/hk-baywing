@@ -273,3 +273,137 @@
         registerBoltOnSections();
     });
 })();
+// ============================================================================
+// BAYWING ZERO-REGEN DECLARATIVE DESIGN ENGINE (APPEND TO BOTTOM OF header.js)
+// Automatically mounts new visual showcase components from window.BAYWING_BOLTONS
+// onto index.html, engineering-rd.html, digital-twin.html, routes-calculator.html,
+// and capital-stakeholders.html without editing or regenerating HTML files.
+// ============================================================================
+(function initBaywingDesignEngine() {
+    window.BAYWING_BOLTONS = window.BAYWING_BOLTONS || [];
+
+    function getActivePageKey() {
+        const path = (window.location.pathname || '').toLowerCase();
+        if (path.includes('capital-stakeholders')) return 'capital';
+        if (path.includes('digital-twin')) return 'twin';
+        if (path.includes('engineering-rd')) return 'rd';
+        if (path.includes('routes-calculator')) return 'routes';
+        return 'index';
+    }
+
+    function mountBoltonComponents() {
+        const pageKey = getActivePageKey();
+        const mainEl = document.querySelector('main');
+        if (!mainEl) return;
+
+        // 1. Mount page-targeted sections into <main>
+        const items = window.BAYWING_BOLTONS.filter(item =>
+            item.pages && (item.pages.includes(pageKey) || item.pages.includes('all'))
+        );
+
+        items.forEach(item => {
+            if (document.getElementById(item.id)) return;
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = typeof item.renderHtml === 'function' ? item.renderHtml() : item.html;
+            const sectionEl = wrapper.firstElementChild;
+            if (!sectionEl) return;
+
+            // If on digital-twin.html and item specifies a domain, register into DOMAIN_TREE
+            if (pageKey === 'twin' && item.twinDomain && typeof DOMAIN_TREE !== 'undefined') {
+                const dKey = item.twinDomain.key;
+                if (!DOMAIN_TREE[dKey]) {
+                    DOMAIN_TREE[dKey] = { title: item.twinDomain.title, mods: [] };
+                    const domBtnGrid = document.getElementById('dom-btn-cfd')?.parentElement;
+                    if (domBtnGrid && !document.getElementById(`dom-btn-${dKey}`)) {
+                        const btn = document.createElement('button');
+                        btn.id = `dom-btn-${dKey}`; btn.setAttribute('onclick', `selectDomain('${dKey}')`);
+                        btn.className = 'p-2.5 rounded-xl bg-zinc-950 border border-tech-emerald/50 text-tech-emerald hover:border-tech-cyan text-left transition-all';
+                        btn.innerHTML = `<span class="text-[10px] block opacity-75">${item.twinDomain.badge}</span><span class="font-bold block truncate">${item.twinDomain.shortLabel}</span>`;
+                        domBtnGrid.appendChild(btn);
+                    }
+                }
+                if (!DOMAIN_TREE[dKey].mods.some(m => m.id === item.modId)) {
+                    DOMAIN_TREE[dKey].mods.push({ id: item.modId, label: item.navLabel });
+                }
+                sectionEl.style.display = 'none';
+            }
+
+            mainEl.appendChild(sectionEl);
+
+            // Auto-add jump pill to capital-stakeholders.html #hero-jump-bar
+            if (pageKey === 'capital' && item.navLabel) {
+                const jumpBar = document.getElementById('hero-jump-bar');
+                if (jumpBar && !jumpBar.querySelector(`a[href="#${item.id}"]`)) { const a = document.createElement('a'); a.href = `#${item.id}`;
+                    a.className = 'px-3 py-1.5 rounded bg-tech-cyan/15 border border-tech-cyan/50 text-tech-cyan font-bold hover:bg-tech-cyan/25';
+                    a.textContent = item.navLabel;
+                    jumpBar.appendChild(a);
+                }
+            }
+
+            if (typeof item.onMount === 'function') {
+                setTimeout(() => item.onMount(), 50);
+            }
+        });
+
+        // 2. Also auto-discover any inline <section data-bolton-nav="..."> on capital-stakeholders.html
+        const jumpBar = document.getElementById('hero-jump-bar');
+        if (jumpBar) {
+            document.querySelectorAll('section[data-bolton-nav]').forEach(sec => {
+                const lbl = sec.getAttribute('data-bolton-nav');
+                if (sec.id && lbl && !jumpBar.querySelector(`a[href="#${sec.id}"]`)) { const a = document.createElement('a'); a.href = `#${sec.id}`;
+                    a.className = 'px-3 py-1.5 rounded bg-zinc-900 border border-tech-emerald/50 text-tech-emerald font-bold hover:border-tech-cyan';
+                    a.textContent = lbl;
+                    jumpBar.appendChild(a);
+                }
+            });
+        }
+
+        renderFloatingDemoLauncher(pageKey);
+    }
+
+    // Floating quick-jump drawer for HKSTP assessors to inspect new design components anywhere
+    function renderFloatingDemoLauncher(pageKey) {
+        if (document.getElementById('hkstp-demo-dock')) return;
+        const dock = document.createElement('div');
+        dock.id = 'hkstp-demo-dock';
+        dock.className = 'fixed bottom-4 right-4 z-50 font-mono text-xs';
+        dock.innerHTML = `
+            <div id="hkstp-dock-panel" class="hidden mb-2 w-80 sm:w-96 rounded-2xl bg-[#070b12]/95 backdrop-blur-md border-2 border-tech-cyan/60 shadow-2xl p-4 space-y-3 text-zinc-200">
+                <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+                    <span class="text-tech-cyan font-bold uppercase tracking-wider">⚡ HKSTP JAN 2027 DEMO DECK</span>
+                    <button onclick="document.getElementById('hkstp-dock-panel').classList.add('hidden')" class="text-zinc-400 hover:text-white">✕</button>
+                </div>
+                <p class="text-[11px] text-zinc-400 font-sans leading-relaxed">
+                    Jump directly to live interactive design components across the repository:
+                </p>
+                <div class="space-y-1.5 max-h-64 overflow-y-auto pr-1">
+                    <a href="engineering-rd.html#bolton-cabin-cad" class="block p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-tech-cyan">
+                        <span class="text-tech-cyan font-bold block">01. Multi-Deck Cabin & Evacuation CAD</span>
+                        <span class="text-[10px] text-zinc-400">engineering-rd.html • 3-Layer SVG Blueprint</span>
+                    </a>
+                    <a href="digital-twin.html#mod-m34" onclick="if(window.selectDomain){selectDomain('hkstp','m34');}" class="block p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-tech-emerald">
+                        <span class="text-tech-emerald font-bold block">02. HKSTP 18-Mo Gate & Cavitation Sim</span>
+                        <span class="text-[10px] text-zinc-400">digital-twin.html • Domain 10 Workbench</span>
+                    </a>
+                    <a href="capital-stakeholders.html#bolton-statutory-map" class="block p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-tech-amber">
+                        <span class="text-tech-amber font-bold block">03. Cap. 127 & Dual-Utility Statutory Map</span>
+                        <span class="text-[10px] text-zinc-400">capital-stakeholders.html • Interactive Flow</span>
+                    </a>
+                    <a href="routes-calculator.html#bolton-msi-comfort" class="block p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-purple-400">
+                        <span class="text-purple-400 font-bold block">04. ISO 2631-1 Seasickness & Wave Sim</span>
+                        <span class="text-[10px] text-zinc-400">routes-calculator.html & index.html</span>
+                    </a>
+                </div>
+            </div>
+            <button onclick="document.getElementById('hkstp-dock-panel').classList.toggle('hidden')" class="px-4 py-2.5 rounded-full bg-zinc-950/95 border-2 border-tech-cyan text-tech-cyan hover:bg-tech-cyan hover:text-slate-950 font-bold shadow-lg flex items-center gap-2 transition-all ml-auto">
+                <span class="w-2 h-2 rounded-full bg-tech-emerald animate-ping"></span>
+                <span>🧭 HKSTP Demo Switcher</span>
+            </button>
+        `;
+        document.body.appendChild(dock);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(mountBoltonComponents, 80);
+    });
+})();
