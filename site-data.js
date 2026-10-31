@@ -588,3 +588,528 @@ window.SITE_DATA = {
         }
     ]
 };
+// ============================================================================
+// BATCH 1 VISUAL DESIGN COMPONENTS PACK (APPEND TO BOTTOM OF site-data.js)
+// ============================================================================
+window.BAYWING_BOLTONS = window.BAYWING_BOLTONS || [];
+
+// ----------------------------------------------------------------------------
+// COMPONENT 01: INTERACTIVE 3-LAYER CABIN DECK, FOIL STRUT BOX & SOLAS EVAC CAD
+// Mounts automatically on: engineering-rd.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-cabin-cad',
+    pages: ['rd'],
+    renderHtml: function() {
+        return `
+        <section id="bolton-cabin-cad" class="py-16 md:py-24 bg-[#080c14] border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                            <span>📐 NAVAL ARCHITECTURE & CABIN ERGONOMICS // DNV HSC & IMO 2000 HSC CH.4 / CH.7</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-4xl font-mono font-bold text-white uppercase">
+                            Interactive Multi-Deck General Arrangement (GA), ULD Baggage & 90s Evacuation Blueprint
+                        </h2>
+                        <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                            Switch between the Main Passenger Deck, the Sub-Deck Watertight Battery/Foil-Strut Compartments, and the Longitudinal Airflow & Evacuation Profile for the 28.5m BAYWING EF-150 (150 Pax) and 15.0m BAYWING-D2 (40 Pax).
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <button onclick="setCabinCadLayer(0)" id="cad-lyr-0" class="px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold transition-all">01. Main Cabin & ULD Deck</button>
+                        <button onclick="setCabinCadLayer(1)" id="cad-lyr-1" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700 hover:border-tech-cyan transition-all">02. Sub-Deck A-60 Battery & Foil Box</button>
+                        <button onclick="setCabinCadLayer(2)" id="cad-lyr-2" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700 hover:border-tech-cyan transition-all">03. SOLAS &lt;90s Evacuation Flow</button>
+                    </div>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-[#050911] border border-zinc-800 space-y-6">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">ACTIVE BLUEPRINT LAYER</span>
+                            <span id="cad-kpi-1" class="text-base font-bold text-tech-cyan mt-1 block">150-Pax Main Deck + 4 ULD</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">SEAT PITCH & AISLE WIDTH</span>
+                            <span id="cad-kpi-2" class="text-base font-bold text-white mt-1 block">920mm VIP / 2×1,100mm Aisles</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">STRUCTURAL FIRE / WATERTIGHT</span>
+                            <span id="cad-kpi-3" class="text-base font-bold text-tech-emerald mt-1 block">SOLAS A-60 + 6 Watertight Zones</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">TURNAROUND / EVAC METRIC</span>
+                            <span id="cad-kpi-4" class="text-base font-bold text-tech-amber mt-1 block">90s ULD Swap • 68s Full Evac</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#03070e] rounded-xl border border-zinc-800 p-4">
+                        <canvas id="bolton-cabin-canvas" width="1040" height="300" class="w-full h-auto rounded bg-[#02050a]"></canvas>
+                    </div>
+
+                    <div id="cad-layer-notes" class="grid md:grid-cols-3 gap-4 font-mono text-xs"></div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function() {
+        const LAYERS = [
+            {
+                k1: '150-Pax Main Deck + 4 ULD', k2: '920mm VIP / 2×1,100mm Aisles', k3: 'HEPA Positive-Pressure Cabin', k4: '90s Automated ULD Bag Swap',
+                notes: [
+                    ['A. Forward Raised Wheelhouse & 360° Sensor Mast', 'Dual-pilot ergonomic glass bridge with LWIR thermal camera, solid-state LiDAR, and 2oo3 flight-control status display.'],
+                    ['B. 32-Seat Business / VIP Forward Lounge', '2-2 leather recliner configuration with 920mm pitch, panoramic low-E acoustic glazing (<58 dBA cabin noise at 38 knots).'],
+                    ['C. 118-Seat Commuter Cabin + 4 Aft Airside ULD Bays', '3-4-3 high-density carbon-frame seats plus 4 roll-on/roll-off SkyPier airline baggage containers at the stern transom.']
+                ]
+            },
+            {
+                k1: 'Sub-Deck Sponson & Strut GA', k2: '4×450 kWh LFP Racks (1.8 MWh)', k3: 'SOLAS A-60 + Ti-6Al-4V Shear Box', k4: 'CG Lowered 1.1m for Roll Stability',
+                notes: [
+                    ['A. Forward Canard T-Foil Titanium Root Box', 'Watertight sacrificial shear-bolt pocket mounted forward of the collision bulkhead; absorbs >0.8g debris impact without hull breach.'],
+                    ['B. Midships A-60 Divided 1,000V LFP Battery Rooms', 'Port and Starboard sponsons house two independent 900 kWh liquid-cooled LFP strings separated by A-60 fire bulkheads.'],
+                    ['C. Aft Main T-Foil & Dual Rim-Pod Thruster Bay', 'Supports 70% of vessel displacement mass near longitudinal CG, with top-hatch crane access for 45-minute Tsing Yi LRU swaps.']
+                ]
+            },
+            {
+                k1: 'IMO HSC Ch.4 Evacuation Flow', k2: '4×1.4m Double-Ended Doors', k3: '2×150-Pax MES Inflatable Slides', k4: '68 Seconds Total Evacuation',
+                notes: [
+                    ['A. Dual-Aisle Straight-Line Egress Path', 'Zero dead-end corridors; twin 1,100mm longitudinal aisles feed directly into forward and aft port/starboard boarding doors.'],
+                    ['B. Marine Evacuation System (MES) Overboard Deployment', 'Automated pneumatic slides deploy in 18 seconds at +1.8m foil-borne or +0.9m hull-borne freeboard.'],
+                    ['C. Overboard Battery Off-Gas Ventilation Ducts', 'Dedicated negative-pressure ATEX exhaust risers vent battery compartments straight through the upper mast away from muster stations.']
+                ]
+            }
+        ];
+
+        window.setCabinCadLayer = function(idx) {
+            const d = LAYERS[idx] || LAYERS[0];
+            for (let i = 0; i < 3; i++) {
+                const b = document.getElementById(`cad-lyr-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold transition-all' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700 hover:border-tech-cyan transition-all';
+            }
+            document.getElementById('cad-kpi-1').textContent = d.k1;
+            document.getElementById('cad-kpi-2').textContent = d.k2;
+            document.getElementById('cad-kpi-3').textContent = d.k3;
+            document.getElementById('cad-kpi-4').textContent = d.k4;
+            document.getElementById('cad-layer-notes').innerHTML = d.notes.map(n => `
+                <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800">
+                    <span class="text-tech-cyan font-bold block mb-1">${n[0]}</span>
+                    <p class="text-zinc-300 font-sans leading-relaxed">${n[1]}</p>
+                </div>
+            `).join('');
+
+            const c = document.getElementById('bolton-cabin-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            // CAD Grid
+            ctx.strokeStyle = '#112236'; ctx.lineWidth = 1;
+            for (let x = 0; x < c.width; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, c.height); ctx.stroke(); }
+            for (let y = 0; y < c.height; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(c.width, y); ctx.stroke(); }
+
+            // Outer Catamaran Hull Plan Outline (Bow at Right, Stern at Left)
+            ctx.fillStyle = '#071526'; ctx.strokeStyle = '#00f2ff'; ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(80, 45); ctx.lineTo(780, 45); ctx.quadraticCurveTo(930, 55, 980, 150);
+            ctx.quadraticCurveTo(930, 245, 780, 255); ctx.lineTo(80, 255); ctx.closePath();
+            ctx.fill(); ctx.stroke();
+
+            ctx.font = 'bold 12px JetBrains Mono';
+            if (idx === 0) {
+                // Stern ULD Bays
+                ctx.fillStyle = '#1e1b4b'; ctx.strokeStyle = '#a855f7'; ctx.lineWidth = 2;
+                ctx.fillRect(100, 65, 130, 170); ctx.strokeRect(100, 65, 130, 170);
+                ctx.fillStyle = '#c084fc'; ctx.fillText('4× ULD BAG PODS', 110, 145);
+                ctx.fillText('(90s Roll-Off)', 112, 165);
+
+                // Main Economy Cabin
+                ctx.fillStyle = '#0a2239'; ctx.strokeStyle = '#38bdf8';
+                ctx.fillRect(250, 65, 380, 170); ctx.strokeRect(250, 65, 380, 170);
+                ctx.fillStyle = '#ffffff'; ctx.fillText('ECONOMY CABIN (118 PAX // 3-4-3)', 315, 115);
+                ctx.fillStyle = '#00f2ff'; ctx.fillText('Twin 1,100mm Fast-Turnaround Aisles', 310, 195);
+
+                // Forward VIP Cabin
+                ctx.fillStyle = '#06281e'; ctx.strokeStyle = '#10b981';
+                ctx.fillRect(650, 72, 165, 156); ctx.strokeRect(650, 72, 165, 156);
+                ctx.fillStyle = '#10b981'; ctx.fillText('VIP LOUNGE (32)', 675, 145);
+
+                // Wheelhouse
+                ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#f59e0b';
+                ctx.fillRect(830, 105, 95, 90); ctx.strokeRect(830, 105, 95, 90);
+                ctx.fillStyle = '#f59e0b'; ctx.fillText('HELM +', 852, 145); ctx.fillText('LiDAR', 855, 165);
+            } else if (idx === 1) {
+                // Aft Main T-Foil Spar
+                ctx.fillStyle = '#06281e'; ctx.strokeStyle = '#10b981'; ctx.lineWidth = 3;
+                ctx.fillRect(260, 20, 45, 260); ctx.strokeRect(260, 20, 45, 260);
+                ctx.fillStyle = '#10b981'; ctx.fillText('AFT MAIN T-FOIL SPAR (70% LOAD)', 195, 16);
+
+                // Port & Stbd A-60 Battery Sponsons
+                ctx.fillStyle = '#271705'; ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2.5;
+                ctx.fillRect(360, 58, 320, 58); ctx.strokeRect(360, 58, 320, 58);
+                ctx.fillRect(360, 184, 320, 58); ctx.strokeRect(360, 184, 320, 58);
+                ctx.fillStyle = '#f59e0b';
+                ctx.fillText('PORT A-60 LFP BAY (900 kWh)', 415, 92);
+                ctx.fillText('STBD A-60 LFP BAY (900 kWh)', 415, 218);
+
+                // Forward Canard Foil Spar
+                ctx.fillStyle = '#0a2239'; ctx.strokeStyle = '#00f2ff'; ctx.lineWidth = 3;
+                ctx.fillRect(775, 35, 38, 230); ctx.strokeRect(775, 35, 38, 230);
+                ctx.fillStyle = '#00f2ff'; ctx.fillText('FWD CANARD FOIL + SHEAR PIN', 710, 285);
+            } else {
+                // Evacuation Flow Arrows
+                ctx.strokeStyle = '#10b981'; ctx.lineWidth = 4; ctx.setLineDash([10, 5]);
+                ctx.beginPath();
+                ctx.moveTo(600, 110); ctx.lineTo(240, 110); ctx.lineTo(240, 25);
+                ctx.moveTo(600, 190); ctx.lineTo(240, 190); ctx.lineTo(240, 275);
+                ctx.moveTo(450, 110); ctx.lineTo(740, 110); ctx.lineTo(740, 25);
+                ctx.moveTo(450, 190); ctx.lineTo(740, 190); ctx.lineTo(740, 275);
+                ctx.stroke(); ctx.setLineDash([]);
+                ctx.fillStyle = '#10b981';
+                ctx.fillText('▲ PORT AFT MES SLIDE (18s)', 170, 20);
+                ctx.fillText('▼ STBD AFT MES SLIDE (18s)', 170, 292);
+                ctx.fillText('▲ PORT FWD EXIT GATE', 680, 20);
+                ctx.fillText('▼ STBD FWD EXIT GATE', 680, 292);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText('SOLAS / IMO HSC VERIFIED: 150 PAX EVACUATED IN 68 SECONDS (<90s LIMIT)', 255, 154);
+            }
+        };
+        window.setCabinCadLayer(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 02: HKSTP 18-MONTH MILESTONE GATE AUDITOR & CAVITATION BUCKET SIM
+// Mounts automatically on: digital-twin.html (Adds Domain 10 to Command Console)
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'mod-m34',
+    modId: 'm34',
+    navLabel: '10.1 HKSTP 18-Mo Gate & Cavitation Envelope',
+    pages: ['twin'],
+    twinDomain: {
+        key: 'hkstp',
+        badge: 'DOMAIN 10',
+        shortLabel: '🏛️ HKSTP Jan 2027 Gate',
+        title: 'DOMAIN 10 // HKSTP INCU-TECH 18-MONTH MILESTONE GATES & CAVITATION BUCKET VERIFIER'
+    },
+    renderHtml: function() {
+        return `
+        <section id="mod-m34" data-mod-id="m34" data-dom="hkstp" class="twin-mod-sec py-12 bg-[#090b0f] border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="text-xs font-mono text-tech-emerald uppercase tracking-widest mb-1">DOMAIN 10 • SUB-MODULE 10.1 // JANUARY 2027 HKSTP APPLICATION ASSESSMENT CONSOLE</div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">18-Month HKSTP Incu-Tech Deliverable Gate Auditor & Cavitation-Free Speed Envelope</h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        Interactive assessment console for the HKSTP admission panel: click any 6-month incubation gate below to inspect its quantifiable engineering deliverables, budget allocation (out of HK$ 3,198,000), and live cavitation-bucket verification curve.
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="flex flex-wrap gap-2 pb-4 border-b border-zinc-800 font-mono text-xs">
+                        <button onclick="selectHkstpGate(0)" id="hkstp-g-0" class="px-4 py-2 rounded-lg bg-tech-emerald text-slate-950 font-bold">Gate 1 (Months 1–6): 6-DOF SIL & HIL Bench</button>
+                        <button onclick="selectHkstpGate(1)" id="hkstp-g-1" class="px-4 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Gate 2 (Months 7–12): D1 Fabrication & Dry-Rig</button>
+                        <button onclick="selectHkstpGate(2)" id="hkstp-g-2" class="px-4 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Gate 3 (Months 13–18): Tolo Sea Trials & DNV AIP</button>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">TRL ADVANCEMENT</span>
+                            <span id="hkstp-k1" class="text-base font-bold text-tech-cyan mt-1 block">TRL 3 → TRL 4 (SIL/HIL)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">PHASE BUDGET DRAW</span>
+                            <span id="hkstp-k2" class="text-base font-bold text-tech-emerald mt-1 block">HK$ 980,000 (93.5% Grant)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">PRIMARY PASS CRITERION</span>
+                            <span id="hkstp-k3" class="text-base font-bold text-white mt-1 block">WCET &lt; 8.0ms • Pitch &lt; 0.5°</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">IP / PATENT MILESTONE</span>
+                            <span id="hkstp-k4" class="text-base font-bold text-tech-amber mt-1 block">PCT-HK-2026-001 Filing</span>
+                        </div>
+                    </div>
+
+                    <div id="hkstp-gate-deliverables" class="divide-y divide-zinc-800/80 font-mono text-sm"></div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function() {
+        const GATES = [
+            {
+                k1: 'TRL 3 → TRL 4 (SIL/HIL)', k2: 'HK$ 980,000 (Months 1–6)', k3: 'WCET 4.82ms / <0.5° RMS Pitch', k4: 'PCT-HK-2026-001 (100Hz FCS)',
+                rows: [
+                    ['Deliverable 1.1: 6-DOF Free-Surface Hydrodynamic Digital Twin', 'Complete C++/MATLAB non-linear simulator validated against JONSWAP Victoria Harbour wave spectra.'],
+                    ['Deliverable 1.2: Dual STM32H743 2oo3 Hardware-in-the-Loop (HIL) Bench', 'Science Park benchtop rig proving 4.82 ms deterministic execution and <0.5 ms CAN-FD bus switchover.'],
+                    ['Deliverable 1.3: ITF Research Talent Hub (RTH) Onboarding', 'Onboard 2 full-time control systems & marine mechatronics engineers (100% RTH salary coverage).']
+                ]
+            },
+            {
+                k1: 'TRL 4 → TRL 5 (D1 Build)', k2: 'HK$ 1,150,000 (Months 7–12)', k3: 'SF = 3.57 @ 2.5g Proof Load', k4: 'PCT-HK-2026-002 (22kV BESS)',
+                rows: [
+                    ['Deliverable 2.1: Autoclave T800S Carbon T-Foil & Titanium Strut Assembly', 'CNC-milled carbon-prepreg hydrofoils passing static 2.5g cantilever proof-load test on Science Park rig.'],
+                    ['Deliverable 2.2: 3.56m BAYWING-D1 Waterproof Avionics & Pod Integration', 'IP68 subsea titanium servos, dual SBG Ellipse-N INS/RTK-GNSS, and forward solid-state wave LiDAR installed.'],
+                    ['Deliverable 2.3: HKE (+7.0mPD 22kV) & CLP (11kV) Detailed Grid Schematics', 'Submit formal single-line protection diagrams and Cap. 127 marine deck drawings to utilities and LandsD.']
+                ]
+            },
+            {
+                k1: 'TRL 5 → TRL 6 (Sea Trials)', k2: 'HK$ 1,068,000 (Months 13–18)', k3: '13.4 KT (Fn 1.17) Foil Flight', k4: 'PCT-HK-2026-003 + DNV AIP',
+                rows: [
+                    ['Deliverable 3.1: Tolo Harbour Autonomous Take-Off & Foil-Borne Trials', 'Demonstrate automated take-off at 6.5 KT and sustained 13.4 KT foil-borne cruise (Froude-equivalent to 38 KT).'],
+                    ['Deliverable 3.2: DNV Approval in Principle (AIP) for 15m BAYWING-D2', 'Deliver complete FMEA, composite scantling dossier, and 100Hz sea-trial telemetry to DNV Hong Kong.'],
+                    ['Deliverable 3.3: Trigger HK$ 20M Phase 2 (HK$ 10M VC + HK$ 10M ITC ESS)', 'Close Seed VC co-matching round to cut carbon on the 15-meter commercial pilot vessel.']
+                ]
+            }
+        ];
+
+        window.selectHkstpGate = function(idx) {
+            const g = GATES[idx] || GATES[0];
+            for (let i = 0; i < 3; i++) {
+                const b = document.getElementById(`hkstp-g-${i}`);
+                if (b) b.className = (i === idx) ? 'px-4 py-2 rounded-lg bg-tech-emerald text-slate-950 font-bold' : 'px-4 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('hkstp-k1').textContent = g.k1;
+            document.getElementById('hkstp-k2').textContent = g.k2;
+            document.getElementById('hkstp-k3').textContent = g.k3;
+            document.getElementById('hkstp-k4').textContent = g.k4;
+            document.getElementById('hkstp-gate-deliverables').innerHTML = g.rows.map(r => `
+                <div class="py-3.5 flex flex-col sm:flex-row sm:justify-between gap-2">
+                    <span class="text-tech-cyan font-bold shrink-0">${r[0]}</span>
+                    <span class="text-zinc-200 font-sans text-xs sm:text-right max-w-xl">${r[1]}</span>
+                </div>
+            `).join('');
+        };
+        window.selectHkstpGate(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 03: CAP. 127 SEABED, LANDSD STT & DUAL-UTILITY STATUTORY MAP
+// Mounts automatically on: capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-statutory-map',
+    navLabel: '🗺️ Cap.127 Statutory Map',
+    pages: ['capital'],
+    renderHtml: function() {
+        return `
+        <section id="bolton-statutory-map" class="py-16 md:py-20 bg-[#080d16] border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-mono text-xs font-bold mb-2">
+                        <span>🗺️ INTER-DEPARTMENTAL STATUTORY EXECUTION ROADMAP // SHEUNG WAN (22.290175, 114.148746) & KOWLOON</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        Parallel Statutory Approval Matrix: Cap. 127 Marine Deck, LandsD STT & Dual-Grid Tie-In
+                    </h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        Click any statutory track below to inspect how our October 2026 utility and government filings interlock across Lands Department, Environment and Ecology Bureau (EEB), HK Electric, CLP Power, and Marine Department.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-4 gap-3 font-mono text-xs">
+                    <button onclick="selectStatTrack(0)" id="stat-trk-0" class="p-4 rounded-xl bg-tech-cyan text-slate-950 font-bold text-left transition-all">
+                        <span class="text-[10px] block opacity-80">TRACK 01 // LAND & SEABED</span>
+                        <span class="text-sm block mt-0.5">Cap. 127 + LandsD STT</span>
+                    </button>
+                    <button onclick="selectStatTrack(1)" id="stat-trk-1" class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-300 hover:border-tech-cyan text-left transition-all">
+                        <span class="text-[10px] block opacity-75">TRACK 02 // HK ISLAND 22kV</span>
+                        <span class="text-sm font-bold block mt-0.5">HKE +7.0mPD Concrete Sub</span>
+                    </button>
+                    <button onclick="selectStatTrack(2)" id="stat-trk-2" class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-300 hover:border-tech-cyan text-left transition-all">
+                        <span class="text-[10px] block opacity-75">TRACK 03 // KOWLOON & MACAO</span>
+                        <span class="text-sm font-bold block mt-0.5">CLP 11kV + DSMM 400V</span>
+                    </button>
+                    <button onclick="selectStatTrack(3)" id="stat-trk-3" class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-300 hover:border-tech-cyan text-left transition-all">
+                        <span class="text-[10px] block opacity-75">TRACK 04 // POLICY & CLASS</span>
+                        <span class="text-sm font-bold block mt-0.5">EEB GTF + DNV / MarDep</span>
+                    </button>
+                </div>
+
+                <div id="stat-track-detail" class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 font-mono text-sm space-y-3"></div>
+            </div>
+        </section>`;
+    },
+    onMount: function() {
+        const TRACKS = [
+            {
+                title: 'Track 01: Cap. 127 Foreshore & Seabed Marine Deck + LandsD Short Term Tenancy (STT)',
+                agency: 'Lands Department (DLO/HKW&S) + CEDD Port Works Division',
+                status: 'FILED & ROUTED (22–28 OCT 2026)',
+                steps: [
+                    '1. GIS Site Pin Locked: 22.290175° N, 114.148746° E (Sheung Wan Landing No. 1 / Sai Fire Services St).',
+                    '2. Marine Deck Structure: 12 rock-socketed marine bored piles over foreshore/seabed under Cap. 127 with zero lateral surcharge on the legacy seawall.',
+                    '3. Tenancy Instrument: 5-to-7 year renewable Short Term Tenancy (STT) / Public Utility Private Treaty Grant (PTG) backed by EEB green transport policy support.'
+                ]
+            },
+            {
+                title: 'Track 02: HK Electric 22 kV Flood-Protected Concrete Customer Substation (FFL ≥ +7.0 mPD)',
+                agency: 'HK Electric Distribution Planning (Mr. Ting — Walkover 21 Oct & Call 22 Oct 2026)',
+                status: 'ENGINEERING SPECS CONFIRMED',
+                steps: [
+                    '1. Feeder Source: Direct ~50m–150m 22 kV underground cable from Sheung Wan 132/22 kV Zone Substation across Chung Kong Road.',
+                    '2. Flood Datum: Upper-deck concrete transformer room at FFL ≥ +7.0 mPD (+3.2m above +3.8 mPD seawall) for Planning Dept & FSD compliance.',
+                    '3. Modular Transformer Bank: Stage 1 (1×1,500 kVA + 1.5 MWh BESS) → Stage 2 (3×1,500 kVA = 4.5 MVA) → Stage 3 (6×1,500 kVA = 9.0 MVA).'
+                ]
+            },
+            {
+                title: 'Track 03: CLP Power Kowloon/NT 11 kV Synchronization & Macao DSMM 400V-to-BESS Step-Up',
+                agency: 'CLP Power Marine eMobility (28 Oct Teams Call) & Macao DSMM (27 Oct Official Reply)',
+                status: 'DUAL-UTILITY SYNC ACTIVE',
+                steps: [
+                    '1. Bypassing TST Heritage Constraint: CLP confirmed legacy TST Pier cannot be retrofitted; cross-harbour shuttles draw 70% power at Sheung Wan 22 kV Hub and use Greenfield 11 kV + BESS nodes in Kowloon/NT.',
+                    '2. Macao Outer Harbour & Taipa Terminals: DSMM confirmed surplus 400V reserves at both terminals on 27 Oct 2026.',
+                    '3. Dockside BESS Step-Up: 2.0 MWh LFP container trickle-charges continuously at 400V AC and steps up internally to 1,000V DC for 12-min turnarounds.'
+                ]
+            },
+            {
+                title: 'Track 04: EEB Green Tech Fund (GTF), ITC ESS 1:1 Co-Matching & DNV High-Speed Craft Rules',
+                agency: 'Environment & Ecology Bureau (EEB), ITC ESS Secretariat & DNV Maritime',
+                status: 'REGISTERED FOR Q4/Q1 ROUNDS',
+                steps: [
+                    '1. Phase 0–1 (HK$ 3.198M): 93.5% covered by HKSTP Incu-Tech (HK$ 1.29M), ITF RTH (HK$ 1.45M), and PAG (HK$ 250k).',
+                    '2. Phase 2 D2 Pilot (HK$ 20.0M): HK$ 10M Seed VC matched 1:1 with HK$ 10M ITC Enterprise Support Scheme (ESS) + EEB Green Tech Fund shore BESS grant.',
+                    '3. Vessel Class & Safety: Engineered from day one to DNV-RU-HSLC Pt.6 Ch.2 Battery(Power, Safety) and HKMD Cap. 548 Local HSC rules.'
+                ]
+            }
+        ];
+
+        window.selectStatTrack = function(idx) {
+            const t = TRACKS[idx] || TRACKS[0];
+            for (let i = 0; i < 4; i++) {
+                const b = document.getElementById(`stat-trk-${i}`);
+                if (b) b.className = (i === idx) ? 'p-4 rounded-xl bg-tech-cyan text-slate-950 font-bold text-left transition-all' : 'p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-300 hover:border-tech-cyan text-left transition-all';
+            }
+            document.getElementById('stat-track-detail').innerHTML = `
+                <div class="flex flex-wrap justify-between items-center gap-2 border-b border-zinc-800 pb-3">
+                    <div>
+                        <span class="text-xs text-tech-emerald font-bold block">${t.agency}</span>
+                        <h3 class="text-lg font-bold text-white mt-0.5">${t.title}</h3>
+                    </div>
+                    <span class="px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald text-xs font-bold">✓ ${t.status}</span>
+                </div>
+                <div class="space-y-2 pt-1 text-xs text-zinc-300 font-sans">
+                    ${t.steps.map(s => `<div class="p-3 rounded-lg bg-[#070b12] border border-zinc-800/80 font-mono">${s}</div>`).join('')}
+                </div>
+            `;
+        };
+        window.selectStatTrack(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 04: ISO 2631-1 SEASICKNESS (MSI) & WAVE COMFORT COMPARATOR
+// Mounts automatically on: routes-calculator.html AND index.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-msi-comfort',
+    pages: ['routes', 'index'],
+    renderHtml: function() {
+        return `
+        <section id="bolton-msi-comfort" class="py-16 md:py-20 bg-[#070b12] border-t border-b border-zinc-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-purple-500/15 border border-purple-400/40 text-purple-300 font-mono text-xs font-bold mb-2">
+                        <span>🌊 PASSENGER RIDE QUALITY BENCHMARK // ISO 2631-1 VERTICAL ACCELERATION & MOTION SICKNESS INCIDENCE (MSI)</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        Why Passengers Choose Hydrofoils: Zero-Seasickness Wave Decoupling Simulator
+                    </h2>
+                    <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                        Sweep Significant Wave Height ($H_s$) from 0.5m (Victoria Harbour chop) to 2.2m (Lantau / Pearl River Estuary monsoon swell) to compare vertical RMS cabin acceleration and 60-minute Motion Sickness Incidence (MSI %) between a legacy diesel catamaran and BAYWING's 100Hz submerged T-foil system.
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6 pb-4 border-b border-zinc-800 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Significant Wave Height (H_s):</span>
+                                <span id="msi-hs-val" class="text-tech-cyan font-bold">1.40 m (Douglas Sea State 3–4)</span>
+                            </div>
+                            <input id="msi-hs-slider" type="range" min="0.4" max="2.4" step="0.1" value="1.4" class="w-full accent-cyan-400 cursor-pointer" oninput="updateMsiSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. Encounter Wave Period (T_e):</span>
+                                <span id="msi-te-val" class="text-tech-emerald font-bold">4.5 Seconds (0.22 Hz Resonance Zone)</span>
+                            </div>
+                            <input id="msi-te-slider" type="range" min="2.5" max="7.0" step="0.5" value="4.5" class="w-full accent-emerald-400 cursor-pointer" oninput="updateMsiSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">LEGACY CATAMARAN RMS ACCEL</span>
+                            <span id="msi-out-cat-g" class="text-base font-bold text-red-400 mt-1 block">1.68 m/s² (0.17g Slamming)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">BAYWING 100Hz FOIL RMS ACCEL</span>
+                            <span id="msi-out-ev-g" class="text-base font-bold text-tech-emerald mt-1 block">0.24 m/s² (0.024g Smooth)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">LEGACY SEASICKNESS RATE (MSI)</span>
+                            <span id="msi-out-cat-pct" class="text-base font-bold text-red-400 mt-1 block">27.4% Passengers Sick</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">BAYWING SEASICKNESS RATE (MSI)</span>
+                            <span id="msi-out-ev-pct" class="text-base font-bold text-tech-emerald mt-1 block">0.8% (MTR Train Comfort)</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#050b14] rounded-xl border border-zinc-800 p-4">
+                        <div class="flex flex-wrap justify-between font-mono text-xs mb-2 gap-2">
+                            <span class="text-red-400 font-bold">━ LEGACY SURFACE CATAMARAN VERTICAL HEAVE ACCELERATION (m/s²)</span>
+                            <span class="text-tech-emerald font-bold">━ BAYWING SUBMERGED T-FOIL CABIN ACCELERATION (-86% MOTION ATTENUATION)</span>
+                        </div>
+                        <canvas id="msi-wave-canvas" width="960" height="170" class="w-full h-auto rounded bg-[#03070e]"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function() {
+        window.updateMsiSim = function() {
+            const hs = parseFloat(document.getElementById('msi-hs-slider')?.value || 1.4);
+            const te = parseFloat(document.getElementById('msi-te-slider')?.value || 4.5);
+
+            const freqFactor = Math.exp(-Math.pow((te - 4.5) / 2.2, 2));
+            const catRms = (hs * 1.2 * (0.7 + 0.4 * freqFactor)).toFixed(2);
+            const evRms = (hs * 0.17).toFixed(2);
+            const catMsi = Math.min(65, (Math.pow(catRms, 1.65) * 12.5)).toFixed(1);
+            const evMsi = Math.min(5, (Math.pow(evRms, 1.65) * 8.0)).toFixed(1);
+
+            document.getElementById('msi-hs-val').textContent = `${hs.toFixed(2)} m Swell`;
+            document.getElementById('msi-te-val').textContent = `${te.toFixed(1)} s Period`;
+            document.getElementById('msi-out-cat-g').textContent = `${catRms} m/s² (${(catRms / 9.81).toFixed(2)}g)`;
+            document.getElementById('msi-out-ev-g').textContent = `${evRms} m/s² (${(evRms / 9.81).toFixed(3)}g)`;
+            document.getElementById('msi-out-cat-pct').textContent = `${catMsi}% Passengers Sick`;
+            document.getElementById('msi-out-ev-pct').textContent = `${evMsi}% (MTR Rail Grade)`;
+
+            const c = document.getElementById('msi-wave-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            // Legacy Catamaran Heave Trace (Red)
+            ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            for (let x = 0; x <= c.width; x += 4) {
+                const y = 85 - Math.sin(x * (0.045 / (te / 4.5))) * (catRms * 26) - Math.cos(x * 0.09) * (catRms * 8);
+                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // BAYWING 100Hz Foil Heave Trace (Emerald)
+            ctx.strokeStyle = '#10b981'; ctx.lineWidth = 3;
+            ctx.beginPath();
+            for (let x = 0; x <= c.width; x += 4) {
+                const y = 85 - Math.sin(x * (0.045 / (te / 4.5))) * (evRms * 26);
+                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+        };
+        window.updateMsiSim();
+    }
+});
