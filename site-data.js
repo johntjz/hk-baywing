@@ -1113,3 +1113,588 @@ window.BAYWING_BOLTONS.push({
         window.updateMsiSim();
     }
 });
+// ============================================================================
+// BATCH 2 VISUAL DESIGN COMPONENTS PACK (APPEND TO BOTTOM OF site-data.js)
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// COMPONENT 05: INTERACTIVE 10-SLIDE HKSTP JAN 2027 PITCH DECK CONSOLE
+// Mounts automatically on: index.html (and callable from the floating dock)
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-hkstp-deck',
+    pages: ['index', 'capital'],
+    navLabel: '🎯 10-Slide HKSTP Deck',
+    renderHtml: function() {
+        return `
+        <section id="bolton-hkstp-deck" class="py-16 md:py-24 bg-[#060a12] border-t border-b border-zinc-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                            <span>🎯 HKSTP INCU-TECH ADMISSION BOARDROOM DECK // INTERACTIVE 10-SLIDE PRESENTATION</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-4xl font-mono font-bold text-white uppercase">
+                            Executive 10-Slide HKSTP Application Deck (Use ◄ / ► Buttons or Arrow Keys)
+                        </h2>
+                    </div>
+                    <div class="flex items-center gap-2 font-mono text-xs">
+                        <button onclick="stepHkstpSlide(-1)" class="px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-700 text-white hover:border-tech-cyan font-bold">◄ Prev</button>
+                        <span id="deck-slide-counter" class="px-3 py-2 rounded-lg bg-zinc-950 border border-zinc-800 text-tech-cyan font-bold">SLIDE 01 / 10</span>
+                        <button onclick="stepHkstpSlide(1)" class="px-4 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold hover:opacity-90">Next ►</button>
+                    </div>
+                </div>
+
+                <!-- Slide Pill Selector Bar -->
+                <div id="deck-pill-bar" class="flex flex-wrap gap-1.5 font-mono text-[11px]"></div>
+
+                <!-- Active Slide Stage -->
+                <div class="data-card rounded-2xl p-6 sm:p-8 bg-[#040811] border-2 border-zinc-800 shadow-2xl space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-zinc-800">
+                        <div>
+                            <span id="deck-slide-tag" class="font-mono text-xs text-tech-emerald uppercase font-bold block">SLIDE 01 // EXECUTIVE THESIS</span>
+                            <h3 id="deck-slide-title" class="text-xl sm:text-2xl font-mono font-bold text-white mt-1"></h3>
+                        </div>
+                        <span id="deck-slide-badge" class="px-3 py-1.5 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold"></span>
+                    </div>
+
+                    <div class="grid lg:grid-cols-12 gap-6 items-center">
+                        <div class="lg:col-span-7 bg-[#02050a] rounded-xl border border-zinc-800 p-4">
+                            <canvas id="deck-slide-canvas" width="640" height="270" class="w-full h-auto rounded"></canvas>
+                        </div>
+                        <div class="lg:col-span-5 space-y-3 font-mono text-xs" id="deck-slide-bullets"></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 border-t border-zinc-800/80 font-mono text-xs" id="deck-slide-kpis"></div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function() {
+        const SLIDES = [
+            {
+                tag: 'SLIDE 01 // THE MARITIME DECARBONIZATION BOTTLENECK',
+                title: 'Why Legacy Hulls Cannot Electrify: The Cubic Wave-Drag Wall',
+                badge: '78% ENERGY OPEX REDUCTION',
+                kpis: [['LEGACY DIESEL OPEX', 'HK$ 175.50 / NM'], ['BAYWING FOIL OPEX', 'HK$ 38.22 / NM'], ['DRAG REDUCTION', '-80% Above 18 KT'], ['WAKE WASH', '< 0.15m Low-Wake']],
+                bullets: [
+                    ['The Physics Problem', 'Conventional displacement catamarans plow through water; doubling speed octuples power demand, making pure-electric battery weights impossible at 35+ knots.'],
+                    ['Our Solution: Submerged Active T-Foils', 'Lifting the hull +1.8m clear of surface chop eliminates 80% of hydrodynamic drag and cuts energy burn from HK$ 175.50/NM to HK$ 38.22/NM.'],
+                    ['Sovereign HK Flight Control + GBA Hulls', '100Hz fly-by-wire avionics developed at Hong Kong Science Park paired with Shenzhen/Zhuhai carbon-composite shipyard manufacturing.']
+                ]
+            },
+            {
+                tag: 'SLIDE 02 // CORE DEEP-TECH IP AT HK SCIENCE PARK',
+                title: '100Hz Deterministic Fly-by-Wire & Forward LiDAR Wave Feedforward',
+                badge: 'WCET: 4.82 ms (<8.0 ms LIMIT)',
+                kpis: [['CONTROL LOOP RATE', '100 Hz (10.0 ms)'], ['MEASURED WCET', '4.82 ms on STM32H7'], ['ARCHITECTURE', '2oo3 Fail-Operational'], ['PITCH STABILITY', '< 0.5° RMS in Chop']],
+                bullets: [
+                    ['Predictive Wave Feedforward (PCT-HK-2026-001)', 'Bow-mounted solid-state LiDAR scans surface wave orbital velocities 5–15m ahead, pre-deflecting trailing-edge titanium flaps before impact.'],
+                    ['15-State Extended Kalman Filter (EKF)', 'Fuses dual SBG Ellipse-N INS/RTK-GNSS with ultrasonic altimeters to isolate sensor faults in <0.5 ms with zero foil transient.'],
+                    ['Zero Seasickness (ISO 2631-1)', 'Cuts vertical cabin acceleration by 86% (from 0.17g to 0.024g), delivering MTR rail comfort across rough Lantau and GBA swells.']
+                ]
+            },
+            {
+                tag: 'SLIDE 03 // FROUDE-SCALED DE-RISKING (FN = 1.17)',
+                title: 'Why Our 3.56m BAYWING-D1 Proves 283Hz Stability for the 28.5m Flagship',
+                badge: 'TRL 3 → TRL 6 IN 18 MONTHS',
+                kpis: [['D1 LENGTH & MASS', '3.56m LOA | 109 kg'], ['FROUDE NUMBER', 'Fn = 1.17 @ 13.4 KT'], ['DYNAMIC SCALING', '2.83× Faster Pitch'], ['EQUIVALENT LOOP', '283 Hz Full-Scale']],
+                bullets: [
+                    ['Mathematical Froude Similitude', 'Because pitch/heave natural frequency scales with √(g/L), our 1:8 scale D1 drone oscillates 2.83× faster than the 28.5m EF-150 flagship.'],
+                    ['Tolo Harbour Sea Trials (Science Park Backdoor)', 'Stabilizing the D1 at 100Hz in Tolo Harbour mathematically proves 283Hz control authority on the full-scale passenger ferry.'],
+                    ['Zero Uncertifiable Hardware', 'Uses the exact same dual STM32H743 ECUs, 1Mbps CAN-FD bus, and IP68 titanium rotary actuators as the commercial fleet.']
+                ]
+            },
+            {
+                tag: 'SLIDE 04 // VERIFIED DUAL-UTILITY (HKE + CLP) + MACAO DSMM TRACTION',
+                title: 'October 2026 Engineering Alignment Across All 3 Regional Power Grids',
+                badge: '12 OFFICIAL GOVT & UTILITY FILINGS',
+                kpis: [['HK ELECTRIC (21-22/10)', 'FFL ≥ +7.0mPD 22kV Sub'], ['CLP POWER (28/10)', '11kV + BESS Greenfield'], ['MACAO DSMM (27/10)', '400V Reserve to 2MWh BESS'], ['GIS ANCHOR PIN', '22.290175, 114.148746']],
+                bullets: [
+                    ['HK Electric (21–22 Oct Walkover & Call)', 'Confirmed 2-story Flood-Protected Concrete Customer Substation (FFL ≥ +7.0 mPD) housing 1→3→6 × 1,500 kVA transformers at Sheung Wan Landing No. 1.'],
+                    ['CLP Power Marine eMobility (28 Oct Teams Session)', 'Confirmed legacy TST Pier heritage constraints; aligned on 70% Sheung Wan asymmetric charging + 11 kV/BESS greenfield hubs in Kowloon/NT.'],
+                    ['Macao Marine & Water Bureau DSMM (27 Oct Reply)', 'Confirmed surplus 400V reserves at Outer Harbour & Taipa terminals, paired with our 2.0 MWh dockside BESS step-up container.']
+                ]
+            },
+            {
+                tag: 'SLIDE 05 // SHEUNG WAN CAP. 127 "WATER-AIRPORT" MASTER PLAN',
+                title: 'Consolidating 22 kV Megawatt Charging & GBA CIQ at 22.290175° N, 114.148746° E',
+                badge: '50m TO HKE 132/22kV ZONE SUB',
+                kpis: [['SITE LOCATION', 'Sai Fire Services St'], ['MARINE LEGAL PATH', 'Cap. 127 + LandsD STT'], ['ONSHORE BUFFER', '1.5 MWh LFP BESS'], ['DISPENSE POWER', '3.5 MW CharIN MCS Arm']],
+                bullets: [
+                    ['Unmatched Utility & Fire-Safety Geography', 'Located immediately north of HK Electric’s Sheung Wan 132/22 kV Zone Substation and next door to Fire Services Dept HK Island HQ.'],
+                    ['Dual-Zone Water-Airport Architecture', 'Sterile International CIQ Airside (e-Channels + X-ray baggage for Macau/SZ/Zhuhai) + Unrestricted Domestic Landside (60s Kowloon/Island feeders).'],
+                    ['350m +7.0 mPD Covered Skybridge Travellator', 'Connects passengers weather-free from Sheung Wan MTR Exit D and Shun Tak bus terminus straight into the boarding gates in 3.2 minutes.']
+                ]
+            },
+            {
+                tag: 'SLIDE 06 // COMPOSITE SCANTLINGS, BATTERY SAFETY & DNV HSC RULES',
+                title: 'Engineered from Day One to DNV-RU-HSLC & IMO 2000 HSC Code',
+                badge: 'SF = 3.57 @ 2.5g SLAMMING',
+                kpis: [['FOIL SPAR MATERIAL', 'Toray T800S Prepreg'], ['HULL SANDWICH CORE', '35mm Corecell M130'], ['BATTERY ISOLATION', '< 2.0 ms Pyro-Fuse'], ['FIRE BOUNDARY', 'SOLAS A-60 + Novec 1230']],
+                bullets: [
+                    ['2.5g Wave-Slamming Cantilever Integrity', 'Monolithic autoclave T800S carbon spars with sacrificial Ti-6Al-4V shear fuse-bolts ensure zero hull breach even in a 38-knot floating log strike.'],
+                    ['4-Layer Marine LFP Thermal Containment', 'LiFePO4 cells (>270°C runaway threshold) separated by 3mm Aspen Pyrogel aerogel barriers, VOC/H2 gas sensors, and overboard ATEX exhaust.'],
+                    ['Tsing Yi Overnight 50t Travel-Lift MRO Depot', 'Separates revenue berths from heavy maintenance; nightly ultrasonic foil NDT and 45-minute modular pod/battery LRU swaps deliver 99.4% availability.']
+                ]
+            },
+            {
+                tag: 'SLIDE 07 // COMMERCIAL FLEET LINEUP (D1 → D2 → D3/D4/D5 → EF-150)',
+                title: 'One Modular Avionics & Hydrofoil Stack Scaling Across 4 Vessel Classes',
+                badge: 'OPEN CHARIN MCS STANDARD',
+                kpis: [['PHASE 1: D1 DRONE', '3.56m | 109 kg | 13.4 KT'], ['PHASE 2: D2 PILOT', '15.0m | 40 Pax | 28 KT'], ['PHASE 3: D3–D5', '20–28m | 120–400 Pax'], ['FLAGSHIP: EF-150', '28.5m | 150 VIP | 38 KT']],
+                bullets: [
+                    ['BAYWING-D2 (15m, 40 Pax Commercial Pilot)', '400 kWh LFP pack, 500 kW–1.0 MW fast charge (5 mins); designed for Tsuen Wan West–Ma Wan and cross-harbour VIP shuttles.'],
+                    ['BAYWING D3 / D4 / D5 (120–400 Pax & Freight)', 'Replaces aging diesel ferries across Central–TST, Tuen Mun–Tung Chung–Tai O, and Outlying Island corridors with zero rural pier grid CapEx.'],
+                    ['BAYWING EF-150 (28.5m, 150 VIP Pax, 38 Knots)', '1.8 MWh 1,000V LFP pack + 3.5 MW MCS charging (10–12 mins) built for high-margin uncapped GBA & HKIA SkyPier airside routes.']
+                ]
+            },
+            {
+                tag: 'SLIDE 08 // THE PROFIT ENGINE: UNCAPPED GBA & SKYPIER AIRSIDE YIELDS',
+                title: 'Combining Domestic High-Frequency Feeders with HK$ 220–480 GBA Routes',
+                badge: 'HK$ 28.5M EBITDA / YR PER EF-150',
+                kpis: [['DOMESTIC FARE CAP', 'HK$ 6–25 (TD Regulated)'], ['GBA / SKYPIER FARE', 'HK$ 220–480 (Uncapped)'], ['FOIL SWEET SPOT', '15–40 NM (20–55 Mins)'], ['VESSEL PAYBACK', '2.8 Years on GBA Routes']],
+                bullets: [
+                    ['Solving the Domestic Fare-Cap Constraint', 'Local harbour routes prove high-frequency public utility traction, while medium-range cross-border routes generate massive commercial cashflow.'],
+                    ['HKIA SkyPier Zero-Immigration Airline Feeder', 'Passengers check bags in Shenzhen/Macau, fly at 38 knots to SkyPier, and board the underground APM train straight to HKIA Terminal 1 gates in 3.5 mins.'],
+                    ['25-Year Lifecycle TCO Advantage', 'Saves HK$ 357.5M per vessel over 25 years vs. diesel catamarans; retired marine LFP racks repurpose at 80% SoH into onshore pier BESS buffers.']
+                ]
+            },
+            {
+                tag: 'SLIDE 09 // 93.5% NON-DILUTIVE PHASE 0–1 CAPITAL STACK (HKD)',
+                title: 'HK$ 3,198,000 Incubation Budget with Only HK$ 208,000 Net Equity Gap',
+                badge: '15.4× EQUITY LEVERAGE',
+                kpis: [['TOTAL PH 0–1 BUDGET', 'HK$ 3,198,000 (18 Mo)'], ['HKSTP + RTH + PAG', 'HK$ 2,990,000 (93.5%)'], ['NET EQUITY GAP', 'HK$ 208,000 (6.5%)'], ['PHASE 2 ESS MATCH', 'HK$ 10M VC + 10M ESS']],
+                bullets: [
+                    ['HKSTP Incu-Tech + PAG (HK$ 1,540,000)', 'HK$ 1,290,000 Incu-Tech grant + HK$ 250,000 Patent Application Grant covering 90% of our 3 core PCT filings.'],
+                    ['ITF Research Talent Hub RTH (HK$ 1,450,000)', '100% salary reimbursement for 2 full-time control systems & marine mechatronics engineers over 18 months.'],
+                    ['Phase 2 HK$ 20,000,000 Co-Matching Stack', 'HK$ 10M Seed VC matched 1:1 with HK$ 10M ITC Enterprise Support Scheme (ESS) to build the 15m D2 commercial pilot.']
+                ]
+            },
+            {
+                tag: 'SLIDE 10 // 18-MONTH HKSTP INCUBATION EXECUTION TIMELINE',
+                title: 'Quantifiable 6-Month Milestone Gates from Science Park Lab to Tolo Sea Trials',
+                badge: 'READY FOR JAN 2027 INTAKE',
+                kpis: [['GATE 1 (MO 1–6)', '6-DOF SIL & STM32 HIL'], ['GATE 2 (MO 7–12)', 'D1 Carbon Build & 2.5g'], ['GATE 3 (MO 13–18)', '13.4 KT Tolo Sea Trial'], ['CO2 ABATEMENT', '-168,000 Tonnes / Yr']],
+                bullets: [
+                    ['Months 1–6 (TRL 3 → 4)', 'Lock 6-DOF free-surface Digital Twin, verify 4.82 ms WCET on dual STM32H743 HIL benchtop, and onboard 2 ITF RTH engineers.'],
+                    ['Months 7–12 (TRL 4 → 5)', 'Complete autoclave T800S carbon T-foil proof-load testing (SF = 3.57 @ 2.5g) and integrate IP68 servos + LiDAR on the 3.56m D1 hull.'],
+                    ['Months 13–18 (TRL 5 → 6)', 'Execute autonomous 13.4-knot (Fn = 1.17) foil-borne sea trials in Tolo Harbour, secure DNV Approval in Principle, and trigger Phase 2 D2 build.']
+                ]
+            }
+        ];
+
+        let curSlide = 0;
+        const pillBar = document.getElementById('deck-pill-bar');
+        if (pillBar) {
+            pillBar.innerHTML = SLIDES.map((_, i) => `
+                <button onclick="renderHkstpSlide(${i})" id="deck-pill-${i}" class="px-2.5 py-1 rounded border transition-all">0${i + 1}</button>
+            `).join('');
+            const lastBtn = document.getElementById('deck-pill-9');
+            if (lastBtn) lastBtn.textContent = '10';
+        }
+
+        window.stepHkstpSlide = function(delta) {
+            curSlide = (curSlide + delta + SLIDES.length) % SLIDES.length;
+            window.renderHkstpSlide(curSlide);
+        };
+
+        window.renderHkstpSlide = function(idx) {
+            curSlide = idx;
+            const s = SLIDES[idx] || SLIDES[0];
+            document.getElementById('deck-slide-counter').textContent = `SLIDE ${idx + 1 < 10 ? '0' + (idx + 1) : idx + 1} / 10`;
+            document.getElementById('deck-slide-tag').textContent = s.tag;
+            document.getElementById('deck-slide-title').textContent = s.title;
+            document.getElementById('deck-slide-badge').textContent = s.badge;
+
+            for (let i = 0; i < SLIDES.length; i++) {
+                const p = document.getElementById(`deck-pill-${i}`);
+                if (p) p.className = (i === idx) ? 'px-2.5 py-1 rounded bg-tech-cyan text-slate-950 border-tech-cyan font-bold' : 'px-2.5 py-1 rounded bg-zinc-900 text-zinc-400 border-zinc-800 hover:border-tech-cyan';
+            }
+
+            document.getElementById('deck-slide-bullets').innerHTML = s.bullets.map(b => `
+                <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800">
+                    <span class="text-tech-cyan font-bold block mb-1">▸ ${b[0]}</span>
+                    <p class="text-zinc-300 font-sans leading-relaxed text-xs">${b[1]}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('deck-slide-kpis').innerHTML = s.kpis.map(k => `
+                <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800">
+                    <span class="text-[10px] text-zinc-500 block uppercase">${k[0]}</span>
+                    <span class="text-sm sm:text-base font-bold text-tech-emerald mt-0.5 block">${k[1]}</span>
+                </div>
+            `).join('');
+
+            drawDeckCanvas(idx, s);
+        };
+
+        function drawDeckCanvas(idx, s) {
+            const c = document.getElementById('deck-slide-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            // Blueprint Grid
+            ctx.strokeStyle = '#0f2035'; ctx.lineWidth = 1;
+            for (let x = 0; x < c.width; x += 32) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, c.height); ctx.stroke(); }
+            for (let y = 0; y < c.height; y += 32) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(c.width, y); ctx.stroke(); }
+
+            ctx.font = 'bold 12px JetBrains Mono';
+            if (idx === 0) {
+                // Drag curve comparison
+                ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 3; ctx.beginPath();
+                for (let x = 40; x <= 600; x += 10) {
+                    const f = (x - 40) / 560;
+                    const y = 235 - Math.pow(f, 2.5) * 195;
+                    if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.fillStyle = '#ef4444'; ctx.fillText('LEGACY DIESEL CATAMARAN (4,150 kW @ 38 KT)', 60, 55);
+
+                ctx.strokeStyle = '#00f2ff'; ctx.lineWidth = 3.5; ctx.beginPath();
+                for (let x = 40; x <= 600; x += 10) {
+                    const f = (x - 40) / 560;
+                    const hump = f < 0.38 ? Math.pow(f / 0.38, 2) * 85 : 85 - (f - 0.38) * 35 + Math.pow(f, 3) * 45;
+                    const y = 235 - hump;
+                    if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.fillStyle = '#10b981'; ctx.fillText('BAYWING ACTIVE HYDROFOIL (1,086 kW @ 38 KT // -78% OPEX)', 60, 145);
+            } else if (idx === 8) {
+                // Capital Stack Bar Visual
+                ctx.fillStyle = '#10b981'; ctx.fillRect(50, 60, 505, 55);
+                ctx.fillStyle = '#041812'; ctx.fillText('93.5% NON-DILUTIVE GRANTS: HK$ 2,990,000 (HKSTP + RTH + PAG)', 65, 92);
+                ctx.fillStyle = '#00f2ff'; ctx.fillRect(555, 60, 45, 55);
+                ctx.fillStyle = '#00f2ff'; ctx.fillText('6.5% NET EQUITY GAP: ONLY HK$ 208,000', 340, 140);
+
+                ctx.fillStyle = '#f59e0b'; ctx.fillRect(50, 175, 275, 50);
+                ctx.fillStyle = '#090d16'; ctx.fillText('PH 2: HK$ 10M SEED VC', 75, 205);
+                ctx.fillStyle = '#38bdf8'; ctx.fillRect(325, 175, 275, 50);
+                ctx.fillStyle = '#090d16'; ctx.fillText('+ HK$ 10M ITC ESS 1:1 MATCH', 345, 205);
+            } else {
+                // Architectural KPI Flow Box Schematic for remaining slides
+                s.kpis.forEach((k, i) => {
+                    const bx = 30 + (i % 2) * 295;
+                    const by = 35 + Math.floor(i / 2) * 105;
+                    ctx.fillStyle = '#071426'; ctx.strokeStyle = i % 2 === 0 ? '#00f2ff' : '#10b981'; ctx.lineWidth = 2;
+                    ctx.fillRect(bx, by, 275, 85); ctx.strokeRect(bx, by, 275, 85);
+                    ctx.fillStyle = '#94a3b8'; ctx.fillText(k[0], bx + 16, by + 32);
+                    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 15px JetBrains Mono';
+                    ctx.fillText(k[1], bx + 16, by + 62);
+                    ctx.font = 'bold 12px JetBrains Mono';
+                });
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const sec = document.getElementById('bolton-hkstp-deck');
+            if (!sec) return;
+            const rect = sec.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                if (e.key === 'ArrowRight') window.stepHkstpSlide(1);
+                if (e.key === 'ArrowLeft') window.stepHkstpSlide(-1);
+            }
+        });
+
+        window.renderHkstpSlide(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 06: 1,000V MARINE LFP BATTERY PACK & <2ms PYRO-FUSE CUTAWAY EXPLORER
+// Mounts automatically on: engineering-rd.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-bms-cutaway',
+    pages: ['rd'],
+    renderHtml: function() {
+        return `
+        <section id="bolton-bms-cutaway" class="py-16 md:py-24 bg-[#090d16] border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-mono text-xs font-bold mb-2">
+                            <span>🔋 DNV PT.6 CH.2 SEC.1 BATTERY(POWER, SAFETY) // SUBSYSTEM CUTAWAY</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-4xl font-mono font-bold text-white uppercase">
+                            Interactive 1,000V Marine LFP Pack, 3mm Aerogel &amp; &lt;2ms Pyro-Fuse Cutaway
+                        </h2>
+                        <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                            Click any internal protection layer below to inspect how our IP68 marine LFP battery strings eliminate cell-to-cell thermal propagation and pass DNV &amp; HK Marine Department passenger safety rules.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <button onclick="selectBmsLayer(0)" id="bms-cut-0" class="px-3.5 py-2 rounded-lg bg-tech-emerald text-slate-950 font-bold">01. Prismatic LFP + 3mm Aerogel</button>
+                        <button onclick="selectBmsLayer(1)" id="bms-cut-1" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">02. Dual-Loop Glycol Cold Plate</button>
+                        <button onclick="selectBmsLayer(2)" id="bms-cut-2" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">03. VOC/H₂ Sensor &amp; &lt;2ms Pyro-Fuse</button>
+                        <button onclick="selectBmsLayer(3)" id="bms-cut-3" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">04. A-60 Enclosure &amp; Novec 1230</button>
+                    </div>
+
+                    <div class="grid lg:grid-cols-12 gap-6 items-center">
+                        <div class="lg:col-span-7 bg-[#03070e] rounded-xl border border-zinc-800 p-4">
+                            <canvas id="bms-cutaway-canvas" width="640" height="250" class="w-full h-auto rounded"></canvas>
+                        </div>
+                        <div class="lg:col-span-5 space-y-4 font-mono text-xs" id="bms-cutaway-info"></div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function() {
+        const CUTAWAYS = [
+            {
+                title: 'Layer 01: LiFePO₄ Olivine Chemistry + 3.0mm Aspen Pyrogel® XT-E Barriers',
+                spec: 'Thermal Runaway Onset: >270°C (vs. 150°C NMC) | Thermal Conductivity: 0.021 W/m·K',
+                desc: 'Every prismatic LFP cell is physically isolated by a 3.0mm compressed silica aerogel pad capable of withstanding 1,200°C continuously. Even if a single cell is mechanically punctured, adjacent cells remain below 85°C with zero chain propagation.'
+            },
+            {
+                title: 'Layer 02: Laser-Welded Micro-Channel Aluminum Glycol-Water Chiller Plates',
+                spec: 'Coolant Flow: 180 L/min | Max Rejection: 142 kW | Peak Cell Temp @ 2C: 34.8°C',
+                desc: 'During a 10–12 minute 3.5 MW CharIN MCS fast-charge, dual-redundant titanium seawater heat exchangers and glycol chillers hold cell ΔT under 5.8°C, preserving a 5,620-cycle (8.5–10 year) commercial pack lifespan.'
+            },
+            {
+                title: 'Layer 03: Early Electrolyte Vapor (VOC / H₂ / CO) Detection & <2.0 ms Pyro-Fuse',
+                spec: 'Gas Detection Lead Time: 4–8 Mins Before Heat Spike | Contactor Break: 1,200V DC @ <2.0 ms',
+                desc: 'Dual CAN-FD BMS nodes monitor cell voltage, NTC temperature, and trace electrolyte off-gassing. Any anomaly fires an automotive-grade pyrotechnic busbar disconnect in under 2.0 milliseconds.'
+            },
+            {
+                title: 'Layer 04: SOLAS A-60 Fire Bulkhead, Overboard ATEX Vent & 3M Novec 1230 Deluge',
+                spec: 'Ventilation: 30 Air Changes/Hr Overboard | Suppression: Non-Conductive FK-5-1-12 + Seawater Mist',
+                desc: 'Battery rooms sit in watertight catamaran sponsons below the main deck, lined with A-60 structural insulation, negative-pressure overboard mast exhaust ducts, and total-flooding Novec 1230 clean agent.'
+            }
+        ];
+
+        window.selectBmsLayer = function(idx) {
+            const d = CUTAWAYS[idx] || CUTAWAYS[0];
+            for (let i = 0; i < 4; i++) {
+                const b = document.getElementById(`bms-cut-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-emerald text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('bms-cutaway-info').innerHTML = `
+                <div class="p-4 rounded-xl bg-[#070b12] border border-tech-emerald/40">
+                    <span class="text-tech-emerald font-bold block text-sm">${d.title}</span>
+                    <span class="text-tech-cyan block mt-1 text-[11px]">${d.spec}</span>
+                    <p class="text-zinc-300 font-sans mt-3 leading-relaxed text-xs">${d.desc}</p>
+                </div>
+            `;
+
+            const c = document.getElementById('bms-cutaway-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            // Outer A-60 Enclosure
+            ctx.strokeStyle = idx === 3 ? '#f59e0b' : '#334155';
+            ctx.lineWidth = idx === 3 ? 4 : 2;
+            ctx.strokeRect(30, 25, 580, 200);
+            ctx.font = 'bold 11px JetBrains Mono';
+            ctx.fillStyle = idx === 3 ? '#f59e0b' : '#94a3b8';
+            ctx.fillText('SOLAS A-60 INSULATED SPONSON ENCLOSURE + NOVEC 1230 MANIFOLD', 45, 45);
+
+            // Prismatic Cells + Aerogel Pads
+            for (let i = 0; i < 6; i++) {
+                const cx = 55 + i * 88;
+                ctx.fillStyle = idx === 0 ? '#064e3b' : '#0f172a';
+                ctx.strokeStyle = idx === 0 ? '#10b981' : '#00f2ff';
+                ctx.lineWidth = 2;
+                ctx.fillRect(cx, 65, 62, 110);
+                ctx.strokeRect(cx, 65, 62, 110);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText(`LFP 0${i + 1}`, cx + 8, 120);
+
+                // 3mm Aerogel Barrier between cells
+                if (i < 5) {
+                    ctx.fillStyle = idx === 0 ? '#f59e0b' : '#475569';
+                    ctx.fillRect(cx + 66, 65, 16, 110);
+                }
+            }
+
+            // Bottom Liquid Cooling Plate
+            ctx.fillStyle = idx === 1 ? '#0284c7' : '#1e293b';
+            ctx.strokeStyle = '#00f2ff'; ctx.lineWidth = 2;
+            ctx.fillRect(55, 182, 502, 26); ctx.strokeRect(55, 182, 502, 26);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('GLYCOL-WATER MICRO-CHANNEL COLD PLATE (180 L/MIN // 34.8°C PEAK)', 85, 199);
+
+            // Pyro-Fuse & VOC Sensor Node on Right
+            ctx.fillStyle = idx === 2 ? '#7f1d1d' : '#1e1b4b';
+            ctx.strokeStyle = idx === 2 ? '#ef4444' : '#a855f7';
+            ctx.fillRect(565, 65, 35, 143); ctx.strokeRect(565, 65, 35, 143);
+        };
+        window.selectBmsLayer(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 07: HKSTP R&D BRAIN + GBA SHIPYARD (SZ/ZHUHAI) VARTM PRODUCTION SIM
+// Mounts automatically on: engineering-rd.html & capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-gba-shipyard',
+    navLabel: '🏭 GBA Shipyard VARTM',
+    pages: ['rd', 'capital'],
+    renderHtml: function() {
+        return `
+        <section id="bolton-gba-shipyard" class="py-16 md:py-20 bg-[#070b12] border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-amber/15 border border-tech-amber/40 text-tech-amber font-mono text-xs font-bold mb-2">
+                        <span>🏭 CROSS-BORDER INDUSTRIAL DIVISION OF LABOR // HK SCIENCE PARK IP + GBA COMPOSITE SHIPYARDS</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        5-Axis CNC Female Tooling &amp; VARTM Carbon Hull Serial Production Simulator
+                    </h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        We keep 100% of the high-margin flight-control IP, 2oo3 avionics integration, and DNV certification inside Hong Kong Science Park, while outsourcing heavy 5-axis CNC hull tooling and Vacuum-Assisted Resin Transfer Molding (VARTM) to established high-speed composite shipyards in Zhuhai and Shenzhen—cutting hull CapEx by 62% vs. European yards.
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6 pb-4 border-b border-zinc-800 font-mono text-xs">
+                        <div>
+                            <label class="block text-zinc-400 mb-2">1. Select Vessel Hull Tooling Line:</label>
+                            <select id="yard-cls-select" onchange="updateShipyardSim()" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2.5 text-white outline-none">
+                                <option value="d1">Phase 1: BAYWING-D1 (3.56m Autonomous Testbed — HKSTP + SZ Rapid Mold)</option>
+                                <option value="d2">Phase 2: BAYWING-D2 (15.0m 40-Pax Pilot — Zhuhai Composite Yard)</option>
+                                <option value="ef150" selected>Phase 3: BAYWING EF-150 (28.5m 150-Pax Flagship — Twin Female CNC Molds)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. Cumulative Serial Hull Production Count:</span>
+                                <span id="yard-qty-val" class="text-tech-cyan font-bold">8 Vessels (Tooling Amortized)</span>
+                            </div>
+                            <input id="yard-qty-slider" type="range" min="1" max="20" step="1" value="8" class="w-full accent-cyan-400 cursor-pointer" oninput="updateShipyardSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">AMORTIZED MOLD COST / HULL</span>
+                            <span id="yard-out-mold" class="text-base font-bold text-tech-cyan mt-1 block">HK$ 525,000 / Hull</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">UNIT VESSEL BUILD COST (GBA)</span>
+                            <span id="yard-out-unit" class="text-base font-bold text-tech-emerald mt-1 block">HK$ 26.8M (vs $72M EU)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">HULL INFUSION CYCLE TIME</span>
+                            <span id="yard-out-days" class="text-base font-bold text-white mt-1 block">6.5 Weeks / Hull</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">HKSTP IP VALUE SHARE</span>
+                            <span id="yard-out-ip" class="text-base font-bold text-tech-amber mt-1 block">44% Sovereign HK Tech</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function() {
+        window.updateShipyardSim = function() {
+            const cls = document.getElementById('yard-cls-select')?.value || 'ef150';
+            const qty = parseInt(document.getElementById('yard-qty-slider')?.value || 8);
+            const specs = {
+                d1: { moldTot: 120000, baseUnit: 260000, weeks: 2.0, euMult: 2.4 },
+                d2: { moldTot: 1800000, baseUnit: 8400000, weeks: 4.5, euMult: 2.6 },
+                ef150: { moldTot: 4200000, baseUnit: 26800000, weeks: 6.5, euMult: 2.7 }
+            }[cls];
+
+            const moldPerHull = Math.round(specs.moldTot / qty);
+            const learningFactor = Math.pow(qty, -0.08);
+            const unitCost = Math.round(specs.baseUnit * learningFactor + moldPerHull);
+            const euCost = Math.round(unitCost * specs.euMult);
+
+            document.getElementById('yard-qty-val').textContent = `${qty} Vessel${qty > 1 ? 's' : ''} Produced`;
+            document.getElementById('yard-out-mold').textContent = `HK$ ${(moldPerHull / 1000).toLocaleString()}k / Hull`;
+            document.getElementById('yard-out-unit').textContent = unitCost >= 1e6
+                ? `HK$ ${(unitCost / 1e6).toFixed(2)}M (vs $${(euCost / 1e6).toFixed(0)}M EU)`
+                : `HK$ ${(unitCost / 1000).toFixed(0)}k`;
+            document.getElementById('yard-out-days').textContent = `${(specs.weeks * learningFactor).toFixed(1)} Weeks / Hull`;
+        };
+        window.updateShipyardSim();
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 08: GREEN TECH FUND (GTF) CARBON ABATEMENT & GREEN BOND YIELD SIM
+// Mounts automatically on: routes-calculator.html & capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-carbon-esg',
+    navLabel: '🌱 -168k T CO₂ & ESG Yield',
+    pages: ['routes', 'capital'],
+    renderHtml: function() {
+        return `
+        <section id="bolton-carbon-esg" class="py-16 md:py-20 bg-[#080d14] border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-mono text-xs font-bold mb-2">
+                        <span>🌱 EEB GREEN TECH FUND (GTF) &amp; HKMA GREEN BOND TAXONOMY VERIFIER</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        Fleet Carbon Abatement (-168,000 t CO₂/yr), Diesel Displacement &amp; Carbon Credit Calculator
+                    </h2>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Deployed BAYWING Zero-Emission Fleet Size:</span>
+                                <span id="esg-fleet-val" class="text-tech-emerald font-bold">42 Vessels (Full Territorial Scale)</span>
+                            </div>
+                            <input id="esg-fleet-slider" type="range" min="1" max="50" step="1" value="42" class="w-full accent-emerald-400 cursor-pointer" oninput="updateEsgSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. Verified Carbon Credit Price (HKD / Tonne CO₂):</span>
+                                <span id="esg-price-val" class="text-tech-cyan font-bold">HK$ 420 / Tonne CO₂e</span>
+                            </div>
+                            <input id="esg-price-slider" type="range" min="150" max="800" step="10" value="420" class="w-full accent-cyan-400 cursor-pointer" oninput="updateEsgSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">ANNUAL CO₂ ELIMINATED</span>
+                            <span id="esg-out-co2" class="text-base font-bold text-tech-emerald mt-1 block">-168,000 Tonnes / Yr</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">MARINE GAS OIL DISPLACED</span>
+                            <span id="esg-out-oil" class="text-base font-bold text-tech-cyan mt-1 block">62.7M Liters / Yr</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">ANNUAL CARBON CREDIT REV</span>
+                            <span id="esg-out-rev" class="text-base font-bold text-tech-amber mt-1 block">+HK$ 70.56M / Yr</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block uppercase">NOx &amp; PM2.5 HARBOUR DROP</span>
+                            <span class="text-base font-bold text-white mt-1 block">-100% Zero Tailpipe</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function() {
+        window.updateEsgSim = function() {
+            const vessels = parseInt(document.getElementById('esg-fleet-slider')?.value || 42);
+            const price = parseInt(document.getElementById('esg-price-slider')?.value || 420);
+            const co2Tons = vessels * 4000;
+            const litersM = ((co2Tons / 2.68) / 1000).toFixed(1);
+            const revM = ((co2Tons * price) / 1e6).toFixed(2);
+
+            document.getElementById('esg-fleet-val').textContent = `${vessels} Active Vessels`;
+            document.getElementById('esg-price-val').textContent = `HK$ ${price} / Tonne CO₂e`;
+            document.getElementById('esg-out-co2').textContent = `-${co2Tons.toLocaleString()} Tonnes / Yr`;
+            document.getElementById('esg-out-oil').textContent = `${litersM}M Liters / Yr`;
+            document.getElementById('esg-out-rev').textContent = `+HK$ ${revM}M / Yr`;
+        };
+        window.updateEsgSim();
+    }
+});
