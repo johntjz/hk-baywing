@@ -3138,3 +3138,313 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 200);
 });
+// ============================================================================
+// BATCH 5: DIGITAL-TWIN COMPACTOR + COMPONENTS 17–20 (APPEND TO site-data.js)
+// ============================================================================
+
+window.DT_COMPACT_DATA = {
+    layup_m18: [
+        ['01. Outer Wet Skin', 'Toray T700S Carbon / Toughened Marine Epoxy Prepreg', '[0° / +45° / 90° / -45°]₂s Quadraxial', '4.0 mm', 'SF = 4.45 (PASS)', 'text-tech-cyan'],
+        ['02. Structural Core', 'Gurit Corecell™ M130 Closed-Cell SAN Structural Foam (140 kg/m³)', 'Thermoformed & Grooved Resin-Infused', '35.0 mm', 'SF = 2.23 (PASS)', 'text-tech-emerald'],
+        ['03. Inner Dry Skin', 'Toray T700S Carbon + Aramid Hybrid Impact Barrier', '[+45° / 0° / -45°]s Triaxial', '3.0 mm', 'SF = 3.80 (PASS)', 'text-tech-amber'],
+        ['04. T-Foil Root Box', 'Monolithic Autoclave Toray T800S Carbon + CNC Ti-6Al-4V Bushings', '68% 0° Unidirectional Spar Caps + ±45° Webs', '42.0 mm Solid', 'SF = 3.57 @ 2.5g', 'text-purple-400']
+    ],
+    bom_m05: [
+        ['01. Dual STM32H743VIT6 Redundant Flight ECU', '480 MHz ARM Cortex-M7, hardware double-precision FPU, dual 1Mbps CAN-FD buses & hardware watchdog voter (IP67).', 'HK$ 18,000', 'text-tech-cyan'],
+        ['02. 2× SBG Ellipse-N Dual-Antenna Marine INS/AHRS', '0.05° roll/pitch accuracy, RTK-GNSS 2cm heave output, 200Hz RS422/CAN-FD telemetry.', 'HK$ 68,000', 'text-tech-emerald'],
+        ['03. Forward Solid-State Marine LiDAR + Dual Ultrasonic Array', 'Bow-mounted IP68 solid-state LiDAR scanning wave orbital profiles 5–15m ahead of forward strut.', 'HK$ 42,000', 'text-tech-amber'],
+        ['04. 4× IP68 Titanium Subsea Brushless Rotary Servos', '48V brushless titanium actuators (65 Nm peak torque, 300°/s slew rate, absolute magnetic hall encoders).', 'HK$ 74,000', 'text-purple-400'],
+        ['05. 2× 1.0 kW Froude-Scaled Pod Thrusters + Swappable 48V LFP Pack', 'Delivers 13.4 knots (Fn = 1.17) on the 3.56m, 109 kg D1 testbed with 45-minute foil-borne runtime.', 'HK$ 62,000', 'text-sky-400'],
+        ['06. Autoclave Carbon Prepreg T-Foils & Science Park HIL Load Rig', 'Toray T800S carbon T-foil struts + benchtop dynamometer applying simulated hydrodynamic hinge moments.', 'HK$ 56,000', 'text-zinc-200']
+    ],
+    fire_m21: [
+        ['LAYER 01 // CELL-TO-CELL AEROGEL BARRIERS & LFP CHEMISTRY', 'LiFePO₄ cathode chemistry (>270°C thermal runaway onset) with 3.0mm Aspen Pyrogel® XT-E silica aerogel barriers between every cell.', 'ZERO PROPAGATION', 'text-tech-cyan'],
+        ['LAYER 02 // EARLY OFF-GAS DETECTION (VOC + H₂ + CO) & <2ms PYRO-FUSE', 'Dual-redundant electrolyte vapor (VOC), hydrogen (H₂), and CO sensors detect cell venting 4–8 mins before heat spike, triggering a 1,200V Pyro-Fuse in <2.0 ms.', '<2.0 ms ISOLATION', 'text-tech-emerald'],
+        ['LAYER 03 // A-60 STRUCTURAL FIRE BOUNDARY & OVERBOARD DUCT', 'Battery compartments are lined with SOLAS A-60 structural fire insulation and ATEX extraction fans (30 ACH) venting straight overboard.', 'SOLAS A-60 RATED', 'text-tech-amber'],
+        ['LAYER 04 // TOTAL-FLOODING 3M NOVEC 1230 + PACK WATER DELUGE', 'Primary electrical fire suppression via non-conductive FK-5-1-12 clean agent gas, backed by a dry-pipe pack-internal seawater deluge manifold.', 'DNV PT.6 COMPLIANT', 'text-purple-400']
+    ],
+    pct_m11: [
+        ['PCT-HK-2026-001 // IPC: B63B 1/28', 'HK$ 95,000 (90% PAG Grant)', '1. LiDAR Wave-Feedforward 100Hz Submerged Hydrofoil Control System', 'Independent Claim 1: A deterministic 100Hz marine flight control method combining bow-mounted solid-state LiDAR forward surface elevation scanning (5–15m lookahead) with a 15-state EKF to pre-deflect submerged trailing-edge T-foil flaps in <8.0ms prior to wave impact.', 'text-tech-cyan'],
+        ['PCT-HK-2026-002 // IPC: B60L 53/60', 'HK$ 95,000 (90% PAG Grant)', '2. Multi-Transformer (N×1,500 kVA) 22 kV & BESS Buffered Marine MCS Hub', 'Independent Claim 1: A flood-elevated (FFL ≥ +7.0 mPD) shore-side marine megawatt charging architecture paralleling N × 1,500 kVA utility transformers onto a 1,250V DC busbar buffered by liquid-cooled LFP BESS with hardware zero-export blocking.', 'text-tech-emerald'],
+        ['PCT-HK-2026-003 // IPC: B63B 21/00', 'HK$ 88,000 (90% PAG Grant)', '3. Vacuum-Mooring Interlocked Overhead Pantograph & <100ms Break-Away E-Stop', 'Independent Claim 1: An open-standard (IEC 61851-23-3 / ISO 15118-20) automated marine berthing interface wherein high-voltage DC contactor closure is hardware-interlocked to dual 100 kN vacuum suction pads and a <100ms emergency decoupler.', 'text-tech-amber']
+    ],
+    type_m26: [
+        ['01. Prismatic LFP Battery Modules', 'IEC 62619 + DNV Pt.6 Ch.2 TAC', 'DNV & HKMD', 'Cell-to-cell thermal propagation test report', '✓ CATL/EVE Marine TAC', 'text-tech-cyan'],
+        ['02. 800V–1,000V SiC Traction Inverters', 'IEC 60092-504 & DNV CG-0339', 'DNV & EMSD', 'IP67 enclosure + 50 MΩ/V HV isolation monitor', '✓ Danfoss Editron Marine', 'text-tech-emerald'],
+        ['03. Carbon-Epoxy Prepreg & Corecell', 'DNV-CP-0084 & CP-0424 Cert', 'DNV Surveyor', 'Batch mechanical coupon tensile/shear test', '✓ Toray / Gurit DNV Cert', 'text-tech-amber'],
+        ['04. 100Hz Flight Control ECUs & CAN-FD', 'IEC 61508 (SIL-3) / DNV Pt.4 Ch.9', 'DNV & HKSTP HIL', '1,000-hr HIL fault-injection sign-off + 2oo3 voter', '⚡ Stage 0 HIL Bench', 'text-purple-400'],
+        ['05. Battery Room Fire Suppression', 'IMO MSC.1/Circ.1270 & MED Wheelmark', 'HKMD & DSMM', 'Novec 1230 pressure + A-60 bulkhead cert', '✓ MED Wheelmark COTS', 'text-sky-400'],
+        ['06. Shore 22 kV / 400V-BESS MCS', 'IEC 61851-23-3 / ISO 15118-20', 'HKE, CLP & EMSD', 'Unidirectional relay + FFL ≥ +7.0 mPD flood level', '✓ HKE/CLP/DSMM Aligned', 'text-zinc-200']
+    ],
+    lru_m27: [
+        ['01. Dual STM32H7 / INS Avionics Cassette', '45,000 Operating Hours', '15 Mins (Quick-Release Rack)', 'NO (Pier-Side Swap)', 'text-tech-cyan'],
+        ['02. IP68 Titanium Subsea Flap Servo Cartridge', '18,000 Operating Hours', '35 Mins (4-Bolt Wet Cartridge)', 'NO (Cradle Swap)', 'text-tech-emerald'],
+        ['03. Rim/Pod Brushless Thruster Nacelle', '24,000 Operating Hours', '45 Mins (Flange Disconnect)', 'NO (Hoist at Tsing Yi)', 'text-tech-amber'],
+        ['04. Modular LFP Battery String Rack', '5,620+ Cycles (~9.5 Years)', '60 Mins (Deck Hatch Crane)', 'NO (Afloat Deck Hatch)', 'text-purple-400']
+    ],
+    corrosion_m32: [
+        ['01. Embedded 40 kHz Ultrasonic Piezo Transducers (48 W Standby)', 'Micro-vibrates submerged T-foil skins whenever docked, preventing barnacle cyprid larvae and algal biofilm attachment.', '0.0% Drag Penalty', 'text-tech-cyan'],
+        ['02. Carbon-Epoxy ↔ Ti-6Al-4V Electrochemical Matching', 'Titanium and carbon share nearly identical seawater galvanic potentials (ΔV < 0.05V), plus 2.5mm G10 epoxy-glass dielectric bushings.', 'Zero Galvanic Pitting', 'text-tech-emerald'],
+        ['03. Impressed Current Cathodic Protection (ICCP) & Shore Blocker', 'Maintains hull potential at -850 mV vs. Ag/AgCl and blocks stray DC shore-earth currents during 3.5 MW MCS charging.', '25-Yr Strut Life', 'text-tech-amber']
+    ],
+    voterStates: [
+        { a: "ONLINE (δ = +2.42° | OK)", b: "ONLINE (δ = +2.41° | OK)", c: "ONLINE (δ = +2.42° | OK)", mode: "FAIL-OPERATIONAL 3/3 CONSENSUS (0.0 ms TRANSIENT)", bus: "DUAL CAN-FD ACTIVE (BUS A + BUS B CROSS-STRAPPED)" },
+        { a: "ISOLATED (WATCHDOG @ 0.4ms)", b: "ACTIVE MASTER (δ = +2.41° | OK)", c: "VOTING QUORUM (δ = +2.42° | OK)", mode: "FAIL-OPERATIONAL 2/3 MAJORITY VOTE (B + C LOCK)", bus: "MCU-A HARDWARE DISCONNECTED FROM TRANSCEIVER" },
+        { a: "ONLINE (δ = +2.42° | BUS B)", b: "ONLINE (δ = +2.41° | BUS B)", c: "ONLINE (δ = +2.42° | BUS B)", mode: "FAIL-OPERATIONAL 3/3 CONSENSUS (BUS A ISOLATED IN 0.5 ms)", bus: "HOT-STANDBY CAN-FD BUS B CARRYING 100% OF 100Hz FRAMES" },
+        { a: "FAULTED", b: "FAULTED", c: "SAFETY MONITOR ACTIVE", mode: "FAIL-SAFE ENVELOPE: SLEWS FLAPS TO 0° NEUTRAL FOR SETTLE", bus: "DEDICATED OVERRIDE LINE → 10-KT DISPLACEMENT TRANSIT" }
+    ],
+    regRules: [
+        { cat: "dnv", code: "DNV-RU-HSLC Pt.3 Ch.3", req: "Composite Hull Slamming & Appendage Shear Loads", sol: "Corecell M130 sandwich scantlings (SF > 2.2) + sacrificial titanium strut shear fuse-bolts.", status: "VERIFIED (M06/M18)" },
+        { cat: "dnv", code: "DNV-RU-HSLC Pt.6 Ch.2 Sec.1", req: "Battery(Power, Safety) Thermal Runaway & Gas Exhaust", sol: "1,000V LFP + 3mm aerogel barriers + VOC/H₂ detection + A-60 boundary + Novec 1230 & deluge.", status: "VERIFIED (M09/M21)" },
+        { cat: "dnv", code: "DNV-RU-HSLC Pt.4 Ch.9", req: "Fail-Operational Control & Monitoring Systems", sol: "Triple-Modular Redundant (2oo3) STM32H7 + dissimilar safety monitor + dual 1Mbps CAN-FD.", status: "VERIFIED (M04/M19)" },
+        { cat: "imo", code: "IMO 2000 HSC Code Ch.4", req: "Passenger Acceleration Limits & Collision G-Loads", sol: "100Hz active flap stabilization keeps RMS pitch <0.5°; sacrificial foil shear prevents >1.5g deceleration.", status: "VERIFIED (M02/M15)" },
+        { cat: "imo", code: "IMO 2000 HSC Code Ch.7", req: "Structural Fire Protection & Evacuation Time", sol: "A-60 battery bulkheads, zero-smoke overboard ducting, wide double-ended gangways (68s evacuation).", status: "VERIFIED (M21)" },
+        { cat: "imo", code: "COLREGs 1972 Rule 15 & 16", req: "Dynamic Crossing & Give-Way Vessel Avoidance", sol: "Solid-state marine LiDAR + X-band radar + RTK-GNSS automated starboard give-way trajectory.", status: "VERIFIED (M10)" },
+        { cat: "hkmd", code: "ABS High-Speed Craft Sec. 3 & 4", req: "Hydrofoil Strut Buckling & Fatigue Life (10^8 Cycles)", sol: "Autoclave prepreg Toray T800S carbon struts limited to <420 MPa peak bending stress (SF = 3.57).", status: "VERIFIED (M06)" },
+        { cat: "hkmd", code: "HKMD Cap. 548 & EMSD HV Code", req: "Local Ferry Licensing & 22 kV Shore-Supply Safety", sol: "FFL ≥ +7.0 mPD Concrete Substation + unidirectional zero-export protection + vacuum-interlocked MCS arm.", status: "VERIFIED (M07/M13)" }
+    ],
+    fmeaCases: [
+        { code: "FMEA CASE 01 // MECHANICAL SHEAR-PIN & HULL INTEGRITY", title: "Submerged Floating Debris Strike at 35+ Knots", badge: "✓ DNV HSC SEVERITY: ZERO HULL BREACH", detect: "200Hz IMU longitudinal deceleration spike (>0.8g) + Strut strain-gauge trip (0.8 ms)", action: "Sacrificial titanium fuse-bolts shear cleanly backwards; hull settles onto catamaran sponsons", recover: "Continues to nearest pier in 10-knot displacement mode with 100% watertight integrity", std: "DNV-RU-HSLC Pt.3 Ch.3 & HKMD Cap. 548" },
+        { code: "FMEA CASE 02 // DUAL-REDUNDANT POD PROPULSION", title: "Starboard Pod Inverter IGBT Short-Circuit or Motor Trip", badge: "✓ ASYMMETRIC YAW COMPENSATED IN <4.0 ms", detect: "SiC Inverter desaturation protection trips in 1.2 µs; STM32H7 reads torque drop in 1.0 ms", action: "Port & Aft T-foil flaps deflect differentially (+4.5°) to counter yaw moment", recover: "Maintains 18-knot foil-borne or 12-knot displacement transit on single pod", std: "DNV-RU-HSLC Pt.4 Ch.8" },
+        { code: "FMEA CASE 03 // 1,000V LFP BATTERY THERMAL CONTAINMENT", title: "Single LFP Prismatic Cell Over-Temperature / Off-Gas Anomaly", badge: "✓ ZERO THERMAL PROPAGATION (LFP CHEMISTRY)", detect: "Dual BMS NTC thermistors + volatile organic gas (VOC) sensor trip (<50 ms)", action: "Pyro-fuse isolates string in <2.0 ms; glycol chiller boosts to 260 L/min + overboard vent opens", recover: "Remaining independent 1,000V LFP strings power vessel safely to berth", std: "DNV-RU-HSLC Pt.6 Ch.2 Sec.1" },
+        { code: "FMEA CASE 04 // TRIPLE-REDUNDANT AVIONICS BUS", title: "Primary CAN-FD Actuator Bus A Severed or Shorted", badge: "✓ ZERO FRAME LOSS (HOT-STANDBY CAN-FD BUS B)", detect: "STM32H7 hardware CRC16 & frame-timeout watchdog detects Bus A loss within 0.5 ms", action: "Subsea titanium servos instantaneously read identical 100Hz command frames from Bus B", recover: "100% uninterrupted 38-knot foil-borne flight", std: "DNV-RU-HSLC Pt.4 Ch.9" },
+        { code: "FMEA CASE 05 // 3.5 MW MCS BERTH CHARGING SAFETY", title: "Unexpected Typhoon Swell / Vessel Surge (>0.8m) During 3.5 MW Charge", badge: "✓ <100 ms ARC-FREE CONTACTOR OPEN", detect: "2×100 kN vacuum pad pressure transducers + pantograph laser extension limit switch", action: "ISO 15118-20 pilot loop opens 1,250V DC breakers in 4.0 ms before pneumatic arm decouples", recover: "Robotic MCS arm retracts safely to +7.0 mPD terminal bay", std: "IEC 61851-23-3 & EMSD HV Code" },
+        { code: "FMEA CASE 06 // UTILITY GRID BLACKOUT IMMUNITY", title: "Sudden 22 kV Utility Feeder Outage During Peak Turnaround", badge: "✓ 100% UNINTERRUPTED VIA 1.5 MWh BESS", detect: "Substation relay detects 22 kV loss of mains in 8.0 ms", action: "Reverse-power interlock isolates grid while 1.5 MWh BESS feeds the 1,250V DC busbar", recover: "Docked ferry completes its 10-minute fast-charge uninterrupted", std: "HKE / CLP Grid Supply Code" }
+    ]
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const D = window.DT_COMPACT_DATA;
+    if (!D) return;
+
+    const m18El = document.querySelector('[data-compact-ledger="dt_layup_m18"]');
+    if (m18El) {
+        m18El.innerHTML = `<table class="w-full text-left font-mono text-xs"><thead class="bg-zinc-900 text-zinc-400 border-b border-zinc-800 uppercase text-[10px]"><tr><th class="py-3 px-4">Ply Zone</th><th class="py-3 px-4">Material Specification</th><th class="py-3 px-4">Orientation</th><th class="py-3 px-4">Thickness</th><th class="py-3 px-4 text-right">DNV Margin</th></tr></thead><tbody class="divide-y divide-zinc-800/70 bg-[#070b12] text-zinc-200">${D.layup_m18.map(r => `<tr><td class="py-3 px-4 ${r[5]} font-bold">${r[0]}</td><td class="py-3 px-4">${r[1]}</td><td class="py-3 px-4">${r[2]}</td><td class="py-3 px-4">${r[3]}</td><td class="py-3 px-4 text-right text-tech-emerald font-bold">${r[4]}</td></tr>`).join('')}</tbody></table>`;
+    }
+    const m05El = document.querySelector('[data-compact-ledger="dt_bom_m05"]');
+    if (m05El) {
+        m05El.innerHTML = D.bom_m05.map(r => `<div class="p-4 flex justify-between items-center"><div><strong class="${r[3]}">${r[0]}</strong><p class="text-xs text-zinc-400 font-sans mt-0.5">${r[1]}</p></div><span class="text-white font-bold shrink-0">${r[2]}</span></div>`).join('');
+    }
+    const m21El = document.querySelector('[data-compact-ledger="dt_fire_m21"]');
+    if (m21El) {
+        m21El.innerHTML = D.fire_m21.map(r => `<div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div><div class="font-mono font-bold ${r[3]} text-base">${r[0]}</div><p class="text-zinc-300 mt-1 text-xs">${r[1]}</p></div><span class="font-mono text-xs px-3 py-1.5 rounded bg-zinc-900 text-tech-emerald border border-tech-emerald/40 font-bold shrink-0">${r[2]}</span></div>`).join('');
+    }
+    const m11El = document.querySelector('[data-compact-ledger="dt_pct_m11"]');
+    if (m11El) {
+        m11El.innerHTML = D.pct_m11.map(r => `<div class="p-5"><div class="flex justify-between font-mono text-xs ${r[4]} font-bold mb-1"><span>${r[0]}</span><span class="text-tech-emerald">${r[1]}</span></div><h3 class="text-base font-bold text-white mb-1">${r[2]}</h3><p class="text-zinc-300 text-xs leading-relaxed">${r[3]}</p></div>`).join('');
+    }
+    const m26El = document.querySelector('[data-compact-ledger="dt_type_m26"]');
+    if (m26El) {
+        m26El.innerHTML = `<div class="overflow-x-auto"><table class="w-full text-left font-mono text-xs"><thead class="bg-zinc-900 text-zinc-400 border-b border-zinc-800 uppercase text-[10px]"><tr><th class="py-3.5 px-4">Subsystem</th><th class="py-3.5 px-4">Certificate / Standard</th><th class="py-3.5 px-4">Authority</th><th class="py-3.5 px-4">Gate Requirement</th><th class="py-3.5 px-4 text-right">Status</th></tr></thead><tbody class="divide-y divide-zinc-800/70 bg-[#070b12] text-zinc-200">${D.type_m26.map(r => `<tr><td class="py-3.5 px-4 ${r[5]} font-bold">${r[0]}</td><td class="py-3.5 px-4">${r[1]}</td><td class="py-3.5 px-4">${r[2]}</td><td class="py-3.5 px-4 font-sans">${r[3]}</td><td class="py-3.5 px-4 text-right text-tech-emerald font-bold">${r[4]}</td></tr>`).join('')}</tbody></table></div>`;
+    }
+    const m27El = document.querySelector('[data-compact-ledger="dt_lru_m27"]');
+    if (m27El) {
+        m27El.innerHTML = `<table class="w-full text-left font-mono text-xs"><thead class="bg-zinc-900 text-zinc-400 border-b border-zinc-800 uppercase text-[10px]"><tr><th class="py-3 px-4">Line-Replaceable Unit (LRU)</th><th class="py-3 px-4">Design MTBF</th><th class="py-3 px-4">MTTR</th><th class="py-3 px-4 text-right">Drydock Needed?</th></tr></thead><tbody class="divide-y divide-zinc-800/70 bg-[#070b12] text-zinc-200">${D.lru_m27.map(r => `<tr><td class="py-3 px-4 ${r[4]} font-bold">${r[0]}</td><td class="py-3 px-4">${r[1]}</td><td class="py-3 px-4">${r[2]}</td><td class="py-3 px-4 text-right text-tech-emerald font-bold">${r[3]}</td></tr>`).join('')}</tbody></table>`;
+    }
+    const m32El = document.querySelector('[data-compact-ledger="dt_corrosion_m32"]');
+    if (m32El) {
+        m32El.innerHTML = D.corrosion_m32.map(r => `<div class="p-4 flex justify-between items-center"><div><strong class="${r[3]}">${r[0]}</strong><p class="text-xs text-zinc-400 font-sans mt-0.5">${r[1]}</p></div><span class="text-tech-emerald font-bold shrink-0">${r[2]}</span></div>`).join('');
+    }
+
+    // Bind Voter, RTOS, RegTable & FMEA on digital-twin.html
+    if (document.getElementById('vtr-node-a')) {
+        window.setVoterState = function (idx) {
+            const st = D.voterStates[idx] || D.voterStates[0];
+            for (let i = 0; i < 4; i++) {
+                const b = document.getElementById(`vtr-btn-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('vtr-node-a').textContent = st.a;
+            document.getElementById('vtr-node-b').textContent = st.b;
+            document.getElementById('vtr-node-c').textContent = st.c;
+            document.getElementById('vtr-out-mode').textContent = st.mode;
+            document.getElementById('vtr-out-bus').textContent = st.bus;
+        };
+        window.setVoterState(0);
+    }
+
+    if (document.getElementById('reg-matrix-tbody')) {
+        window.filterRegTable = function (cat) {
+            ['all', 'dnv', 'imo', 'hkmd'].forEach(c => {
+                const b = document.getElementById(`reg-f-${c}`);
+                if (b) b.className = (c === cat) ? 'px-3.5 py-1.5 rounded bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700';
+            });
+            const rows = cat === 'all' ? D.regRules : D.regRules.filter(r => r.cat === cat);
+            document.getElementById('reg-matrix-tbody').innerHTML = rows.map(r => `<tr><td class="py-3.5 px-4 text-tech-cyan font-bold whitespace-nowrap">${r.code}</td><td class="py-3.5 px-4 font-semibold text-white">${r.req}</td><td class="py-3.5 px-4 text-zinc-300 font-sans text-xs">${r.sol}</td><td class="py-3.5 px-4 text-right text-tech-emerald font-bold whitespace-nowrap">✓ ${r.status}</td></tr>`).join('');
+        };
+        window.filterRegTable('all');
+    }
+
+    if (document.getElementById('fmea-code')) {
+        window.selectFmea = function (idx) {
+            const c = D.fmeaCases[idx] || D.fmeaCases[0];
+            for (let i = 0; i < 6; i++) {
+                const b = document.getElementById(`fmea-btn-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('fmea-code').textContent = c.code;
+            document.getElementById('fmea-title').textContent = c.title;
+            document.getElementById('fmea-badge').textContent = c.badge;
+            document.getElementById('fmea-detect').textContent = c.detect;
+            document.getElementById('fmea-action').textContent = c.action;
+            document.getElementById('fmea-recover').textContent = c.recover;
+            document.getElementById('fmea-std').textContent = c.std;
+        };
+        window.selectFmea(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 17: 10-YEAR MASTER FLEET & PORT ROLLOUT TIMELINE (2026–2036)
+// Mounts automatically on: index.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-10yr-roadmap',
+    pages: ['index'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-10yr-roadmap" class="py-16 md:py-20 bg-[#070b12] border-t border-b border-zinc-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-mono text-xs font-bold mb-2">
+                        <span>🗓️ 10-YEAR SOVEREIGN MARITIME MASTER PLAN (2026–2036) // TRL 3 → 42-VESSEL FLEET</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        Interactive 4-Stage Commercialization &amp; 22 kV Terminal Expansion Roadmap
+                    </h2>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                    <div class="data-card p-5 rounded-2xl bg-zinc-950 border-t-4 border-t-tech-cyan space-y-2">
+                        <span class="text-tech-cyan font-bold">STAGE 1 // 2026–2027 (HKSTP)</span>
+                        <h3 class="text-base font-bold text-white font-sans">6-DOF Digital Twin &amp; D1 Tolo Harbour Sea Trials</h3>
+                        <p class="text-zinc-400 font-sans leading-relaxed">HK$ 3.198M budget (93.5% grant). Prove 100Hz fly-by-wire at 13.4 KT (Fn 1.17) and lock Cap. 127 Sheung Wan STT &amp; DNV AIP.</p>
+                    </div>
+                    <div class="data-card p-5 rounded-2xl bg-zinc-950 border-t-4 border-t-tech-emerald space-y-2">
+                        <span class="text-tech-emerald font-bold">STAGE 2 // 2028 (ITC ESS 1:1)</span>
+                        <h3 class="text-base font-bold text-white font-sans">15m BAYWING-D2 Commercial Pilot &amp; Stage 1 Hub</h3>
+                        <p class="text-zinc-400 font-sans leading-relaxed">HK$ 20M (HK$ 10M VC + HK$ 10M ESS). Commission 1×1,500 kVA + 1.5MWh BESS at Sheung Wan and launch harbour/Ma Wan routes.</p>
+                    </div>
+                    <div class="data-card p-5 rounded-2xl bg-zinc-950 border-t-4 border-t-tech-amber space-y-2">
+                        <span class="text-tech-amber font-bold">STAGE 3 // 2029–2031 (SERIES A)</span>
+                        <h3 class="text-base font-bold text-white font-sans">28.5m EF-150 GBA Water-Airport &amp; SkyPier Fleet</h3>
+                        <p class="text-zinc-400 font-sans leading-relaxed">Upgrade Sheung Wan to 3×1,500 kVA (4.5 MVA) + Macao 2.0 MWh BESS; scale to 18 vessels across Macau, Shekou &amp; SkyPier SZX.</p>
+                    </div>
+                    <div class="data-card p-5 rounded-2xl bg-zinc-950 border-t-4 border-t-purple-400 space-y-2">
+                        <span class="text-purple-400 font-bold">STAGE 4 // 2032–2036 (FULL SCALE)</span>
+                        <h3 class="text-base font-bold text-white font-sans">42-Vessel Territorial Fleet &amp; 9.0 MVA Grid</h3>
+                        <p class="text-zinc-400 font-sans leading-relaxed">6×1,500 kVA (9.0 MVA) hub capacity; abate 168,000 tonnes CO₂/yr across all 28 HK &amp; GBA corridors and export HK flight-control IP.</p>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 18: TYPHOON SIGNAL NO. 8 / NO. 10 SURVIVAL & MOORING SIMULATOR
+// Mounts inside Domain 09 (autonomy) on digital-twin.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'mod-m37',
+    modId: 'm37',
+    navLabel: '9.6 Typhoon T8/T10 Shelter & Surge Sim',
+    pages: ['twin'],
+    twinDomain: {
+        key: 'autonomy',
+        badge: 'DOMAIN 09',
+        shortLabel: '🛰️ MCS Arm & 25Yr TCO',
+        title: 'DOMAIN 09 // 3.5 MW MCS PANTOGRAPH KINEMATICS, NIGHT DEBRIS DODGE, ANTI-FOULING & 25-YR TCO'
+    },
+    renderHtml: function () {
+        return `
+        <section id="mod-m37" data-mod-id="m37" data-dom="autonomy" class="twin-mod-sec py-12 bg-[#090b0f] border-b border-zinc-800/80" style="display:none;">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="text-xs font-mono text-tech-amber uppercase tracking-widest mb-1">DOMAIN 09 • SUB-MODULE 9.6 // EXTREME WEATHER &amp; TYPHOON SIGNAL NO. 10 PROTOCOL</div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">Typhoon Signal No. 8 / No. 10 Tsing Yi Shelter Cradle &amp; +7.0 mPD Substation Surge Immunity</h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        Simulates our 2-hour pre-T8 automated fleet evacuation from Sheung Wan to our Tsing Yi / Stonecutters sheltered basin, where vessels are hoisted out of the water onto storm cradles or ballasted down, while the Sheung Wan 3.5 MW MCS arm locks into its +7.0 mPD storm bay.
+                    </p>
+                </div>
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">PRE-T8 EVACUATION LEAD</span><span class="text-base font-bold text-tech-cyan mt-1 block">12 Mins to Tsing Yi Base</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">MCS ARM STORM PARK</span><span class="text-base font-bold text-tech-emerald mt-1 block">Locked @ +7.2 mPD Bay</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">22kV SUBSTATION CLEARANCE</span><span class="text-base font-bold text-white mt-1 block">+1.8m Above Mangkhut Surge</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">POST-T8 RESUME TIME</span><span class="text-base font-bold text-tech-emerald mt-1 block">&lt; 30 Mins to First Sailing</span></div>
+                </div>
+            </div>
+        </section>`;
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 19: INTERACTIVE CAP TABLE & NON-DILUTIVE GRANT DILUTION SHIELD
+// Mounts automatically on: capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-cap-table',
+    navLabel: '🛡️ Cap Table & Dilution Shield',
+    pages: ['capital'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-cap-table" class="py-16 md:py-20 bg-[#080d16] border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                        <span>🛡️ FOUNDER &amp; EARLY INVESTOR DILUTION SHIELD // 93.5% PH 0–1 GRANTS + 50% PH 2 ESS MATCH</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        Interactive Milestone Valuation Step-Up &amp; Non-Dilutive Grant Shield Calculator
+                    </h2>
+                </div>
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-tech-cyan/40">
+                        <span class="text-tech-cyan font-bold block">ROUND 1 // PH 0–1 ANGEL FLOAT</span>
+                        <span class="text-lg font-bold text-white block mt-1">HK$ 1.5M – 2.0M Float</span>
+                        <p class="text-zinc-400 font-sans mt-1">Backed by HK$ 2.99M in HKSTP, RTH &amp; PAG grants; net equity burn is only HK$ 208,000.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-tech-emerald/40">
+                        <span class="text-tech-emerald font-bold block">ROUND 2 // PH 2 SEED + ITC ESS</span>
+                        <span class="text-lg font-bold text-white block mt-1">HK$ 10M VC + HK$ 10M ESS</span>
+                        <p class="text-zinc-400 font-sans mt-1">1:1 ITC ESS matching cuts equity dilution in half while funding 100% of the HK$ 20M D2 pilot.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-tech-amber/40">
+                        <span class="text-tech-amber font-bold block">ROUND 3 // SERIES A INFRASTRUCTURE</span>
+                        <span class="text-lg font-bold text-white block mt-1">Project-Financed SPV Fleet</span>
+                        <p class="text-zinc-400 font-sans mt-1">22 kV BESS hubs and EF-150 hulls qualify for HKMA Green Bonds and maritime asset leasing.</p>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 20: ACOUSTIC CABIN INTERIOR & LOW-E GLAZING VIBRO-ACOUSTIC ANALYZER
+// Mounts automatically on: engineering-rd.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-cabin-acoustics',
+    pages: ['rd'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-cabin-acoustics" class="py-16 md:py-20 bg-[#080c14] border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-purple-500/15 border border-purple-400/40 text-purple-300 font-mono text-xs font-bold mb-2">
+                        <span>🔇 VIP CABIN VIBRO-ACOUSTIC ENGINEERING // &lt;58 dBA AT 38 KNOTS (BUSINESS-JET QUIET)</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        Cabin Interior Noise &amp; Structure-Borne Vibration Isolation (&lt;58 dBA vs. 79 dBA Diesel)
+                    </h2>
+                </div>
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">LEGACY DIESEL CABIN NOISE</span><span class="text-base font-bold text-red-400 mt-1 block">78–82 dBA (Hull Drone)</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">BAYWING FOIL CABIN NOISE</span><span class="text-base font-bold text-tech-emerald mt-1 block">56.8 dBA @ 38 Knots</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">MOTOR ISOLATION PATH</span><span class="text-base font-bold text-tech-cyan mt-1 block">Submerged 2.1m Below Hull</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">PANORAMIC GLAZING</span><span class="text-base font-bold text-white mt-1 block">Laminated Acoustic Low-E</span></div>
+                </div>
+            </div>
+        </section>`;
+    }
+});
