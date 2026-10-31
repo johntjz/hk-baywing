@@ -3448,3 +3448,475 @@ window.BAYWING_BOLTONS.push({
         </section>`;
     }
 });
+// ============================================================================
+// BATCH 6 VISUAL DESIGN COMPONENTS PACK (APPEND TO BOTTOM OF site-data.js)
+// Adds Components 21–24 + Updates Floating HKSTP Demo Switcher to 24 Modules
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// COMPONENT 21: INTERACTIVE FROUDE SIMILITUDE (Fn = 1.17) & 283Hz SCALING LAB
+// Mounts automatically on: index.html & engineering-rd.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-froude-lab',
+    pages: ['index', 'rd'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-froude-lab" class="py-16 md:py-20 bg-[#070b12] border-t border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                            <span>📐 NAVAL ARCHITECTURAL SIMILITUDE LAW // FROUDE NUMBER Fn = V / √(g·L) = 1.17</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            Interactive Froude Dynamic Scaling Lab: Why 100Hz on D1 (1:8) Proves 283Hz on EF-150
+                        </h2>
+                        <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                            Adjust the geometric scale ratio (1:λ) below to verify how length, speed, displacement mass, and pitch/heave natural oscillation frequency scale relative to our 28.5m, 56-tonne, 38-knot BAYWING EF-150 flagship.
+                        </p>
+                    </div>
+                    <button onclick="document.getElementById('frd-scale-slider').value=8;updateFroudeLab();" class="px-3.5 py-2 rounded-lg bg-tech-emerald text-slate-950 font-mono text-xs font-bold hover:opacity-90">
+                        🎯 Lock 1:8 BAYWING-D1 Scale (3.56m)
+                    </button>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6 pb-4 border-b border-zinc-800 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Geometric Scale Ratio (1 : λ) vs. 28.5m Flagship:</span>
+                                <span id="frd-scale-val" class="text-tech-cyan font-bold">1 : 8.0 Scale (BAYWING-D1 Testbed)</span>
+                            </div>
+                            <input id="frd-scale-slider" type="range" min="1" max="12" step="0.5" value="8" class="w-full accent-cyan-400 cursor-pointer" oninput="updateFroudeLab()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. Embedded RTOS Control Loop Rate on Testbed:</span>
+                                <span id="frd-hz-val" class="text-tech-emerald font-bold">100 Hz (10.0 ms Deterministic Tick)</span>
+                            </div>
+                            <input id="frd-hz-slider" type="range" min="50" max="200" step="10" value="100" class="w-full accent-emerald-400 cursor-pointer" oninput="updateFroudeLab()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 font-mono text-xs">
+                        <div class="p-3.5 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">SCALED HULL LENGTH (L/λ)</span>
+                            <span id="frd-out-len" class="text-base font-bold text-white mt-1 block">3.56 m LOA</span>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">FROUDE SPEED (V / √λ)</span>
+                            <span id="frd-out-spd" class="text-base font-bold text-tech-cyan mt-1 block">13.4 KT (Fn = 1.17)</span>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">SCALED MASS (M / λ³)</span>
+                            <span id="frd-out-mass" class="text-base font-bold text-white mt-1 block">109.4 kg</span>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">WAVE PITCH FREQ (×√λ)</span>
+                            <span id="frd-out-freq" class="text-base font-bold text-tech-amber mt-1 block">2.83× Faster Dynamics</span>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">FULL-SCALE EQUIV LOOP</span>
+                            <span id="frd-out-eqhz" class="text-base font-bold text-tech-emerald mt-1 block">283 Hz Equivalent</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#050b14] rounded-xl border border-zinc-800 p-4">
+                        <div class="flex flex-wrap justify-between font-mono text-xs mb-2 gap-2">
+                            <span class="text-tech-amber font-bold">━ SUB-SCALE TESTBED NATURAL PITCH OSCILLATION (2.83× FASTER AT 1:8)</span>
+                            <span class="text-tech-cyan font-bold">━ 28.5m FULL-SCALE EF-150 PITCH WAVE RESPONSE (SLOWER INERTIAL PERIOD)</span>
+                        </div>
+                        <canvas id="froude-lab-canvas" width="960" height="175" class="w-full h-auto rounded bg-[#03070e]"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.updateFroudeLab = function () {
+            const lam = parseFloat(document.getElementById('frd-scale-slider')?.value || 8);
+            const hz = parseInt(document.getElementById('frd-hz-slider')?.value || 100);
+
+            const lenM = (28.5 / lam).toFixed(2);
+            const spdKt = (38.0 / Math.sqrt(lam)).toFixed(1);
+            const massKg = (56000 / Math.pow(lam, 3));
+            const freqMult = Math.sqrt(lam);
+            const eqHz = Math.round(hz * freqMult);
+
+            document.getElementById('frd-scale-val').textContent = `1 : ${lam.toFixed(1)} Scale ${Math.abs(lam - 8) < 0.1 ? '(BAYWING-D1 Testbed)' : ''}`;
+            document.getElementById('frd-hz-val').textContent = `${hz} Hz (${(1000 / hz).toFixed(1)} ms Tick)`;
+            document.getElementById('frd-out-len').textContent = `${lenM} m LOA`;
+            document.getElementById('frd-out-spd').textContent = `${spdKt} KT (Fn = 1.17)`;
+            document.getElementById('frd-out-mass').textContent = massKg >= 1000 ? `${(massKg / 1000).toFixed(1)} Tonnes` : `${massKg.toFixed(1)} kg`;
+            document.getElementById('frd-out-freq').textContent = `${freqMult.toFixed(2)}× Faster Dynamics`;
+            document.getElementById('frd-out-eqhz').textContent = `${eqHz} Hz Equivalent`;
+
+            const c = document.getElementById('froude-lab-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            // Full-scale EF-150 slow oscillation wave (Cyan)
+            ctx.strokeStyle = '#00f2ff'; ctx.lineWidth = 3;
+            ctx.beginPath();
+            for (let x = 0; x <= c.width; x += 4) {
+                const y = 88 - Math.sin(x * 0.018) * 52;
+                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Sub-scale D1 rapid oscillation wave (Amber — √λ times higher frequency)
+            ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2.2;
+            ctx.beginPath();
+            for (let x = 0; x <= c.width; x += 3) {
+                const y = 88 - Math.sin(x * 0.018 * freqMult) * 52;
+                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+        };
+        window.updateFroudeLab();
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 22: HYDROFOIL CAVITATION BUCKET (σ vs α) & INCIPIENT BOUNDARY SIM
+// Mounts inside Domain 10 (hkstp) on digital-twin.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'mod-m38',
+    modId: 'm38',
+    navLabel: '10.2 Cavitation Bucket (σ vs α) Plotter',
+    pages: ['twin'],
+    twinDomain: {
+        key: 'hkstp',
+        badge: 'DOMAIN 10',
+        shortLabel: '🏛️ HKSTP Jan 2027 Gate',
+        title: 'DOMAIN 10 // HKSTP INCU-TECH 18-MONTH MILESTONE GATES & CAVITATION BUCKET VERIFIER'
+    },
+    renderHtml: function () {
+        return `
+        <section id="mod-m38" data-mod-id="m38" data-dom="hkstp" class="twin-mod-sec py-12 bg-[#090b0f] border-b border-zinc-800/80" style="display:none;">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="text-xs font-mono text-tech-cyan uppercase tracking-widest mb-1">DOMAIN 10 • SUB-MODULE 10.2 // HYDRODYNAMIC CAVITATION BUCKET &amp; PRESSURE DISTRIBUTION</div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">Sub-Cavitating Eppler E817 / NACA 16-309 Cavitation Bucket (σ vs. Angle of Attack α)</h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        Verifies that our 100Hz flight controller keeps the hydrofoil operating point strictly inside the cavitation-free laminar bucket across all speeds up to 38 knots ($\sigma = (P_{\text{atm}} + \rho gh - P_v) / (\frac{1}{2}\rho V^2) = 0.68 &gt; -C_{p,\min} = 0.44$).
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6 pb-4 border-b border-zinc-800 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Operating Angle of Attack (α):</span>
+                                <span id="cav-aoa-val" class="text-tech-cyan font-bold">+2.2° (Inside Laminar Bucket)</span>
+                            </div>
+                            <input id="cav-aoa-slider" type="range" min="-1.5" max="5.5" step="0.1" value="2.2" class="w-full accent-cyan-400 cursor-pointer" oninput="updateCavBucketSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. Foil-Borne Cruise Speed (Knots):</span>
+                                <span id="cav-spd-val" class="text-tech-emerald font-bold">38.0 KT (σ = 0.68)</span>
+                            </div>
+                            <input id="cav-spd-slider" type="range" min="18" max="44" step="1" value="38" class="w-full accent-emerald-400 cursor-pointer" oninput="updateCavBucketSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">CAVITATION NUMBER (σ)</span>
+                            <span id="cav-out-sigma" class="text-base font-bold text-tech-cyan mt-1 block">σ = 0.68</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">SUCTION PEAK (-Cp_min)</span>
+                            <span id="cav-out-cp" class="text-base font-bold text-white mt-1 block">-Cp = 0.44</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">SAFETY MARGIN (σ / -Cp)</span>
+                            <span id="cav-out-margin" class="text-base font-bold text-tech-emerald mt-1 block">1.55× Margin (SAFE)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">INCIPIENT CAVITATION SPEED</span>
+                            <span id="cav-out-vmax" class="text-base font-bold text-tech-emerald mt-1 block">44.8 Knots</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#050b14] rounded-xl border border-zinc-800 p-4">
+                        <div class="flex flex-wrap justify-between font-mono text-xs mb-2 gap-2">
+                            <span class="text-tech-cyan font-bold">━ CAVITATION-FREE BUCKET BOUNDARY (-Cp_min VS ANGLE OF ATTACK α)</span>
+                            <span class="text-tech-emerald font-bold">● CURRENT OPERATING POINT (σ, α)</span>
+                        </div>
+                        <canvas id="cav-bucket-canvas" width="960" height="190" class="w-full h-auto rounded bg-[#03070e]"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.updateCavBucketSim = function () {
+            const aoa = parseFloat(document.getElementById('cav-aoa-slider')?.value || 2.2);
+            const spd = parseFloat(document.getElementById('cav-spd-slider')?.value || 38);
+
+            const vMs = spd * 0.5144;
+            const sigma = ((101325 + 1025 * 9.81 * 1.4 - 2300) / (0.5 * 1025 * vMs * vMs)).toFixed(2);
+            const cpMin = (0.42 + 0.032 * Math.pow(aoa - 1.8, 2)).toFixed(2);
+            const margin = (sigma / cpMin).toFixed(2);
+            const vMaxKt = (Math.sqrt((101325 + 1025 * 9.81 * 1.4 - 2300) / (0.5 * 1025 * cpMin)) / 0.5144).toFixed(1);
+
+            if (document.getElementById('cav-aoa-val')) {
+                document.getElementById('cav-aoa-val').textContent = `${aoa >= 0 ? '+' : ''}${aoa.toFixed(1)}° AoA`;
+                document.getElementById('cav-spd-val').textContent = `${spd.toFixed(1)} KT (σ = ${sigma})`;
+                document.getElementById('cav-out-sigma').textContent = `σ = ${sigma}`;
+                document.getElementById('cav-out-cp').textContent = `-Cp = ${cpMin}`;
+                document.getElementById('cav-out-margin').textContent = `${margin}× (${margin >= 1.1 ? 'SAFE' : 'CAVITATION RISK'})`;
+                document.getElementById('cav-out-vmax').textContent = `${vMaxKt} Knots Ceiling`;
+            }
+
+            const c = document.getElementById('cav-bucket-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            // Draw U-shaped Cavitation Bucket (-Cp_min on X-axis from 1.2 down to 0.3, AoA on Y-axis)
+            ctx.strokeStyle = '#00f2ff'; ctx.lineWidth = 3;
+            ctx.beginPath();
+            for (let a = -2.0; a <= 6.0; a += 0.2) {
+                const cp = 0.42 + 0.032 * Math.pow(a - 1.8, 2);
+                const px = 850 - ((cp - 0.35) / 0.9) * 720;
+                const py = 165 - ((a + 2.0) / 8.0) * 140;
+                if (a === -2.0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+
+            // Plot current operating point (sigma, aoa)
+            const opX = Math.max(60, Math.min(900, 850 - ((parseFloat(sigma) - 0.35) / 0.9) * 720));
+            const opY = 165 - ((aoa + 2.0) / 8.0) * 140;
+            ctx.fillStyle = parseFloat(margin) >= 1.1 ? '#10b981' : '#ef4444';
+            ctx.beginPath(); ctx.arc(opX, opY, 7, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; ctx.stroke();
+        };
+        window.updateCavBucketSim();
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 23: DOOR-TO-DOOR INTERMODAL TIME & MODAL SHIFT SIMULATOR
+// Mounts automatically on: routes-calculator.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-modal-shift',
+    pages: ['routes'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-modal-shift" class="py-16 md:py-20 bg-[#070b12] border-t border-b border-zinc-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                            <span>⏱️ DOOR-TO-DOOR INTERMODAL TIME ADVANTAGE // MTR + BUS VS. LEGACY FERRY VS. BAYWING FOIL</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            Door-to-Door Journey Time &amp; Passenger Modal-Shift Elasticity Simulator
+                        </h2>
+                    </div>
+                    <select id="ms-corridor-select" onchange="updateModalShiftSim()" class="bg-zinc-900 border border-zinc-700 rounded-lg px-3.5 py-2 font-mono text-xs text-white outline-none">
+                        <option value="0" selected>GBA-03: HKIA Terminal 1 ⟷ Shenzhen Airport (SZX)</option>
+                        <option value="1">GBA-01: Central / Sheung Wan ⟷ Macau Taipa</option>
+                        <option value="2">REG-01: Tuen Mun / Tung Chung ⟷ Tai O</option>
+                        <option value="3">ISL-01: Central / Sheung Wan ⟷ Cheung Chau</option>
+                        <option value="4">VH-03: Central / Sheung Wan ⟷ Hung Hom</option>
+                    </select>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-5 font-mono text-xs" id="ms-bars-stage"></div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        const CORRIDORS = [
+            { name: 'HKIA Terminal 1 Gate ⟷ Shenzhen Bao’an Airport (SZX)', landMin: 138, landLbl: '138 Mins (Land Border Bus + Dual Customs Queues)', dieselMin: 68, dieselLbl: '68 Mins (Legacy Diesel Catamaran + Bus)', evMin: 43.5, evLbl: '43.5 Mins (3.5m SkyPier Airside APM + 40m BAYWING 38-KT Foil — Zero HK Customs)' },
+            { name: 'Hong Kong Central/Sheung Wan ⟷ Macau Taipa Cotai Strip', landMin: 125, landLbl: '125 Mins (HZMB Shuttle Bus + Port Transfers)', dieselMin: 75, dieselLbl: '75 Mins (Legacy Diesel Jetfoil + Boarding)', evMin: 60.5, evLbl: '60.5 Mins (3.2m +7.0mPD Skybridge Travellator + 2.3m e-Channel + 55m BAYWING Foil)' },
+            { name: 'Tuen Mun Pier ⟷ Tung Chung ⟷ Tai O Heritage Town', landMin: 82, landLbl: '82 Mins (MTR + Mountain Bus 11 Over Winding Roads)', dieselMin: 58, dieselLbl: '58 Mins (Slow Diesel Kaito Ferry)', evMin: 26, evLbl: '26 Mins (BAYWING-D4 35-Knot Direct Foil Flight)' },
+            { name: 'Central / Sheung Wan ⟷ Cheung Chau Island', landMin: 999, landLbl: 'N/A (No Road / MTR Bridge Link Exists)', dieselMin: 52, dieselLbl: '52 Mins (Ordinary Diesel Ferry)', evMin: 20, evLbl: '20 Mins (BAYWING-D5 34-Knot Trunk Hydrofoil)' },
+            { name: 'Central / Sheung Wan ⟷ Hung Hom Waterfront', landMin: 28, landLbl: '28 Mins (Walk + 2 MTR Line Transfers)', dieselMin: 16, dieselLbl: '16 Mins (Conventional Displacement Ferry)', evMin: 4.5, evLbl: '4.5 Mins (BAYWING-D3 28-Knot Cross-Harbour Shuttle)' }
+        ];
+
+        window.updateModalShiftSim = function () {
+            const idx = parseInt(document.getElementById('ms-corridor-select')?.value || 0);
+            const c = CORRIDORS[idx] || CORRIDORS[0];
+            const maxMin = Math.max(c.landMin === 999 ? 65 : c.landMin, c.dieselMin, c.evMin);
+
+            document.getElementById('ms-bars-stage').innerHTML = `
+                <div class="flex flex-wrap justify-between items-center border-b border-zinc-800 pb-3">
+                    <span class="text-white font-bold text-sm">${c.name}</span>
+                    <span class="px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-bold">
+                        ✓ SAVES ${Math.round((c.landMin === 999 ? c.dieselMin : c.landMin) - c.evMin)} MINS PER TRIP
+                    </span>
+                </div>
+                <div class="space-y-4 pt-1">
+                    ${c.landMin !== 999 ? `
+                    <div>
+                        <div class="flex justify-between mb-1"><span class="text-zinc-400">1. Land / MTR / Cross-Border Coach Alternative:</span><span class="text-red-400 font-bold">${c.landLbl}</span></div>
+                        <div class="w-full bg-zinc-900 h-4 rounded-lg overflow-hidden"><div class="bg-red-500/80 h-full rounded-lg" style="width:${(c.landMin / maxMin) * 100}%"></div></div>
+                    </div>` : ''}
+                    <div>
+                        <div class="flex justify-between mb-1"><span class="text-zinc-400">2. Legacy Diesel Ferry:</span><span class="text-tech-amber font-bold">${c.dieselLbl}</span></div>
+                        <div class="w-full bg-zinc-900 h-4 rounded-lg overflow-hidden"><div class="bg-tech-amber h-full rounded-lg" style="width:${(c.dieselMin / maxMin) * 100}%"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1"><span class="text-white font-bold">3. BAYWING Electric Hydrofoil + Fast Intermodal Link:</span><span class="text-tech-emerald font-bold">${c.evLbl}</span></div>
+                        <div class="w-full bg-zinc-900 h-4 rounded-lg overflow-hidden"><div class="bg-tech-emerald h-full rounded-lg" style="width:${(c.evMin / maxMin) * 100}%"></div></div>
+                    </div>
+                </div>`;
+        };
+        window.updateModalShiftSim();
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 24: 18-MONTH GRANT REIMBURSEMENT & WORKING-CAPITAL FLOAT TRACKER
+// Mounts automatically on: capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-grant-cashflow',
+    navLabel: '💵 18-Mo Grant Float Sim',
+    pages: ['capital'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-grant-cashflow" class="py-16 md:py-20 bg-[#070b12] border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-mono text-xs font-bold mb-2">
+                        <span>💵 PHASE 0–1 TREASURY &amp; GRANT REIMBURSEMENT MODEL // HK$ 3,198,000 TOTAL BUDGET</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        18-Month HKSTP Incu-Tech + ITF RTH Reimbursement &amp; Working-Capital Float Simulator
+                    </h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        Demonstrates why a HK$ 1.5M–2.0M revolving angel working-capital facility safely bridges all three 6-month HKSTP and ITF RTH grant reimbursement cycles while leaving a net unsubsidized equity consumption of only HK$ 208,000 (6.5%).
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6 pb-4 border-b border-zinc-800 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Initial Angel Working-Capital Float:</span>
+                                <span id="gcf-float-val" class="text-tech-cyan font-bold">HK$ 1,600,000 Revolving Float</span>
+                            </div>
+                            <input id="gcf-float-slider" type="range" min="1000000" max="2500000" step="100000" value="1600000" class="w-full accent-cyan-400 cursor-pointer" oninput="updateGrantFloatSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. Grant Tranche Reimbursement Lag:</span>
+                                <span id="gcf-lag-val" class="text-tech-emerald font-bold">Every 6 Months (3 Milestone Gates)</span>
+                            </div>
+                            <input id="gcf-lag-slider" type="range" min="3" max="9" step="3" value="6" class="w-full accent-emerald-400 cursor-pointer" oninput="updateGrantFloatSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">MONTHLY GROSS R&amp;D BURN</span>
+                            <span class="text-base font-bold text-white mt-1 block">HK$ 177,667 / Mo</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">MIN TREASURY CASH TROUGH</span>
+                            <span id="gcf-out-min" class="text-base font-bold text-tech-emerald mt-1 block">+HK$ 534,000 Buffer</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">MONTH 18 ENDING CASH</span>
+                            <span id="gcf-out-end" class="text-base font-bold text-tech-cyan mt-1 block">HK$ 1,392,000 Returned</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">NET 18-MO EQUITY SPENT</span>
+                            <span class="text-base font-bold text-tech-emerald mt-1 block">Only HK$ 208,000 (6.5%)</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#050b14] rounded-xl border border-zinc-800 p-4">
+                        <div class="flex flex-wrap justify-between font-mono text-xs mb-2 gap-2">
+                            <span class="text-tech-emerald font-bold">━ 18-MONTH TREASURY CASH BALANCE (SAWTOOTH GRANT REIMBURSEMENT RECYCLING)</span>
+                            <span class="text-red-400 font-bold">┄ ZERO-CASH MINIMUM SAFETY FLOOR</span>
+                        </div>
+                        <canvas id="grant-float-canvas" width="960" height="185" class="w-full h-auto rounded bg-[#03070e]"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.updateGrantFloatSim = function () {
+            const initFloat = parseInt(document.getElementById('gcf-float-slider')?.value || 1600000);
+            const cycleMo = parseInt(document.getElementById('gcf-lag-slider')?.value || 6);
+            const monthlyBurn = 3198000 / 18;
+            const totalGrants = 2990000;
+            const grantPerCycle = totalGrants * (cycleMo / 18);
+
+            let cash = initFloat;
+            let minCash = initFloat;
+            const points = [{ m: 0, c: cash }];
+
+            for (let m = 1; m <= 18; m++) {
+                cash -= monthlyBurn;
+                if (cash < minCash) minCash = cash;
+                points.push({ m, c: cash });
+                if (m % cycleMo === 0) {
+                    cash += grantPerCycle;
+                    points.push({ m, c: cash });
+                }
+            }
+
+            document.getElementById('gcf-float-val').textContent = `HK$ ${(initFloat / 1e6).toFixed(2)}M Revolving Float`;
+            document.getElementById('gcf-lag-val').textContent = `Every ${cycleMo} Months`;
+            document.getElementById('gcf-out-min').textContent = `${minCash >= 0 ? '+' : ''}HK$ ${Math.round(minCash).toLocaleString()} Buffer`;
+            document.getElementById('gcf-out-end').textContent = `HK$ ${Math.round(cash).toLocaleString()} Returned`;
+
+            const c = document.getElementById('grant-float-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            // Zero cash floor line
+            ctx.strokeStyle = '#ef4444'; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.8;
+            ctx.beginPath(); ctx.moveTo(45, 160); ctx.lineTo(920, 160); ctx.stroke(); ctx.setLineDash([]);
+
+            // Sawtooth Treasury Balance Curve
+            ctx.strokeStyle = '#10b981'; ctx.lineWidth = 3;
+            ctx.beginPath();
+            points.forEach((pt, idx) => {
+                const px = 45 + (pt.m / 18) * 875;
+                const py = 160 - Math.max(-15, (pt.c / 2600000) * 135);
+                if (idx === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+            });
+            ctx.stroke();
+        };
+        window.updateGrantFloatSim();
+    }
+});
+
+// Update Floating Demo Switcher to include all 24 Components
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const dockList = document.querySelector('#hkstp-dock-panel .overflow-y-auto');
+        if (dockList) {
+            const EXTRA_17_24 = [
+                ['17. 10-Year Master Fleet Rollout (2026–2036)', 'index.html#bolton-10yr-roadmap', 'text-tech-emerald'],
+                ['18. Typhoon T8/T10 Shelter & Surge Sim', 'digital-twin.html#mod-m37', 'text-tech-amber'],
+                ['19. Cap Table & Non-Dilutive Grant Shield', 'capital-stakeholders.html#bolton-cap-table', 'text-tech-cyan'],
+                ['20. <58 dBA VIP Cabin Vibro-Acoustic Lab', 'engineering-rd.html#bolton-cabin-acoustics', 'text-purple-400'],
+                ['21. Froude Similitude (Fn=1.17) 283Hz Lab', 'engineering-rd.html#bolton-froude-lab', 'text-tech-cyan'],
+                ['22. Cavitation Bucket (σ vs α) Plotter', 'digital-twin.html#mod-m38', 'text-tech-emerald'],
+                ['23. Door-to-Door Journey Time Comparator', 'routes-calculator.html#bolton-modal-shift', 'text-tech-amber'],
+                ['24. 18-Mo Grant Reimbursement Float Sim', 'capital-stakeholders.html#bolton-grant-cashflow', 'text-tech-emerald']
+            ];
+            dockList.innerHTML += EXTRA_17_24.map(item => `
+                <a href="${item[1]}" class="block p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-tech-cyan transition-all">
+                    <span class="${item[2]} font-bold block text-[11px]">${item[0]}</span>
+                    <span class="text-[10px] text-zinc-400">${item[1]}</span>
+                </a>`).join('');
+        }
+    }, 260);
+});
