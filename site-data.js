@@ -2371,3 +2371,361 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 140);
 });
+// ============================================================================
+// BATCH 4A: DOMAIN 08/09 DIGITAL-TWIN FIX + RD COMPACTOR + COMPONENTS 13 & 14
+// Append to the bottom of site-data.js
+// ============================================================================
+
+// 1. HYDRATE COMPACTED SECTIONS IN engineering-rd.html
+window.COMPACT_LEDGERS = Object.assign(window.COMPACT_LEDGERS || {}, {
+    rd_sil_cards: [
+        ['1. Model-in-the-Loop (MIL)', '6-DOF hydrodynamic physics engine simulating hull wave resistance, T-foil lift/drag ratios, cavitation limits, and free-surface proximity effects.'],
+        ['2. Software-in-the-Loop (SIL)', 'Real-time C++/RTOS flight control algorithms tested against virtual Victoria Harbour chop and Lantau swell (JONSWAP wave spectra) to prove 100Hz pitch and roll stability.'],
+        ['3. Hardware-in-the-Loop (HIL)', 'Flashing validated control code onto target STM32H7 and edge compute nodes connected to IP68 servo actuators to verify sub-8ms deterministic latency.']
+    ],
+    rd_d1_cards: [
+        ['Avionics & Sensor Fusion', 'Autonomous Flight Controller', 'Dual deterministic microcontrollers running real-time RTOS ingest dual IMUs, ultrasonic ride-height arrays, and forward micro-LiDAR for wave feedforward control.', 'Actuator Latency:', '< 8ms Deterministic', 'text-tech-emerald'],
+        ['Hydrodynamics & Scaling', 'True Dynamic Similarity (Fn = 1.17)', 'Scaled strictly by Froude number (Fn = 1.17). Operating at 13.4 knots reproduces the exact wave-making and cavitation boundaries of the 38-knot flagship at 2.83× natural oscillation frequency.', 'Scaled Speed & Mass:', '13.4 Knots (109 kg)', 'text-tech-emerald'],
+        ['Zero-Grid R&D Testing', 'Tolo Harbour Test Protocol', 'Launched directly from the Hong Kong Science Park waterfront slipway using swappable 1.0 kWh 48V LFP battery packs (~45 mins foil-borne runtime).', 'Test Site:', 'HKSTP Tolo Harbour', 'text-white']
+    ],
+    rd_d2_cards: [
+        ['Manufacturing & Capital (HKD)', '14 Months (PRD Shipyard) • Shipyard CapEx: HK$ 18,500,000 • HKMD & DNV Certs: HK$ 1,500,000 • Total D2 Budget: HK$ 20,000,000 (50% ESS)', 'border-zinc-800'],
+        ['Sheung Wan 22 kV Greenfield Anchor', 'Following our 21 Oct 2026 walkover with HK Electric, establishing a Greenfield EV Terminal adjacent to the Sheung Wan 132/22 kV Zone Substation provides a direct 22 kV feed for D2, D3–D5, and EF-150 operations without Central footpath excavations.', 'border-zinc-800'],
+        ['1:1 ITC ESS Matching Leverage', 'A HK$ 10,000,000 Seed/Pre-A VC investment unlocks the Hong Kong Innovation and Technology Commission Enterprise Support Scheme (ESS) 1:1 matching grant (HK$ 10,000,000), doubling total capital to HK$ 20,000,000.', 'border-tech-emerald/40 bg-tech-emerald/5']
+    ],
+    rd_trl_matrix: [
+        ['TRL & Timeline', 'TRL 4 → 6 (Months 1–12)', 'TRL 6 → 8 (Months 13–24)', 'TRL 8 → 9 (Years 3–6)', 'TRL 9 (Years 6–10)'],
+        ['Length (LOA) / Foil Span', '3.56 m / 1.22 m', '15.0 m / 4.50 m', '20m (D3) / 24m (D4) / 28m (D5)', '28.50 m / 9.80 m'],
+        ['Payload & Displacement', '~109 kg (Uncrewed)', '~12 Tonnes (25–40 Pax / 4t)', '120–400 Pax or 15–50t Freight', '~56 Tonnes (150 VIP Pax)'],
+        ['Cruise Speed & Froude (Fn)', '13.4 KT (Fn = 1.17)', '32.0 KT (Fn = 1.36)', '28 KT (D3) – 35 KT (D4/D5)', '38.0 KT (Fn = 1.17)'],
+        ['Powertrain & Battery', '2x 1.0 kW | 1.0 kWh 48V LFP', '2x 150 kW | 400 kWh 800V LFP', '500–1,100 kW | 600kWh–1.4MWh', '2x 650 kW | 1.8 MWh 1,000V LFP'],
+        ['Shore Node & Capital (HKD)', 'Swappable Pack (HK$ 3.198M Ph0)', '500 kW Sheung Wan Hub (HK$ 20M)', '800 kW – 3.5 MW (22kV / BESS)', '3.5 MW Direct 22kV MCS (<2C)']
+    ],
+    rd_fullstack_infra: [
+        ['border-l-tech-cyan', 'text-tech-cyan', '01. SHEUNG WAN WATER-AIRPORT (CAP. 127)', 'GIS: 22.290175, 114.148746', '2-Story Offshore Marine Deck + Dual CIQ / Domestic Concourse', 'Constructed on rock-socketed marine piles seaward of Sai Fire Services Street (~50m north of the HKE Zone Substation and adjacent to Fire Services Dept HQ). Level 2 (FFL ≥ +7.0 mPD) houses the 22 kV Concrete Substation and covered travellator link; Level 1 (+3.8 mPD) houses Sterile CIQ Gates, Domestic Gates, and 1.5 MWh BESS.'],
+        ['border-l-tech-emerald', 'text-tech-emerald', '02. 3.5 MW MEGA-CHARGER & 1.5 MWh BESS', '12-SEC VACUUM LOCK', 'Open-Standard CharIN MCS (IEC 61851-23-3) + Macao 400V-BESS Twin', 'Combines modular 1,500 kVA HKE transformers with a 1.5 MWh liquid-cooled LFP BESS buffer on a 1,250V DC busbar to deliver 3.5 MW bursts in 10–12 minutes. At Macao Outer Harbour & Taipa terminals, an identical 2.0 MWh BESS container steps up 400V surplus power to 3.5 MW MCS output.'],
+        ['border-l-tech-amber', 'text-tech-amber', '03. TSING YI OVERNIGHT MRO DEPOT', '50-TON TRAVEL-LIFT', 'Nightly Foil NDT Inspection & <2.5-Hr Modular Pod/Battery Swaps', 'Separates revenue passenger berths at Sheung Wan from heavy maintenance. Vessels deadhead 12 minutes to Tsing Yi / Stonecutters industrial marine lots after midnight for crane haul-out, ultrasonic carbon-foil inspection, and rapid LRU swaps.'],
+        ['border-l-purple-400', 'text-purple-400', '04. HKIA SKYPIER AIRSIDE & GBA YARDS', 'UNCAPPED COMMERCIAL YIELD', 'Airline APM Feeder Model + Shenzhen/Zhuhai Serial Hull Fabrication', 'Pairs Hong Kong Science Park (HKSTP) 100Hz flight-control IP with composite hull fabrication in Shenzhen/Zhuhai shipyards, capturing uncapped commercial fares (HK$ 220–480/seat) on GBA corridors and customs-free HKIA SkyPier APM transfers.']
+    ]
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const silEl = document.querySelector('[data-compact-ledger="rd_sil_cards"]');
+    if (silEl) {
+        silEl.innerHTML = window.COMPACT_LEDGERS.rd_sil_cards.map(c => `
+            <div class="data-card p-6 rounded-xl bg-zinc-950 border-zinc-800">
+                <h3 class="text-sm font-mono font-bold text-tech-amber mb-3 uppercase">${c[0]}</h3>
+                <p class="text-xs text-zinc-400 leading-relaxed">${c[1]}</p>
+            </div>`).join('');
+    }
+    const d1El = document.querySelector('[data-compact-ledger="rd_d1_cards"]');
+    if (d1El) {
+        d1El.innerHTML = window.COMPACT_LEDGERS.rd_d1_cards.map(c => `
+            <div class="data-card p-6 rounded-xl">
+                <span class="text-xs font-mono text-zinc-500 uppercase">${c[0]}</span>
+                <h3 class="text-base font-mono font-bold text-white mt-1 mb-2">${c[1]}</h3>
+                <p class="text-xs text-zinc-400 leading-relaxed mb-4">${c[2]}</p>
+                <div class="text-[11px] font-mono text-zinc-400 border-t border-zinc-800 pt-3 flex justify-between">
+                    <span>${c[3]}</span><span class="${c[5]}">${c[4]}</span>
+                </div>
+            </div>`).join('');
+    }
+    const d2El = document.querySelector('[data-compact-ledger="rd_d2_cards"]');
+    if (d2El) {
+        d2El.innerHTML = window.COMPACT_LEDGERS.rd_d2_cards.map(c => `
+            <div class="data-card p-6 rounded-xl border ${c[2]}">
+                <h3 class="text-base font-mono font-bold text-white mb-3">${c[0]}</h3>
+                <p class="text-xs text-zinc-300 leading-relaxed">${c[1]}</p>
+            </div>`).join('');
+    }
+    const mxEl = document.querySelector('[data-compact-ledger="rd_trl_matrix"]');
+    if (mxEl) {
+        mxEl.innerHTML = `
+            <div class="px-6 py-4 bg-zinc-950 border-b border-zinc-800 flex flex-wrap justify-between items-center gap-2">
+                <span class="font-mono text-sm font-bold text-white uppercase">PLATFORM ROADMAP & TRL PROGRESSION: D1 → D2–D5 → EF-150</span>
+                <span class="font-mono text-xs text-tech-emerald bg-emerald-950/60 border border-emerald-500/30 px-3 py-1 rounded">FROUDE & C-RATE VALIDATED LEDGER</span>
+            </div>
+            <div class="hidden lg:grid lg:grid-cols-5 bg-zinc-950/80 border-b border-zinc-800 font-mono text-xs uppercase px-6 py-3.5 font-bold">
+                <div class="text-zinc-400">Engineering Parameter</div>
+                <div class="text-tech-cyan">D1 (1:8 Drone)</div>
+                <div class="text-tech-amber">D2 (25–40 Pax Pilot)</div>
+                <div class="text-sky-400">D3 / D4 / D5 (HK Fleet)</div>
+                <div class="text-tech-emerald">EF-150 (GBA Flagship)</div>
+            </div>
+            <div class="divide-y divide-zinc-800/70 font-mono text-xs">
+                ${window.COMPACT_LEDGERS.rd_trl_matrix.map(r => `
+                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-3 px-6 py-4 hover:bg-zinc-900/40 items-center">
+                        <div class="font-sans font-semibold text-zinc-200">${r[0]}</div>
+                        <div class="text-tech-cyan">${r[1]}</div>
+                        <div class="text-tech-amber">${r[2]}</div>
+                        <div class="text-sky-300">${r[3]}</div>
+                        <div class="text-tech-emerald">${r[4]}</div>
+                    </div>`).join('')}
+            </div>`;
+    }
+    const fsEl = document.querySelector('[data-compact-ledger="rd_fullstack_infra"]');
+    if (fsEl) {
+        fsEl.innerHTML = window.COMPACT_LEDGERS.rd_fullstack_infra.map(r => `
+            <div class="data-card p-6 rounded-2xl border-l-4 ${r[0]}">
+                <div class="flex justify-between ${r[1]} font-bold mb-2"><span>${r[2]}</span><span>${r[3]}</span></div>
+                <h3 class="text-base font-bold text-white font-sans mb-2">${r[4]}</h3>
+                <p class="text-zinc-300 font-sans text-xs leading-relaxed">${r[5]}</p>
+            </div>`).join('');
+    }
+});
+
+// 2. PERMANENT FIX FOR DOMAIN 08 (civil) & DOMAIN 09 (autonomy: 🛰️ MCS Arm & 25Yr TCO) ON digital-twin.html
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        if (typeof DOMAIN_TREE === 'undefined') return;
+
+        // Deduplicate m26 & m27 in Domain 08 (civil) so they don't collide with Domain 05/06 m26 & m27
+        document.querySelectorAll('section[data-dom="civil"]').forEach((sec, idx) => {
+            const cleanId = `m28_civ_${idx + 1}`;
+            sec.setAttribute('data-mod-id', cleanId);
+            sec.id = `mod-${cleanId}`;
+        });
+
+        // Register Domain 08 (civil) into DOMAIN_TREE (since inline script ran before const DOMAIN_TREE)
+        DOMAIN_TREE.civil = {
+            title: "DOMAIN 08 // SHEUNG WAN CAP. 127 MARINE DECK (22.290175, 114.148746), SKYPIER APM & TSING YI MRO",
+            mods: [
+                { id: "m28_civ_1", label: "8.1 Cap. 127 Marine Bored Piles & Surge" },
+                { id: "m28_civ_2", label: "8.2 CIQ Throughput & +7.0mPD Travellator" },
+                { id: "m28_civ_3", label: "8.3 HKIA SkyPier APM Airline Feeder" },
+                { id: "m28_civ_4", label: "8.4 Tsing Yi 50t MRO & GBA Shipyard" }
+            ]
+        };
+
+        // Register Domain 09 (autonomy: 🛰️ MCS Arm & 25Yr TCO) into DOMAIN_TREE
+        DOMAIN_TREE.autonomy = {
+            title: "DOMAIN 09 // 3.5 MW MCS PANTOGRAPH KINEMATICS, NIGHT DEBRIS DODGE, ANTI-FOULING & 25-YR TCO",
+            mods: [
+                { id: "m30", label: "9.1 3.5 MW MCS Arm & Tidal Kinematics" },
+                { id: "m31", label: "9.2 Night LWIR + LiDAR Debris Dodge" },
+                { id: "m32", label: "9.3 Ultrasonic Anti-Fouling & ICCP" },
+                { id: "m33", label: "9.4 25-Year Lifecycle TCO & BESS Reuse" },
+                { id: "m36", label: "9.5 22kV Relay, THD & Zero-Export Sim" }
+            ]
+        };
+
+        // Ensure canvas drawing functions fire whenever Domain 08 or Domain 09 sub-modules are selected
+        const origSelectSubModule = window.selectSubModule;
+        if (typeof origSelectSubModule === 'function' && !window._baywingSubModPatched) {
+            window._baywingSubModPatched = true;
+            window.selectSubModule = function (modId) {
+                origSelectSubModule(modId);
+                setTimeout(() => {
+                    if (typeof window.updateCivilPileSim === 'function') window.updateCivilPileSim();
+                    if (typeof window.updateCiqSim === 'function') window.updateCiqSim();
+                    if (typeof window.updateSkypierSim === 'function') window.updateSkypierSim();
+                    if (typeof window.updateMroDepotSim === 'function') window.updateMroDepotSim();
+                    if (typeof window.updateMcsArmSim === 'function') window.updateMcsArmSim();
+                    if (typeof window.updateDebrisSim === 'function') window.updateDebrisSim();
+                    if (typeof window.updateRelayThdSim === 'function') window.updateRelayThdSim();
+                }, 30);
+            };
+        }
+
+        // Support direct URL hash navigation (e.g. digital-twin.html#mod-m30)
+        const hash = window.location.hash.replace('#mod-', '').replace('#', '');
+        if (hash) {
+            Object.keys(DOMAIN_TREE).forEach(dKey => {
+                if (DOMAIN_TREE[dKey].mods.some(m => m.id === hash)) {
+                    window.selectDomain(dKey, hash);
+                }
+            });
+        }
+    }, 120);
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 13: TOLO HARBOUR (HKSTP SLIPWAY) AUTONOMOUS SEA-TRIAL MISSION PLANNER
+// Mounts automatically on: engineering-rd.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-tolo-planner',
+    pages: ['rd'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-tolo-planner" class="py-16 md:py-20 bg-[#060a12] border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                            <span>🧭 HKSTP PHASE 1 SEA-TRIAL RANGE // PAK SHEK KOK WATERFRONT SLIPWAY → TOLO HARBOUR</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            Interactive Tolo Harbour Autonomous Sea-Trial Geofence &amp; 13.4-Knot Waypoint Planner
+                        </h2>
+                        <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                            Select any Tolo Harbour flight test profile below to inspect the RTK-GNSS geofence box, automated 6.5-knot foil take-off zone, 13.4-knot (Fn = 1.17) slalom turns, and fail-safe return-to-slipway telemetry right outside Hong Kong Science Park.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <button onclick="setToloMission(0)" id="tolo-m-0" class="px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold">Profile A: 1.2 km Straight Take-Off &amp; Cavitation Run</button>
+                        <button onclick="setToloMission(1)" id="tolo-m-1" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Profile B: Coordinated Banked Figure-8 Slalom</button>
+                        <button onclick="setToloMission(2)" id="tolo-m-2" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Profile C: Simulated Sensor-Loss Auto-Return</button>
+                    </div>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-5">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-3.5 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">LAUNCH POINT (WGS84)</span>
+                            <span class="text-sm font-bold text-tech-cyan mt-0.5 block">22.4285° N, 114.2142° E</span>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">ACTIVE TEST MANEUVER</span>
+                            <span id="tolo-kpi-man" class="text-sm font-bold text-white mt-0.5 block">0 → 13.4 KT Foil Take-Off</span>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">RTK-GNSS GEOFENCE</span>
+                            <span class="text-sm font-bold text-tech-emerald mt-0.5 block">1,200m × 450m Safe Box</span>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">48V LFP BATTERY RESERVE</span>
+                            <span id="tolo-kpi-soc" class="text-sm font-bold text-tech-amber mt-0.5 block">45 Mins Foil Runtime</span>
+                        </div>
+                    </div>
+                    <div class="bg-[#03070e] rounded-xl border border-zinc-800 p-4">
+                        <canvas id="tolo-mission-canvas" width="980" height="220" class="w-full h-auto rounded bg-[#02050a]"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.setToloMission = function (idx) {
+            for (let i = 0; i < 3; i++) {
+                const b = document.getElementById(`tolo-m-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            const labels = ['0 → 13.4 KT Straight Foil Acceleration', '12° Banked Figure-8 Zero-Slip Slalom', '2oo3 Fault Injection & Auto-Return to Slipway'];
+            document.getElementById('tolo-kpi-man').textContent = labels[idx] || labels[0];
+
+            const c = document.getElementById('tolo-mission-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            // Pak Shek Kok Promenade Shoreline (Left)
+            ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2;
+            ctx.fillRect(20, 20, 145, 180); ctx.strokeRect(20, 20, 145, 180);
+            ctx.fillStyle = '#00f2ff'; ctx.font = 'bold 11px JetBrains Mono';
+            ctx.fillText('HK SCIENCE PARK', 35, 95);
+            ctx.fillStyle = '#94a3b8'; ctx.fillText('Waterfront Slipway', 35, 115);
+
+            // RTK Geofence Box
+            ctx.strokeStyle = 'rgba(16, 185, 129, 0.45)'; ctx.setLineDash([6, 4]); ctx.lineWidth = 2;
+            ctx.strokeRect(195, 25, 750, 170); ctx.setLineDash([]);
+            ctx.fillStyle = '#10b981'; ctx.fillText('RTK-GNSS GEOFENCE (1,200m × 450m TOLO HARBOUR FAIRWAY)', 215, 45);
+
+            ctx.lineWidth = 3.5;
+            if (idx === 0) {
+                ctx.strokeStyle = '#00f2ff';
+                ctx.beginPath(); ctx.moveTo(165, 110); ctx.lineTo(890, 110); ctx.stroke();
+                ctx.fillStyle = '#f59e0b'; ctx.fillText('▲ 6.5 KT Foil Lift-Off', 280, 135);
+                ctx.fillStyle = '#10b981'; ctx.fillText('▲ 13.4 KT (Fn = 1.17) Steady State Lock', 560, 135);
+            } else if (idx === 1) {
+                ctx.strokeStyle = '#10b981';
+                ctx.beginPath();
+                for (let t = 0; t <= Math.PI * 2; t += 0.05) {
+                    const x = 560 + Math.sin(t) * 260;
+                    const y = 115 + Math.sin(t * 2) * 55;
+                    if (t === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.fillStyle = '#00f2ff'; ctx.fillText('Coordinated 12.0° Aileron Bank (Lateral Accel < 0.01g)', 390, 190);
+            } else {
+                ctx.strokeStyle = '#f59e0b';
+                ctx.beginPath(); ctx.moveTo(165, 90); ctx.lineTo(680, 90); ctx.arc(680, 120, 30, -Math.PI / 2, Math.PI / 2); ctx.lineTo(165, 150); ctx.stroke();
+                ctx.fillStyle = '#ef4444'; ctx.fillText('⚡ Simulated IMU Fault @ 680m → Autonomous 8-KT Return', 360, 185);
+            }
+        };
+        window.setToloMission(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 14: 22 kV PROTECTION RELAY, HARMONIC FILTER & ZERO-EXPORT SIMULATOR
+// Mounts inside Domain 09 (autonomy) on digital-twin.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'mod-m36',
+    modId: 'm36',
+    navLabel: '9.5 22kV Relay, THD & Zero-Export Sim',
+    pages: ['twin'],
+    twinDomain: {
+        key: 'autonomy',
+        badge: 'DOMAIN 09',
+        shortLabel: '🛰️ MCS Arm & 25Yr TCO',
+        title: 'DOMAIN 09 // 3.5 MW MCS PANTOGRAPH KINEMATICS, NIGHT DEBRIS DODGE, ANTI-FOULING & 25-YR TCO'
+    },
+    renderHtml: function () {
+        return `
+        <section id="mod-m36" data-mod-id="m36" data-dom="autonomy" class="twin-mod-sec py-12 bg-[#090b0f] border-b border-zinc-800/80" style="display:none;">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="text-xs font-mono text-tech-emerald uppercase tracking-widest mb-1">DOMAIN 09 • SUB-MODULE 9.5 // HKE / CLP / EMSD SUBSTATION PROTECTION &amp; POWER QUALITY</div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">22 kV ANSI 32R Reverse-Power Relay, Active Harmonic Filter (THD &lt; 2.4%) &amp; SiC Breaker Sim</h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        Verifies compliance with HK Electric, CLP Power, and EMSD Supply Rules: our 12-pulse / Active Front End (AFE) SiC rectifiers keep current Total Harmonic Distortion (THD-I) below 2.4% (vs. 5.0% IEEE 519 limit) while hardware ANSI 32R reverse-power relays guarantee 0.0 kW export from the 1.5 MWh BESS back into the utility grid.
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6 pb-4 border-b border-zinc-800 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Active Front-End (AFE) Harmonic Filter:</span>
+                                <span id="thd-mode-val" class="text-tech-emerald font-bold">SiC LCL Active Filter ON (THD = 2.1%)</span>
+                            </div>
+                            <input id="thd-slider" type="range" min="0" max="1" step="1" value="1" class="w-full accent-emerald-400 cursor-pointer" oninput="updateRelayThdSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. ANSI 32R Reverse-Power Interlock Test:</span>
+                                <span id="rel-test-val" class="text-tech-cyan font-bold">0.0 kW Grid Export (Unidirectional Lock)</span>
+                            </div>
+                            <input id="rel-slider" type="range" min="1" max="3.5" step="0.5" value="3.5" class="w-full accent-cyan-400 cursor-pointer" oninput="updateRelayThdSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">GRID CURRENT THD-I</span>
+                            <span id="thd-out-pct" class="text-base font-bold text-tech-emerald mt-1 block">2.1% (IEEE 519 Limit: 5%)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">TRUE POWER FACTOR</span>
+                            <span id="thd-out-pf" class="text-base font-bold text-tech-cyan mt-1 block">0.992 Unity PF</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">ANSI 32R / 81U TRIP TIME</span>
+                            <span class="text-base font-bold text-white mt-1 block">&lt; 8.0 ms Isolation</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">DC BUS FAULT CLEARANCE</span>
+                            <span class="text-base font-bold text-tech-emerald mt-1 block">14 µs SiC Solid-State</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.updateRelayThdSim = function () {
+            const on = parseInt(document.getElementById('thd-slider')?.value || 1) === 1;
+            const mw = parseFloat(document.getElementById('rel-slider')?.value || 3.5);
+            const mv = document.getElementById('thd-mode-val');
+            if (mv) {
+                mv.textContent = on ? 'SiC LCL Active Filter ON (THD = 2.1%)' : 'Unfiltered 6-Pulse Baseline (THD = 11.4%)';
+                document.getElementById('thd-out-pct').textContent = on ? '2.1% (IEEE 519 PASS)' : '11.4% (FILTER REQUIRED)';
+                document.getElementById('thd-out-pf').textContent = on ? '0.992 Unity PF' : '0.910 Lagging';
+                document.getElementById('rel-test-val').textContent = `${mw.toFixed(1)} MW MCS Burst → 0.0 kW Export`;
+            }
+        };
+        window.updateRelayThdSim();
+    }
+});
