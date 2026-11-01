@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAYWING 28 Routes Map, Uncapped GBA Fare Yield & OPEX Simulator (HKD)</title>
+    <title>BAYWING 28 HK & GBA Routes | Interactive Hydrographic Chart & HKD OPEX Simulator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
@@ -25,285 +25,158 @@
             background-image: linear-gradient(to right, rgba(148, 163, 184, 0.03) 1px, transparent 1px),
                               linear-gradient(to bottom, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
         }
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 10px; border-radius: 2px; background: #00f2ff; cursor: pointer; margin-top: -7px; }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #27272a; border-radius: 2px; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #0c0e12; }
-        ::-webkit-scrollbar-thumb { background: #2e3545; border-radius: 3px; }
-        .route-row-active { background-color: rgba(0, 242, 255, 0.08) !important; border-left: 3px solid #00f2ff !important; }
-        @keyframes dash-flow { to { stroke-dashoffset: -24; } }
-        .active-fairway-line { animation: dash-flow 1.2s linear infinite; }
+        .route-path { fill: none; stroke-width: 2.4; stroke-linecap: round; cursor: pointer; transition: all 0.2s ease; opacity: 0.55; }
+        .route-path:hover, .route-path.active-route { stroke-width: 4.5; opacity: 1; filter: drop-shadow(0 0 8px #00f2ff); }
     </style>
 </head>
 <body class="antialiased selection:bg-zinc-700 selection:text-white min-h-screen flex flex-col">
 
-    <!-- SHARED DATA & REUSABLE HEADER -->
     <script src="site-data.js"></script>
     <script src="header.js"></script>
     <site-header></site-header>
 
     <main>
-        <!-- SECTION 1: ALL 28 HK & GBA CORRIDORS — INTERACTIVE HYDROGRAPHIC MAP & SPEC SHEET -->
-        <section id="hk-routes-master" class="pt-28 pb-16 md:pt-32 md:pb-20 bg-[#090b0f] border-b border-zinc-800/80 cad-grid-bg">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-3xl mb-8">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-emerald/10 border border-tech-emerald/30 text-tech-emerald font-mono text-xs mb-2" data-i18n="rm_badge">
-                        SHEUNG WAN 22kV WATER-AIRPORT (22.290175, 114.148746) + SKYPIER APM + MACAO 400V-BESS NETWORK
-                    </div>
-                    <h1 class="text-2xl sm:text-4xl font-mono font-bold text-white uppercase" data-i18n="rm_title">
-                        All 23 HK Ferry Routes + 5 Uncapped GBA Corridors: Hydrographic Chart &amp; Yield Simulator
-                    </h1>
-                    <p class="text-sm text-zinc-400 mt-2 leading-relaxed" data-i18n="rm_desc">
-                        Select any of the 28 corridors below to inspect its marine fairway, assigned BAYWING vessel, Hub-and-Spoke charging architecture (100% HKE 22 kV charged for cross-harbour shuttles; 400V-to-BESS buffered in Macao), and live OPEX + Uncapped Commercial Fare EBITDA in HKD.
-                    </p>
+        <!-- HERO & TERRITORIAL KPI SUMMARY -->
+        <section class="pt-28 pb-12 md:pt-32 md:pb-16 border-b border-zinc-800/80 cad-grid-bg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="inline-flex items-center space-x-2 text-[11px] font-mono text-tech-cyan bg-tech-cyan/10 border border-tech-cyan/30 px-3 py-1 rounded mb-4">
+                    <span class="w-2 h-2 bg-tech-cyan rounded-full animate-ping"></span>
+                    <span class="font-bold uppercase tracking-wider">28 VERIFIED CORRIDORS // 8 VICTORIA HARBOUR • 9 OUTLYING ISLANDS • 6 REGIONAL • 5 GBA CIQ</span>
                 </div>
+                <h1 class="text-3xl sm:text-5xl font-mono font-bold text-white uppercase tracking-tight">
+                    28 HK &amp; GBA Routes &amp; Interactive HKD OPEX Simulator
+                </h1>
+                <p class="text-sm sm:text-base text-zinc-300 max-w-3xl mt-3 leading-relaxed">
+                    Select any of the 28 maritime corridors on the interactive hydrographic chart or category bar below to inspect vessel class assignment (`D2` to `EF-150`), transit time savings, shore-charging architecture (`HKE 22 kV`, `CLP 11 kV`, `Macao 400V-to-BESS`, or `0 kW Touch-and-Go`), and annual fuel savings in HKD.
+                </p>
 
-                <!-- CATEGORY FILTER TABS -->
-                <div class="flex flex-wrap gap-2 mb-6 font-mono text-xs">
-                    <button onclick="filterRoutes('all')" id="tab-all" class="px-4 py-2 rounded-lg bg-white text-zinc-950 font-bold transition-all" data-i18n="tab_all">ALL ROUTES (28)</button>
-                    <button onclick="filterRoutes('gba')" id="tab-gba" class="px-4 py-2 rounded-lg bg-zinc-900 text-purple-300 border border-purple-500/40 hover:border-purple-400 transition-all" data-i18n="tab_gba">✈️ GBA &amp; SkyPier Uncapped (5)</button>
-                    <button onclick="filterRoutes('island')" id="tab-island" class="px-4 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-800 hover:border-tech-emerald transition-all" data-i18n="tab_isl">🏝️ Outlying Islands (9)</button>
-                    <button onclick="filterRoutes('harbour')" id="tab-harbour" class="px-4 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-800 hover:border-sky-400 transition-all" data-i18n="tab_vh">🏙️ Victoria Harbour Feeders (8)</button>
-                    <button onclick="filterRoutes('regional')" id="tab-regional" class="px-4 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-800 hover:border-tech-amber transition-all" data-i18n="tab_reg">🌊 Regional Coastal (6)</button>
-                </div>
-
-                <!-- HYDROGRAPHIC MAP + ACTIVE ROUTE SPEC PANEL -->
-                <div class="data-card rounded-xl p-4 sm:p-6 bg-[#070d17] border border-zinc-800 mb-8">
-                    <div class="flex flex-wrap justify-between items-center mb-3 pb-3 border-b border-zinc-800/80 text-[11px] font-mono">
-                        <span class="text-zinc-300 font-bold uppercase tracking-wider" data-i18n="map_hdr_title">CAD HYDROGRAPHIC CHART // SHEUNG WAN 22kV WATER-AIRPORT, SKYPIER APM &amp; PEARL RIVER ESTUARY</span>
-                        <span class="text-tech-cyan"><span data-i18n="map_active_lbl">ACTIVE CORRIDOR:</span> <strong id="map-top-active-label" class="text-white">GBA-01 // HK Sheung Wan ⟷ Macau</strong></span>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 font-mono">
+                    <div class="data-card p-4 rounded-xl border-l-4 border-l-tech-emerald">
+                        <span class="text-[10px] text-zinc-500 uppercase block">ENERGY COST PER NM (78% DROP)</span>
+                        <span class="text-lg font-extrabold text-white mt-0.5 block">HK$ 38.22 vs $175.50</span>
+                        <span class="text-[11px] text-tech-emerald">-80% Foil Drag Decoupling</span>
                     </div>
-
-                    <svg id="hk-network-map" viewBox="0 0 1000 520" class="w-full h-auto rounded bg-[#040912] border border-[#152338] select-none">
-                        <defs>
-                            <pattern id="hydroGrid" width="50" height="50" patternUnits="userSpaceOnUse">
-                                <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#1e3a5f" stroke-width="0.5" stroke-opacity="0.35"/>
-                            </pattern>
-                            <filter id="routeGlow" x="-20%" y="-20%" width="140%" height="140%">
-                                <feGaussianBlur stdDeviation="3" result="blur"/>
-                                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                            </filter>
-                        </defs>
-                        <rect width="1000" height="520" fill="url(#hydroGrid)"/>
-
-                        <g transform="translate(910, 45)" stroke="#475569" fill="none" font-family="'JetBrains Mono', monospace" font-size="8">
-                            <circle cx="0" cy="0" r="18" stroke-opacity="0.5"/>
-                            <path d="M 0 -22 L 0 22 M -22 0 L 22 0" stroke-opacity="0.4"/>
-                            <polygon points="0,-18 -4,-6 4,-6" fill="#00f2ff" stroke="none"/>
-                            <text x="-3" y="-25" fill="#00f2ff" stroke="none" font-weight="bold">N</text>
-                        </g>
-
-                        <!-- LANDMASS CONTOURS -->
-                        <path d="M 15 20 L 185 20 L 210 75 L 165 120 L 95 130 L 15 110 Z" fill="#0b1524" stroke="#1e3a5f" stroke-width="1.5"/>
-                        <text x="95" y="65" fill="#475569" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold" text-anchor="middle" data-i18n="m_sz">SHENZHEN / SZX</text>
-                        <path d="M 15 340 L 125 345 L 140 415 L 95 475 L 15 475 Z" fill="#0b1524" stroke="#1e3a5f" stroke-width="1.5"/>
-                        <text x="75" y="425" fill="#475569" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold" text-anchor="middle" data-i18n="m_macau_land">MACAU / ZHUHAI</text>
-                        <path d="M 255 25 L 880 25 L 935 165 L 845 235 L 775 230 L 725 205 L 675 195 L 620 225 L 595 220 L 575 180 L 520 155 L 445 160 L 365 155 L 270 150 Z" fill="#0b1524" stroke="#1e3a5f" stroke-width="1.5"/>
-                        <text x="580" y="95" fill="#334155" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="bold" letter-spacing="2" text-anchor="middle" data-i18n="m_nt_kln">NEW TERRITORIES &amp; KOWLOON</text>
-                        <path d="M 455 182 C 468 178, 480 185, 476 198 C 468 204, 452 198, 455 182 Z" fill="#0f1d30" stroke="#2dd4bf" stroke-width="1" stroke-opacity="0.5"/>
-                        <path d="M 445 215 C 420 215, 395 230, 365 245 L 305 255 L 255 285 L 220 325 C 215 345, 235 365, 265 365 L 335 350 L 385 335 L 415 305 L 435 265 Z" fill="#0b1524" stroke="#1e3a5f" stroke-width="1.6"/>
-                        <text x="330" y="305" fill="#475569" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" letter-spacing="1.5" text-anchor="middle" data-i18n="m_lantau">LANTAU ISLAND</text>
-                        <circle cx="468" cy="272" r="9" fill="#0b1524" stroke="#1e3a5f" stroke-width="1.4"/>
-                        <path d="M 418 378 C 425 372, 435 378, 432 390 C 435 402, 425 408, 418 402 C 412 394, 412 384, 418 378 Z" fill="#0b1524" stroke="#1e3a5f" stroke-width="1.4"/>
-                        <path d="M 565 268 C 605 260, 665 255, 735 258 L 785 275 L 795 335 L 735 365 L 665 355 L 605 338 L 565 305 Z" fill="#0b1524" stroke="#1e3a5f" stroke-width="1.6"/>
-                        <text x="685" y="312" fill="#475569" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="bold" letter-spacing="1" text-anchor="middle" data-i18n="m_hki">HONG KONG ISLAND</text>
-                        <path d="M 555 375 C 572 370, 592 382, 590 405 L 595 445 C 580 455, 560 445, 558 420 Z" fill="#0b1524" stroke="#1e3a5f" stroke-width="1.4"/>
-                        <text x="576" y="470" fill="#475569" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="bold" text-anchor="middle" data-i18n="m_lamma">LAMMA ISLAND</text>
-
-                        <!-- INACTIVE & ACTIVE CURVED ROUTE PATHS -->
-                        <g id="map-routes-layer"></g>
-                        <path id="map-active-path" d="M 585 265 C 510 255, 475 385, 360 412 C 260 430, 185 412, 115 395" fill="none" stroke="#00f2ff" stroke-width="3.5" stroke-linecap="round" filter="url(#routeGlow)"/>
-                        <path id="map-active-flow" class="active-fairway-line" d="M 585 265 C 510 255, 475 385, 360 412 C 260 430, 185 412, 115 395" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="6,18" stroke-linecap="round"/>
-
-                        <!-- PIER NODES -->
-                        <g font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="600" fill="#cbd5e1">
-                            <circle cx="585" cy="265" r="6" fill="#00f2ff" stroke="#040912" stroke-width="1.5"/>
-                            <text x="585" y="283" fill="#00f2ff" font-weight="bold" text-anchor="middle" data-i18n="p_central">SHEUNG WAN 22kV WATER-AIRPORT (CIQ)</text>
-                            <circle cx="545" cy="182" r="4" fill="#f59e0b"/>
-                            <text x="545" y="172" fill="#f59e0b" text-anchor="middle">TSING YI MRO DEPOT</text>
-                            <circle cx="640" cy="262" r="3.5" fill="#94a3b8"/><text x="640" y="276" text-anchor="middle" data-i18n="p_wanchai">WAN CHAI</text>
-                            <circle cx="695" cy="259" r="3.5" fill="#94a3b8"/><text x="695" y="273" text-anchor="middle" data-i18n="p_northpt">NORTH PT</text>
-                            <circle cx="748" cy="264" r="3.5" fill="#94a3b8"/><text x="768" y="276" data-i18n="p_saiwanho">SAI WAN HO</text>
-                            <circle cx="602" cy="222" r="4" fill="#94a3b8"/><text x="588" y="216" text-anchor="end" data-i18n="p_tst">TST (TOUCH &amp; GO)</text>
-                            <circle cx="642" cy="212" r="3.5" fill="#94a3b8"/><text x="642" y="202" text-anchor="middle" data-i18n="p_hunghom">HUNG HOM</text>
-                            <circle cx="672" cy="198" r="3.5" fill="#94a3b8"/><text x="672" y="187" text-anchor="middle" data-i18n="p_klncity">KOWLOON CITY</text>
-                            <circle cx="722" cy="204" r="3.5" fill="#94a3b8"/><text x="735" y="194" data-i18n="p_kwuntong">KWUN TONG / KAI TAK</text>
-                            <circle cx="765" cy="225" r="3.5" fill="#94a3b8"/><text x="775" y="228" data-i18n="p_samkatsuen">SAM KA TSUEN</text>
-                            <circle cx="612" cy="336" r="4" fill="#94a3b8"/><text x="622" y="346" data-i18n="p_aberdeen">ABERDEEN</text>
-                            <circle cx="565" cy="382" r="4" fill="#10b981"/><text x="553" y="385" text-anchor="end" data-i18n="p_ysw">YUNG SHUE WAN</text>
-                            <circle cx="585" cy="422" r="4" fill="#10b981"/><text x="600" y="426" data-i18n="p_skw">SOK KWU WAN</text>
-                            <circle cx="430" cy="252" r="4" fill="#10b981"/><text x="422" y="244" text-anchor="end" data-i18n="p_db">DISCOVERY BAY</text>
-                            <circle cx="468" cy="272" r="4" fill="#10b981"/><text x="482" y="275" data-i18n="p_pengchau">PENG CHAU</text>
-                            <circle cx="392" cy="292" r="4" fill="#10b981"/><text x="382" y="295" text-anchor="end" data-i18n="p_muiwo">MUI WO</text>
-                            <circle cx="425" cy="390" r="4.5" fill="#10b981"/><text x="425" y="416" text-anchor="middle" data-i18n="p_cheungchau">CHEUNG CHAU</text>
-                            <circle cx="468" cy="192" r="4" fill="#94a3b8"/><text x="468" y="177" text-anchor="middle" data-i18n="p_mawan">MA WAN</text>
-                            <circle cx="505" cy="156" r="4" fill="#94a3b8"/><text x="515" y="148" data-i18n="p_tsuenwan">TSUEN WAN</text>
-                            <circle cx="305" cy="152" r="4" fill="#94a3b8"/><text x="305" y="140" text-anchor="middle" data-i18n="p_tuenmun">TUEN MUN</text>
-                            <circle cx="325" cy="248" r="5" fill="#00f2ff"/><text x="325" y="264" fill="#00f2ff" font-weight="bold" text-anchor="middle" data-i18n="p_skypier">HKIA SKYPIER (AIRSIDE APM)</text>
-                            <circle cx="222" cy="332" r="4" fill="#94a3b8"/><text x="208" y="336" text-anchor="end" data-i18n="p_taio">TAI O</text>
-                            <circle cx="155" cy="95" r="5" fill="#00f2ff"/><text x="155" y="114" fill="#00f2ff" font-weight="bold" text-anchor="middle" data-i18n="p_shekou">SHEKOU / SZX AIRPORT</text>
-                            <circle cx="115" cy="395" r="5.5" fill="#10b981"/><text x="115" y="382" fill="#10b981" font-weight="bold" text-anchor="middle" data-i18n="p_macau">MACAU (400V-BESS) / ZHUHAI</text>
-                        </g>
-                    </svg>
-
-                    <!-- SELECTED ROUTE ENGINEERING SPEC BAR -->
-                    <div class="mt-5 pt-5 border-t border-zinc-800 space-y-4">
-                        <div>
-                            <span id="spec-cat-badge" class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-zinc-900 text-tech-cyan border border-zinc-700">
-                                GBA-01 // GBA CROSS-BORDER CORRIDOR
-                            </span>
-                            <h3 id="spec-route-name" class="text-xl font-mono font-bold text-white mt-1.5">HK Sheung Wan (22kV CIQ Water-Airport) ⟷ Macau</h3>
-                            <p id="spec-notes" class="text-xs text-zinc-300 mt-1.5 leading-relaxed"></p>
-                        </div>
-
-                        <div class="grid sm:grid-cols-4 gap-3 font-mono">
-                            <div class="p-3.5 rounded bg-zinc-950 border border-zinc-800/90">
-                                <span class="text-[9.5px] text-zinc-500 block uppercase" data-i18n="sp_lbl_vessel">ASSIGNED VESSEL</span>
-                                <span id="spec-vessel" class="text-base font-bold text-tech-cyan mt-1 block">BAYWING EF-150</span>
-                                <span id="spec-dist-speed" class="text-[10.5px] text-zinc-400 mt-0.5 block">36.0 NM @ 38 KT</span>
-                            </div>
-                            <div class="p-3.5 rounded bg-zinc-950 border border-zinc-800/90">
-                                <span class="text-[9.5px] text-zinc-500 block uppercase" data-i18n="sp_lbl_time">TRANSIT TIME</span>
-                                <span id="spec-time" class="text-base font-bold text-white mt-1 block">55 mins</span>
-                                <span id="spec-time-sub" class="text-[10.5px] text-tech-emerald mt-0.5 block">vs 60 mins Jetfoil</span>
-                            </div>
-                            <div class="p-3.5 rounded bg-zinc-950 border border-zinc-800/90">
-                                <span class="text-[9.5px] text-zinc-500 block uppercase" data-i18n="sp_lbl_kwh">ENERGY &amp; SHORE HUB</span>
-                                <span id="spec-energy" class="text-base font-bold text-white mt-1 block">640 kWh / 12m</span>
-                                <span id="spec-charger" class="text-[10.5px] text-zinc-400 mt-0.5 block">HK 22kV + Macau 400V-BESS</span>
-                            </div>
-                            <div class="p-3.5 rounded bg-zinc-950 border border-zinc-800/90">
-                                <span class="text-[9.5px] text-zinc-500 block uppercase" data-i18n="sp_lbl_save">FUEL SAVED / VESSEL (HKD)</span>
-                                <span id="spec-save-money" class="text-base font-bold text-tech-emerald mt-1 block">HK$ 14.43M/yr</span>
-                                <span id="spec-co2" class="text-[10.5px] text-zinc-400 mt-0.5 block">-5,120 T CO₂/yr</span>
-                            </div>
-                        </div>
+                    <div class="data-card p-4 rounded-xl border-l-4 border-l-tech-cyan">
+                        <span class="text-[10px] text-zinc-500 uppercase block">PRIMARY 22 kV WATER-AIRPORT</span>
+                        <span class="text-lg font-extrabold text-white mt-0.5 block">Sheung Wan (+7.0mPD)</span>
+                        <span class="text-[11px] text-tech-cyan">GIS: 22.290175, 114.148746</span>
                     </div>
-                </div>
-
-                <!-- 28-ROUTE SPECIFICATION DIRECTORY (SINGLE FULL-WIDTH TABLE VIEW) -->
-                <div class="data-card rounded-xl overflow-hidden">
-                    <div class="px-5 py-3.5 bg-zinc-950 border-b border-zinc-800 flex justify-between items-center font-mono text-xs">
-                        <span class="text-zinc-300 uppercase tracking-wider" data-i18n="tbl28_hdr">ROUTE SPECIFICATION DIRECTORY (CLICK ANY ROW TO INSPECT ON CHART &amp; YIELD SIMULATOR)</span>
-                        <span class="text-zinc-500">
-                            <span id="route-count-label" class="text-white font-bold">28</span> <span data-i18n="tbl28_routes">Corridors</span>
-                        </span>
+                    <div class="data-card p-4 rounded-xl border-l-4 border-l-tech-amber">
+                        <span class="text-[10px] text-zinc-500 uppercase block">RURAL SPOKE GRID CAPEX</span>
+                        <span class="text-lg font-extrabold text-white mt-0.5 block">HK$ 0 (Touch &amp; Go)</span>
+                        <span class="text-[11px] text-tech-amber">TST, Peng Chau, Chi Ma Wan, Tai O</span>
                     </div>
-                    <div class="divide-y divide-zinc-800/60 max-h-[440px] overflow-y-auto" id="routes-table-body"></div>
+                    <div class="data-card p-4 rounded-xl border-l-4 border-l-purple-400">
+                        <span class="text-[10px] text-zinc-500 uppercase block">TERRITORIAL CO₂ ABATEMENT</span>
+                        <span class="text-lg font-extrabold text-white mt-0.5 block">-168,000 Tonnes / Yr</span>
+                        <span class="text-[11px] text-purple-400">EEB Green Tech Fund Aligned</span>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 2: INTERACTIVE HKD FLEET OPEX & UNCAPPED GBA FARE-YIELD SIMULATOR (SINGLE-VIEW STACKED) -->
-        <section id="simulator" class="py-16 md:py-24 bg-[#0c0e12]">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-                <div>
-                    <div class="text-xs font-mono text-tech-cyan uppercase tracking-widest mb-2" data-i18n="calc_tag">STRATEGIC ROUTE ANALYTICS // OPEX SAVINGS + UNCAPPED GBA / SKYPIER COMMERCIAL YIELD (HKD)</div>
-                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase" data-i18n="calc_title">
-                        Fleet Energy OPEX &amp; Uncapped Ticket Yield Simulator
-                    </h2>
-                    <p class="text-sm text-zinc-300 mt-2 leading-relaxed" data-i18n="calc_desc">
-                        Domestic Hong Kong harbour and island routes have Transport Department fare caps (HK$ 6–45/pax), serving as high-frequency passenger funnels into our Sheung Wan Water-Airport. Medium-range cross-border GBA and HKIA SkyPier airside routes command uncapped commercial fares (HK$ 220–480/pax) while cutting energy burn by 78% (from HK$ 175.50/NM down to HK$ 38.22/NM).
-                    </p>
+        <!-- INTERACTIVE HYDROGRAPHIC CHART & LIVE ROUTE OPEX CALCULATOR -->
+        <section class="py-12 md:py-16 bg-[#070b12] border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="filterRoutes('all')" id="rt-cat-all" class="px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold">All Corridors (28)</button>
+                        <button onclick="filterRoutes('harbour')" id="rt-cat-harbour" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Victoria Harbour (8)</button>
+                        <button onclick="filterRoutes('island')" id="rt-cat-island" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Outlying Islands (9)</button>
+                        <button onclick="filterRoutes('regional')" id="rt-cat-regional" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Regional Coastal (6)</button>
+                        <button onclick="filterRoutes('gba')" id="rt-cat-gba" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">GBA Water-Airport &amp; SkyPier (5)</button>
+                    </div>
+                    <select id="route-quick-select" onchange="selectRouteById(this.value)" class="bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-white outline-none"></select>
                 </div>
 
-                <div class="data-card p-6 sm:p-8 rounded-2xl bg-zinc-950 space-y-8">
-                    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-800 pb-4">
-                        <div>
-                            <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest" data-i18n="calc_sim_tag">INTERACTIVE FINANCIAL SIMULATOR (28 CORRIDORS)</span>
-                            <h3 class="text-lg font-mono font-bold text-white" data-i18n="calc_sim_title">Fleet OPEX, Ticket Revenue &amp; EBITDA Projection Model (HKD)</h3>
+                <div class="grid lg:grid-cols-12 gap-6 items-stretch">
+                    <!-- Left: Interactive SVG Hydrographic Map -->
+                    <div class="lg:col-span-7 data-card rounded-2xl p-4 bg-[#030812] border border-zinc-800 flex flex-col justify-between">
+                        <div class="flex justify-between items-center font-mono text-xs text-zinc-400 pb-3 mb-2 border-b border-zinc-800">
+                            <span class="text-tech-cyan font-bold">INTERACTIVE HK &amp; PEARL RIVER ESTUARY CHART (CLICK ANY CORRIDOR)</span>
+                            <span id="map-active-code" class="text-tech-emerald font-bold">GBA-01 SELECTED</span>
                         </div>
-                        <span id="calc-pricing-badge" class="px-3 py-1 rounded bg-purple-500/20 border border-purple-400/50 text-purple-300 font-mono text-xs font-bold">
-                            ✈️ UNCAPPED COMMERCIAL GBA / SKYPIER PRICING
-                        </span>
+                        <svg id="hk-gba-svg-map" viewBox="0 0 850 480" class="w-full h-auto rounded-xl bg-[#02050b] border border-[#14263d] select-none">
+                            <defs>
+                                <pattern id="navGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#00f2ff" stroke-width="0.5" stroke-opacity="0.1"/>
+                                </pattern>
+                            </defs>
+                            <rect width="850" height="480" fill="url(#navGrid)"/>
+                            <!-- Stylized Landmasses -->
+                            <path d="M 555 262 L 760 258 L 755 345 L 595 345 Z" fill="#0b192c" stroke="#1e3a5f" stroke-width="1.5"/>
+                            <path d="M 280 40 L 790 40 L 770 230 L 580 225 L 490 165 L 295 160 Z" fill="#091524" stroke="#1e3a5f" stroke-width="1.5"/>
+                            <path d="M 210 245 L 465 245 L 435 315 L 205 330 Z" fill="#0b192c" stroke="#1e3a5f" stroke-width="1.5"/>
+                            <path d="M 45 360 L 145 365 L 135 435 L 45 430 Z" fill="#0b192c" stroke="#1e3a5f" stroke-width="1.5"/>
+                            <g id="svg-routes-layer"></g>
+                            <!-- Primary Hub Pins -->
+                            <circle cx="585" cy="265" r="7" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+                            <text x="585" y="284" fill="#10b981" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" text-anchor="middle">SHEUNG WAN 22kV HUB</text>
+                            <circle cx="325" cy="248" r="6" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5"/>
+                            <text x="325" y="236" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold" text-anchor="middle">HKIA SKYPIER</text>
+                            <circle cx="115" cy="395" r="6" fill="#00f2ff" stroke="#ffffff" stroke-width="1.5"/>
+                            <text x="115" y="415" fill="#00f2ff" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold" text-anchor="middle">MACAU 400V-BESS</text>
+                            <circle cx="155" cy="95" r="6" fill="#a855f7" stroke="#ffffff" stroke-width="1.5"/>
+                            <text x="155" y="80" fill="#c084fc" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold" text-anchor="middle">SHENZHEN SZX / SHEKOU</text>
+                        </svg>
                     </div>
 
-                    <!-- Controls Row (Clean Single-View Grid) -->
-                    <div class="grid md:grid-cols-2 gap-6 font-mono text-xs">
+                    <!-- Right: Selected Corridor Telemetry & Interactive HKD OPEX Calculator -->
+                    <div class="lg:col-span-5 data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 flex flex-col justify-between space-y-5 font-mono">
                         <div>
-                            <label class="block text-zinc-400 uppercase mb-2" data-i18n="calc_in_1">1. Select Any of the 28 HK or GBA Corridors</label>
-                            <select id="calc-route-select" onchange="onSimulatorRouteChange()" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-xs font-mono text-white outline-none"></select>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-zinc-400 uppercase">2. Average Ticket Fare (HKD / Passenger):</span>
-                                <span id="calc-fare-val" class="text-tech-emerald font-bold">HK$ 320 / Pax (Uncapped GBA)</span>
+                            <div class="flex items-center justify-between gap-2 pb-3 border-b border-zinc-800 text-xs">
+                                <span id="sel-rt-cat" class="text-tech-cyan font-bold uppercase"></span>
+                                <span id="sel-rt-vessel" class="px-2.5 py-0.5 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-bold"></span>
                             </div>
-                            <input id="calc-fare" type="range" min="6" max="550" value="320" step="2" oninput="runRouteCalculator()">
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-zinc-400 uppercase" data-i18n="calc_in_2">3. Active Fleet Size on Corridor:</span>
-                                <span id="calc-fleet-val" class="text-white font-bold">4 VESSELS</span>
-                            </div>
-                            <input id="calc-fleet" type="range" min="1" max="12" value="4" step="1" oninput="runRouteCalculator()">
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="text-zinc-400 uppercase" data-i18n="calc_in_3">4. Daily Round Trips / Vessel:</span>
-                                <span id="calc-trips-val" class="text-white font-bold">6 TRIPS</span>
-                            </div>
-                            <input id="calc-trips" type="range" min="2" max="20" value="6" step="1" oninput="runRouteCalculator()">
-                        </div>
-                    </div>
+                            <h2 id="sel-rt-name" class="text-xl font-bold text-white mt-2"></h2>
+                            <p id="sel-rt-notes" class="text-xs text-zinc-300 font-sans mt-2 leading-relaxed"></p>
 
-                    <!-- 6 Output KPI Cards (Single Full-Width View) -->
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 font-mono">
-                        <div class="p-4 bg-[#070b12] rounded-xl border border-zinc-800">
-                            <div class="text-[10px] text-zinc-500 uppercase" data-i18n="calc_out_1">Annual Fleet Energy Savings</div>
-                            <div id="calc-out-savings" class="text-2xl font-bold text-tech-emerald mt-1">HK$ 83.03M</div>
-                            <div class="text-[10px] text-zinc-500 mt-1" data-i18n="calc_out_1_sub">VS Legacy Diesel Fleet (HKD)</div>
+                            <div class="grid grid-cols-2 gap-3 mt-4 text-xs">
+                                <div class="p-3 rounded-xl bg-[#070b12] border border-zinc-800">
+                                    <span class="text-[10px] text-zinc-500 block">TRANSIT TIME (FOIL vs DIESEL)</span>
+                                    <span id="sel-rt-time" class="text-sm font-bold text-tech-emerald mt-0.5 block"></span>
+                                </div>
+                                <div class="p-3 rounded-xl bg-[#070b12] border border-zinc-800">
+                                    <span class="text-[10px] text-zinc-500 block">DISTANCE &amp; TRIP ENERGY</span>
+                                    <span id="sel-rt-dist" class="text-sm font-bold text-white mt-0.5 block"></span>
+                                </div>
+                                <div class="p-3 rounded-xl bg-[#070b12] border border-zinc-800 col-span-2">
+                                    <span class="text-[10px] text-zinc-500 block">SHORE CHARGING &amp; BERTH TURNAROUND</span>
+                                    <span id="sel-rt-charger" class="text-xs font-bold text-tech-cyan mt-0.5 block"></span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="p-4 bg-[#070b12] rounded-xl border border-zinc-800">
-                            <div class="text-[10px] text-zinc-500 uppercase">Annual Gross Ticket Revenue</div>
-                            <div id="calc-out-rev" class="text-2xl font-bold text-tech-cyan mt-1">HK$ 302.40M</div>
-                            <div id="calc-out-rev-sub" class="text-[10px] text-zinc-400 mt-1">@ 65% Load Factor (350 Days)</div>
-                        </div>
-                        <div class="p-4 bg-[#070b12] rounded-xl border border-zinc-800">
-                            <div class="text-[10px] text-zinc-500 uppercase">Est. Annual Fleet EBITDA</div>
-                            <div id="calc-out-ebitda" class="text-2xl font-bold text-white mt-1">HK$ 248.20M</div>
-                            <div class="text-[10px] text-tech-emerald mt-1">After EV Power &amp; Crew/MRO</div>
-                        </div>
-                        <div class="p-4 bg-[#070b12] rounded-xl border border-zinc-800">
-                            <div class="text-[10px] text-zinc-500 uppercase" data-i18n="calc_out_2">Est. Fleet CapEx Payback</div>
-                            <div id="calc-out-payback" class="text-xl font-bold text-white mt-1">1.3 YRS</div>
-                            <div class="text-[10px] text-zinc-500 mt-1" data-i18n="calc_out_2_sub">Combined Energy + Fare Yield</div>
-                        </div>
-                        <div class="p-4 bg-[#070b12] rounded-xl border border-zinc-800">
-                            <div class="text-[10px] text-zinc-500 uppercase" data-i18n="calc_out_3">Annual CO₂ Avoided</div>
-                            <div id="calc-out-co2" class="text-xl font-bold text-zinc-200 mt-1">26,551 T</div>
-                            <div class="text-[10px] text-zinc-500 mt-1" data-i18n="calc_out_3_sub">Metric Tonnes GHG / Year</div>
-                        </div>
-                        <div class="p-4 bg-[#070b12] rounded-xl border border-zinc-800">
-                            <div class="text-[10px] text-zinc-500 uppercase" data-i18n="calc_out_4">One-Way Transit Time</div>
-                            <div id="calc-out-time" class="text-xl font-bold text-tech-cyan mt-1">55 mins</div>
-                            <div class="text-[10px] text-zinc-500 mt-1" data-i18n="calc_out_4_sub">100Hz Active Foil Ride</div>
-                        </div>
-                    </div>
 
-                    <!-- Fuel vs Electricity Bar Comparison -->
-                    <div class="space-y-3 font-mono text-xs pt-2 border-t border-zinc-800">
-                        <div>
-                            <div class="flex justify-between text-zinc-400 mb-1">
-                                <span data-i18n="calc_bar_diesel">Annual Fuel Cost (Legacy Diesel / Gas-Turbine Fleet)</span>
-                                <span id="calc-bar-diesel-text" class="text-white font-bold">HK$ 106.14M</span>
+                        <!-- Interactive Daily Round-Trip OPEX Slider -->
+                        <div class="pt-4 border-t border-zinc-800 space-y-4 text-xs">
+                            <div>
+                                <div class="flex justify-between mb-1.5">
+                                    <span class="text-zinc-400">Daily Round-Trips per Vessel:</span>
+                                    <span id="calc-trips-val" class="text-tech-cyan font-bold">10 Round-Trips / Day</span>
+                                </div>
+                                <input id="calc-trips-slider" type="range" min="2" max="24" step="1" value="10" class="w-full accent-cyan-400 cursor-pointer" oninput="updateRouteOpexCalc()">
                             </div>
-                            <div class="w-full bg-zinc-900 h-2.5 rounded overflow-hidden">
-                                <div class="bg-red-500/80 h-full rounded" style="width: 100%;"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-zinc-400 mb-1">
-                                <span data-i18n="calc_bar_ev">Annual Electricity Cost (BAYWING 22kV / BESS Electric Fleet)</span>
-                                <span id="calc-bar-ef150-text" class="text-tech-emerald font-bold">HK$ 23.12M (-78% OPEX)</span>
-                            </div>
-                            <div class="w-full bg-zinc-900 h-2.5 rounded overflow-hidden">
-                                <div class="bg-tech-emerald h-full rounded" style="width: 22%;"></div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="p-3.5 rounded-xl bg-emerald-950/25 border border-tech-emerald/40">
+                                    <span class="text-[10px] text-zinc-400 block">ANNUAL FUEL SAVING / VESSEL</span>
+                                    <span id="calc-out-save" class="text-lg font-extrabold text-tech-emerald mt-0.5 block">HK$ 14.43M / Yr</span>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-[#070b12] border border-zinc-800">
+                                    <span class="text-[10px] text-zinc-400 block">ANNUAL CO₂ ABATED / VESSEL</span>
+                                    <span id="calc-out-co2" class="text-lg font-extrabold text-white mt-0.5 block">5,120 Tonnes</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- ALL 28 CORRIDORS LEDGER GRID -->
+        <section class="py-16 bg-[#0c0e12]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <h2 class="text-2xl font-mono font-bold text-white uppercase">Complete 28-Corridor Specification &amp; Shore-Power Ledger (HKD)</h2>
+                <div id="routes-ledger-grid" class="grid md:grid-cols-2 gap-4 font-mono text-xs"></div>
             </div>
         </section>
     </main>
@@ -311,235 +184,104 @@
     <site-footer></site-footer>
 
     <script>
-        let currentFilter = 'all';
-        let selectedRouteId = 'gba-1';
+        let currentCat = 'all', activeRouteId = 'gba-1';
 
-        window.PAGE_I18N = {
-            en: {
-                tab_all: "ALL ROUTES (28)",
-                tab_gba: "✈️ GBA & SkyPier Uncapped (5)",
-                tab_isl: "🏝️ Outlying Islands (9)",
-                tab_vh: "🏙️ Victoria Harbour Feeders (8)",
-                tab_reg: "🌊 Regional Coastal (6)",
-                p_central: "SHEUNG WAN 22kV WATER-AIRPORT (CIQ)",
-                p_tst: "TST (TOUCH & GO)",
-                p_skypier: "HKIA SKYPIER (AIRSIDE APM)",
-                p_macau: "MACAU (400V-BESS) / ZHUHAI"
-            },
-            tc: {
-                rm_badge: "上環 22kV 水上機場 (22.290175, 114.148746) + 機場海天碼頭 APM + 澳門 400V 儲能網絡",
-                rm_title: "全港 23 條渡輪線 + 5 條大灣區高收益走廊：互動海圖及票務收益模擬器",
-                rm_desc: "點擊下方任何一條航線，即可檢視其航道軌跡、匹配 BAYWING 船型、母港快充架構（跨海渡輪 100% 於港島 22 kV 快充；澳門外港/氹仔採用 400V 儲能緩衝）及每年節省油費與票務 EBITDA 回報。",
-                tab_all: "全部航線 (28)",
-                tab_gba: "✈️ 大灣區及機場高收益線 (5)",
-                tab_isl: "🏝️ 中環離島線 (9)",
-                tab_vh: "🏙️ 維港跨海接駁線 (8)",
-                tab_reg: "🌊 區域常規線 (6)",
-                p_central: "上環 22kV 水上機場 (CIQ)",
-                p_tst: "尖沙咀 (免充電即停即走)",
-                p_skypier: "機場海天碼頭 (禁區 APM)",
-                p_macau: "澳門 (400V儲能) / 珠海"
-            }
+        function getRoutes() {
+            return (window.SITE_DATA && window.SITE_DATA.routes) ? window.SITE_DATA.routes : [];
+        }
+
+        window.filterRoutes = function(cat) {
+            currentCat = cat;
+            ['all', 'harbour', 'island', 'regional', 'gba'].forEach(c => {
+                const b = document.getElementById(`rt-cat-${c}`);
+                if (b) b.className = (c === cat) ? 'px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            });
+            const list = cat === 'all' ? getRoutes() : getRoutes().filter(r => r.cat === cat);
+            if (list.length && !list.some(r => r.id === activeRouteId)) activeRouteId = list[0].id;
+            renderMapAndLedger();
+            selectRouteById(activeRouteId);
         };
 
-        function getDefaultFareForRoute(r) {
-            if (r.cat === 'gba') return r.id === 'gba-1' ? 320 : (r.id === 'gba-3' ? 380 : 290);
-            if (r.cat === 'island') return 38;
-            if (r.cat === 'regional') return r.id === 'reg-1' ? 42 : 18;
-            return 10; // Victoria Harbour domestic feeder
-        }
-
-        function getPaxCapForVessel(vessel) {
-            if (vessel.includes('D2')) return 40;
-            if (vessel.includes('D3')) return 120;
-            if (vessel.includes('D4')) return 220;
-            if (vessel.includes('D5')) return 400;
-            return 150; // EF-150 VIP
-        }
-
-        function populateSimulatorDropdown() {
-            const lang = window.getSiteLang();
-            const select = document.getElementById('calc-route-select');
-            if (!select || !window.SITE_DATA) return;
-            const currentVal = select.value || selectedRouteId;
-            const nmUnit = lang === 'tc' ? '海里' : 'NM';
-
-            select.innerHTML = window.SITE_DATA.routes.map(r => {
-                const loc = r[lang] || r.en;
-                return `<option value="${r.id}">${r.code}: ${loc.name} (${r.dist} ${nmUnit} | ${r.vessel})</option>`;
-            }).join('');
-            select.value = currentVal;
-        }
-
-        function renderMapBackgroundLines(filtered) {
-            const layer = document.getElementById('map-routes-layer');
-            if (!layer) return;
-            layer.innerHTML = filtered.map(r => `
-                <path d="${r.pathD}" fill="none" stroke="#38bdf8" stroke-width="1.4" stroke-opacity="0.28" stroke-dasharray="4,3" class="cursor-pointer hover:stroke-opacity-80" onclick="selectRoute('${r.id}', true)"/>
-            `).join('');
-        }
-
-        function selectRoute(routeId, syncSimulator) {
-            selectedRouteId = routeId;
-            const lang = window.getSiteLang();
-            const routes = window.SITE_DATA.routes;
-            const r = routes.find(x => x.id === routeId) || routes[0];
+        window.selectRouteById = function(id) {
+            const r = getRoutes().find(x => x.id === id) || getRoutes()[0];
+            if (!r) return;
+            activeRouteId = r.id;
+            const lang = window.getSiteLang ? window.getSiteLang() : 'en';
             const loc = r[lang] || r.en;
-            const knotUnit = lang === 'tc' ? '節' : 'KT';
-            const nmUnit = lang === 'tc' ? '海里' : 'NM';
-            const yrUnit = lang === 'tc' ? '萬/年' : 'M/yr';
-            const saveVal = lang === 'tc' ? `HK$ ${(r.saveHKD * 100).toFixed(0)}${yrUnit}` : `HK$ ${r.saveHKD.toFixed(2)}${yrUnit}`;
 
-            document.getElementById('map-top-active-label').textContent = `${r.code} // ${loc.name}`;
-            document.getElementById('spec-cat-badge').textContent = `${r.code} // ${loc.catLabel}`;
-            document.getElementById('spec-route-name').textContent = loc.name;
-            document.getElementById('spec-vessel').textContent = r.vessel;
-            document.getElementById('spec-dist-speed').textContent = `${r.dist} ${nmUnit} @ ${r.speed} ${knotUnit} (${loc.cap})`;
-            document.getElementById('spec-time').textContent = loc.evTime;
-            document.getElementById('spec-time-sub').textContent = lang === 'tc' ? `對比舊船 ${loc.dieselTime}` : `vs ${loc.dieselTime} (Legacy)`;
-            document.getElementById('spec-energy').textContent = `${r.kwh} kWh / ${loc.chargeMin}`;
-            document.getElementById('spec-charger').textContent = loc.charger;
-            document.getElementById('spec-save-money').textContent = saveVal;
-            document.getElementById('spec-co2').textContent = `-${r.co2.toLocaleString()} ${lang === 'tc' ? '公噸 CO₂/年' : 'T CO₂/yr'}`;
-            document.getElementById('spec-notes').textContent = loc.notes;
+            const sel = document.getElementById('route-quick-select');
+            if (sel) sel.value = r.id;
+            document.getElementById('map-active-code').textContent = `${r.code} // ${r.vessel}`;
+            document.getElementById('sel-rt-cat').textContent = `${r.code} • ${loc.catLabel}`;
+            document.getElementById('sel-rt-vessel').textContent = `${r.vessel} (${loc.cap})`;
+            document.getElementById('sel-rt-name').textContent = loc.name;
+            document.getElementById('sel-rt-notes').textContent = loc.notes;
+            document.getElementById('sel-rt-time').textContent = `${loc.evTime} (vs ${loc.dieselTime} Diesel)`;
+            document.getElementById('sel-rt-dist').textContent = `${r.dist} NM • ${r.kwh} kWh/Trip @ ${r.speed} KT`;
+            document.getElementById('sel-rt-charger').textContent = `${loc.charger} (${loc.chargeMin})`;
 
-            document.getElementById('map-active-path').setAttribute('d', r.pathD);
-            document.getElementById('map-active-flow').setAttribute('d', r.pathD);
+            const slider = document.getElementById('calc-trips-slider');
+            if (slider) slider.value = r.defaultTrips || 10;
 
-            document.querySelectorAll('#routes-table-body > div').forEach(row => {
-                row.classList.toggle('route-row-active', row.getAttribute('data-route-id') === routeId);
+            document.querySelectorAll('#svg-routes-layer path').forEach(p => {
+                p.classList.toggle('active-route', p.getAttribute('data-rt-id') === r.id);
             });
+            updateRouteOpexCalc();
+        };
 
-            if (syncSimulator) {
-                const select = document.getElementById('calc-route-select');
-                const tripsSlider = document.getElementById('calc-trips');
-                const fareSlider = document.getElementById('calc-fare');
-                if (select) select.value = routeId;
-                if (tripsSlider && r.defaultTrips) tripsSlider.value = r.defaultTrips;
-                if (fareSlider) fareSlider.value = getDefaultFareForRoute(r);
-                runRouteCalculator();
+        window.updateRouteOpexCalc = function() {
+            const r = getRoutes().find(x => x.id === activeRouteId) || getRoutes()[0];
+            if (!r) return;
+            const trips = parseInt(document.getElementById('calc-trips-slider')?.value || r.defaultTrips || 10);
+            const ratio = trips / (r.defaultTrips || 10);
+            document.getElementById('calc-trips-val').textContent = `${trips} Round-Trips / Day`;
+            document.getElementById('calc-out-save').textContent = `HK$ ${(r.saveHKD * ratio).toFixed(2)}M / Yr`;
+            document.getElementById('calc-out-co2').textContent = `${Math.round(r.co2 * ratio).toLocaleString()} Tonnes`;
+        };
+
+        function renderMapAndLedger() {
+            const lang = window.getSiteLang ? window.getSiteLang() : 'en';
+            const routes = currentCat === 'all' ? getRoutes() : getRoutes().filter(r => r.cat === currentCat);
+            const colorMap = { harbour: '#00f2ff', island: '#10b981', regional: '#f59e0b', gba: '#a855f7' };
+
+            const svgLayer = document.getElementById('svg-routes-layer');
+            if (svgLayer) {
+                svgLayer.innerHTML = routes.map(r => `
+                    <path d="${r.pathD}" data-rt-id="${r.id}" stroke="${colorMap[r.cat] || '#00f2ff'}" class="route-path ${r.id === activeRouteId ? 'active-route' : ''}" onclick="selectRouteById('${r.id}')"></path>
+                `).join('');
             }
-        }
 
-        function filterRoutes(cat) {
-            currentFilter = cat;
-            const lang = window.getSiteLang();
-            ['all', 'gba', 'island', 'harbour', 'regional'].forEach(c => {
-                const btn = document.getElementById(`tab-${c}`);
-                if (btn) {
-                    btn.className = (c === cat)
-                        ? "px-4 py-2 rounded-lg bg-white text-zinc-950 font-bold transition-all"
-                        : "px-4 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-800 hover:text-white transition-all";
-                }
-            });
+            const sel = document.getElementById('route-quick-select');
+            if (sel) {
+                sel.innerHTML = routes.map(r => `<option value="${r.id}">${r.code}: ${(r[lang] || r.en).name}</option>`).join('');
+                sel.value = activeRouteId;
+            }
 
-            const allRoutes = window.SITE_DATA.routes;
-            const filtered = cat === 'all' ? allRoutes : allRoutes.filter(r => r.cat === cat);
-            document.getElementById('route-count-label').textContent = filtered.length;
-
-            const nmUnit = lang === 'tc' ? '海里' : 'NM';
-            const chgWord = lang === 'tc' ? '補電' : 'chg';
-            const container = document.getElementById('routes-table-body');
-            if (container) {
-                container.innerHTML = filtered.map(r => {
+            const grid = document.getElementById('routes-ledger-grid');
+            if (grid) {
+                grid.innerHTML = routes.map(r => {
                     const loc = r[lang] || r.en;
-                    const saveDisp = lang === 'tc' ? `HK$ ${(r.saveHKD * 100).toFixed(0)}萬` : `HK$ ${r.saveHKD.toFixed(2)}M`;
                     return `
-                    <div data-route-id="${r.id}" onclick="selectRoute('${r.id}', true)" class="px-5 py-3.5 cursor-pointer hover:bg-zinc-900/70 transition-colors grid grid-cols-1 md:grid-cols-12 gap-2 items-center font-mono text-xs ${r.id === selectedRouteId ? 'route-row-active' : ''}">
-                        <div class="md:col-span-5 flex items-center gap-3">
-                            <span class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-400 shrink-0">${r.code}</span>
-                            <span class="font-bold text-white truncate">${loc.name}</span>
+                    <div onclick="selectRouteById('${r.id}');window.scrollTo({top:280,behavior:'smooth'});" class="data-card p-5 rounded-xl cursor-pointer hover:border-tech-cyan transition-all space-y-2">
+                        <div class="flex justify-between items-center text-[11px]">
+                            <span class="font-bold text-tech-cyan">${r.code} // ${r.vessel}</span>
+                            <span class="text-tech-emerald font-bold">Saves HK$ ${r.saveHKD.toFixed(2)}M/yr</span>
                         </div>
-                        <div class="md:col-span-2 text-zinc-400 text-[11px]">${r.dist} ${nmUnit} | ${loc.cap}</div>
-                        <div class="md:col-span-2 text-zinc-200 text-[11px] font-semibold">${r.vessel}</div>
-                        <div class="md:col-span-2 text-zinc-300 text-[11px]">${loc.evTime} <span class="text-zinc-500">(${loc.chargeMin} ${chgWord})</span></div>
-                        <div class="md:col-span-1 text-right text-tech-emerald font-bold text-[11px]">${saveDisp}</div>
+                        <h3 class="text-sm font-bold text-white">${loc.name}</h3>
+                        <p class="text-zinc-400 font-sans text-xs leading-relaxed">${loc.notes}</p>
+                        <div class="pt-2 border-t border-zinc-800/80 flex flex-wrap justify-between gap-2 text-[11px] text-zinc-300">
+                            <span>⚡ ${loc.evTime} (vs ${loc.dieselTime})</span>
+                            <span class="text-tech-amber">${loc.charger}</span>
+                        </div>
                     </div>`;
                 }).join('');
             }
-
-            renderMapBackgroundLines(filtered);
-            if (!filtered.some(r => r.id === selectedRouteId) && filtered.length > 0) {
-                selectRoute(filtered[0].id, true);
-            } else {
-                selectRoute(selectedRouteId, false);
-            }
         }
 
-        function onSimulatorRouteChange() {
-            const select = document.getElementById('calc-route-select');
-            if (!select) return;
-            selectRoute(select.value, true);
-        }
-
-        function runRouteCalculator() {
-            const lang = window.getSiteLang();
-            const select = document.getElementById('calc-route-select');
-            const r = window.SITE_DATA.routes.find(x => x.id === (select ? select.value : selectedRouteId)) || window.SITE_DATA.routes[23];
-            const loc = r[lang] || r.en;
-
-            const fleetSize = parseInt(document.getElementById('calc-fleet').value) || 4;
-            const dailyRoundTrips = parseInt(document.getElementById('calc-trips').value) || 6;
-            const fareHKD = parseInt(document.getElementById('calc-fare').value) || getDefaultFareForRoute(r);
-
-            const isUncapped = r.cat === 'gba';
-            const badge = document.getElementById('calc-pricing-badge');
-            if (badge) {
-                badge.textContent = isUncapped
-                    ? '✈️ UNCAPPED COMMERCIAL GBA / SKYPIER PRICING (HIGH MARGIN)'
-                    : '🏙️ TD REGULATED DOMESTIC FEEDER FARE (FUNNELS PAX TO SHEUNG WAN CIQ)';
-                badge.className = isUncapped
-                    ? 'px-3 py-1 rounded bg-purple-500/20 border border-purple-400/50 text-purple-300 font-mono text-xs font-bold'
-                    : 'px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold';
-            }
-
-            document.getElementById('calc-fare-val').textContent = `HK$ ${fareHKD} / Pax (${isUncapped ? 'Uncapped GBA' : 'Domestic Feeder'})`;
-            document.getElementById('calc-fleet-val').textContent = lang === 'tc' ? `${fleetSize} 艘船` : `${fleetSize} VESSELS`;
-            document.getElementById('calc-trips-val').textContent = lang === 'tc' ? `每日 ${dailyRoundTrips} 往返` : `${dailyRoundTrips} TRIPS`;
-
-            const annualNM = r.dist * 2 * dailyRoundTrips * fleetSize * 350;
-            const dieselCostPerNM_HKD = window.SITE_DATA.metrics.dieselCostPerNM_HKD;
-            const electricCostPerNM_HKD = window.SITE_DATA.metrics.electricCostPerNM_HKD;
-
-            const annualDieselHKD_M = (annualNM * dieselCostPerNM_HKD) / 1e6;
-            const annualElectricHKD_M = (annualNM * electricCostPerNM_HKD) / 1e6;
-            const annualSavingsHKD_M = annualDieselHKD_M - annualElectricHKD_M;
-
-            // Calculate Gross Ticket Revenue & EBITDA (at 65% average load factor across 2 one-way legs per round trip)
-            const paxCap = getPaxCapForVessel(r.vessel);
-            const annualPax = paxCap * 0.65 * (dailyRoundTrips * 2) * fleetSize * 350;
-            const annualRevM = (annualPax * fareHKD) / 1e6;
-            const annualCrewMroM = fleetSize * (r.vessel.includes('D2') ? 2.2 : r.vessel.includes('D3') ? 3.5 : 5.8);
-            const annualEbitdaM = Math.max(0.5, annualRevM - annualElectricHKD_M - annualCrewMroM);
-
-            const annualCO2Tons = Math.round(annualNM * 0.0439);
-            const totalBoatCapEx_M = r.vessel.includes('D2') ? 18.5 : r.vessel.includes('D3') ? 28.0 : r.vessel.includes('D4') ? 42.0 : 65.0;
-            const paybackYears = ((fleetSize * totalBoatCapEx_M) / Math.max(annualEbitdaM + annualSavingsHKD_M * 0.3, 2.0)).toFixed(1);
-
-            const fmtMoney = (valM) => lang === 'tc' ? `HK$ ${(valM * 100).toFixed(0)} 萬` : `HK$ ${valM.toFixed(2)}M`;
-
-            document.getElementById('calc-out-savings').textContent = fmtMoney(annualSavingsHKD_M);
-            document.getElementById('calc-out-rev').textContent = fmtMoney(annualRevM);
-            document.getElementById('calc-out-ebitda').textContent = fmtMoney(annualEbitdaM);
-            document.getElementById('calc-out-payback').textContent = lang === 'tc' ? `${paybackYears} 年` : `${paybackYears} YRS`;
-            document.getElementById('calc-out-co2').textContent = lang === 'tc' ? `${annualCO2Tons.toLocaleString()} 公噸` : `${annualCO2Tons.toLocaleString()} T`;
-            document.getElementById('calc-out-time').textContent = loc.evTime;
-            document.getElementById('calc-bar-diesel-text').textContent = fmtMoney(annualDieselHKD_M);
-            document.getElementById('calc-bar-ef150-text').textContent = `${fmtMoney(annualElectricHKD_M)} (-78% OPEX)`;
-        }
-
-        window.addEventListener('baywing:langchange', () => {
-            window.applySiteTranslations(window.getSiteLang());
-            populateSimulatorDropdown();
-            filterRoutes(currentFilter);
-            runRouteCalculator();
-        });
-
+        window.addEventListener('baywing:langchange', () => { renderMapAndLedger(); selectRouteById(activeRouteId); });
         document.addEventListener('DOMContentLoaded', () => {
-            window.applySiteTranslations(window.getSiteLang());
-            populateSimulatorDropdown();
+            if (window.applySiteTranslations && window.getSiteLang) window.applySiteTranslations(window.getSiteLang());
             filterRoutes('all');
-            selectRoute('gba-1', true);
         });
     </script>
 </body>
