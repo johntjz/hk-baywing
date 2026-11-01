@@ -3920,3 +3920,343 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 260);
 });
+// ============================================================================
+// BATCH 7: INDEX.HTML COMPACTOR + COMPONENTS 25–28 (APPEND TO site-data.js)
+// ============================================================================
+
+window.INDEX_COMPACT_DATA = {
+    envelopeKpis: [
+        ['Target Cruise Speed', '38.0', 'KNOTS', '40m SkyPier → SZX Airport', 'text-tech-emerald'],
+        ['Effective Range', '38.0', 'NM', '(w/ 20% Reserve | 45 NM Max)', 'text-zinc-500'],
+        ['Battery Architecture', '1.8', 'MWh', '1,000V Marine LFP (<2C MCS)', 'text-zinc-500'],
+        ['Tri-Grid Shore Hubs', '10–12', 'MINS', '22kV HKE • 11kV CLP • 400V-BESS', 'text-tech-cyan']
+    ],
+    directory: [
+        ['#vision-10yr', 'hover:border-tech-emerald', 'text-tech-emerald', '01. 10-Yr Plan & Fleet', '↓', 'Dual Science Park (HKSTP + SZ/Zhuhai) industrial flywheel & D2–EF150 fleet.'],
+        ['routes-calculator.html', 'hover:border-tech-cyan', 'text-tech-cyan', '02. 28 Routes & OPEX', '→', 'Interactive hydrographic chart of all 23 HK routes + 5 GBA CIQ corridors.'],
+        ['engineering-rd.html', 'hover:border-tech-amber', 'text-tech-amber', '03. R&D CAD Blueprints', '→', '1600×900 schematics for D1, D2 & EF-150 + Froude scaling (Fn=1.17).'],
+        ['digital-twin.html', 'hover:border-sky-400', 'text-sky-400', '04. Digital Twin (28+ Mods)', '→', '11-Domain CFD, FEA, 2oo3 Fly-by-Wire, Cap.127 & IMO/DNV rules workbench.'],
+        ['capital-stakeholders.html', 'hover:border-purple-400', 'text-purple-400', '05. 22kV Hub & 14 Logs', '→', 'Sheung Wan 22kV Water-Airport + CLP 11kV + Macao 400V-BESS & 14 filings.']
+    ],
+    moat: [
+        ['01. Hydrofoil Physics', '-80%', 'text-tech-cyan', 'Wave Drag Decoupling', 'Submerged carbon T-foils lift the hull clear of surface waves at 18+ knots, enabling 38-knot long-range GBA transit without oversized battery weight.', 'Energy OPEX:', 'HK$ 38.22 / NM (-78%)', 'text-tech-emerald'],
+        ['02. HK Island Anchor (HKE)', '22kV', 'text-tech-emerald', 'Sheung Wan +7.0 mPD Hub', 'Confirmed with HK Electric (21–22 Oct 2026): permanent Concrete Customer Substation (FFL ≥ +7.0 mPD) banking N × 1,500 kVA transformers ~50m from the Zone Substation.', 'Capacity:', '4.5 → 9.0 MVA + BESS', 'text-white'],
+        ['03. Kowloon & Tsing Yi (CLP)', '11kV', 'text-tech-amber', 'Domestic Feeder + MRO Base', 'Confirmed on 28 Oct 2026 CLP call: cross-harbour shuttles charge 100% at Sheung Wan 22kV and touch-and-go at TST, backed by our Tsing Yi 50t MRO depot.', 'Airside Hub:', 'SkyPier 3.8 MW MCS', 'text-tech-amber'],
+        ['04. Dual-Hub Industrial Scale', '100Yr', 'text-purple-400', 'HKSTP IP + GBA Shipyards', 'Pairs Hong Kong Science Park (HKSTP) 100Hz flight-control IP & top-down policy backing with high-velocity Shenzhen/Zhuhai composite shipyard manufacturing.', 'Macao DSMM:', '400V Reserve → 2MWh BESS', 'text-tech-cyan']
+    ],
+    timeline: [
+        ['border-l-tech-cyan', 'text-tech-cyan', 'STAGE 1 // YEARS 1–2 (2026–2027)', 'Digital Twin, D1 & D2 Shipyard Build', 'Complete 100Hz flight-control validation in Tolo Harbour (D1, HK$ 3.198M Phase 0–1 budget, 93.5% grant-backed), advance Cap. 127 Sheung Wan 22 kV (+7.0 mPD) allocation (GIS: 22.290175, 114.148746), and build the 15m BAYWING-D2 pilot (HK$ 20.0M with 1:1 ITC ESS match).'],
+        ['border-l-sky-400', 'text-sky-400', 'STAGE 2 // YEARS 3–4 (2028–2029)', 'D3 Cross-Harbour & D4 Island Express', 'Electrify all 8 Victoria Harbour crossings with the 120-passenger D3 shuttle (charging 100% on the HK Island 22 kV side with 60s touch-and-go at TST) and launch 14–18 minute Outlying Island express services with the 220-passenger D4.'],
+        ['border-l-tech-amber', 'text-tech-amber', 'STAGE 3 // YEARS 5–6 (2030–2031)', 'D5 Trunk Liners & 90s Ro-Ro Freight', 'Deploy 400-passenger D5 vessels on Central–Cheung Chau and Central–Mui Wo trunk routes alongside dedicated Ro-Ro cargo pods for 90-second modular island supermarket and municipal pallet swaps.'],
+        ['border-l-purple-400', 'text-purple-400', 'STAGE 4 // YEARS 7–10+ (2032–2050+)', 'EF-150 Water-Airport & SkyPier Network', 'Scale the 38-knot EF-150 flagship across our Sheung Wan 22 kV CIQ Water-Airport, HKIA SkyPier airside APM hub, and Macao Outer Harbour/Taipa (400V-to-BESS buffer)—capturing uncapped commercial yields across Macau, Shenzhen, and Zhuhai.']
+    ],
+    gallery: [
+        ['assets/D1.jpg', 'border-tech-cyan/50 text-tech-cyan', 'PHASE 1 // BAYWING-D1 (3.56m)', 'Tolo Harbour 1:8 Autonomous Drone', '13.4 KT (Fn 1.17)', 'text-zinc-400'],
+        ['assets/D2.jpg', 'border-tech-emerald/50 text-tech-emerald', 'PHASE 2 // BAYWING-D2 (15.0m)', '25–40 Pax Harbour & Island Pilot', '32.0 KT | 500kW', 'text-tech-emerald'],
+        ['assets/ef150.jpg', 'border-purple-400/50 text-purple-300', 'PHASE 3+ // BAYWING EF-150 (28.5m)', '150-Pax GBA CIQ Flagship', '38.0 KT | 3.5MW', 'text-purple-400']
+    ]
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const IDX = window.INDEX_COMPACT_DATA;
+    if (!IDX) return;
+
+    const envEl = document.querySelector('[data-compact-ledger="idx_envelope_kpis"]');
+    if (envEl) {
+        envEl.innerHTML = IDX.envelopeKpis.map(k => `
+            <div class="p-3.5 bg-zinc-950 rounded border border-zinc-800">
+                <div class="text-[10px] font-mono text-zinc-500 uppercase">${k[0]}</div>
+                <div class="text-2xl font-mono font-bold text-white mt-1">${k[1]} <span class="text-xs text-zinc-400">${k[2]}</span></div>
+                <div class="text-[9.5px] font-mono ${k[4]} mt-1">${k[3]}</div>
+            </div>`).join('');
+    }
+    const dirEl = document.querySelector('[data-compact-ledger="idx_directory"]');
+    if (dirEl) {
+        dirEl.innerHTML = IDX.directory.map(d => `
+            <a href="${d[0]}" class="data-card p-4 rounded-xl ${d[1]} block">
+                <div class="flex justify-between items-center font-mono text-xs font-bold ${d[2]} mb-1"><span>${d[3]}</span><span>${d[4]}</span></div>
+                <p class="text-xs text-zinc-400">${d[5]}</p>
+            </a>`).join('');
+    }
+    const moatEl = document.querySelector('[data-compact-ledger="idx_moat"]');
+    if (moatEl) {
+        moatEl.innerHTML = IDX.moat.map(m => `
+            <div class="data-card p-6 rounded-xl">
+                <div class="text-xs font-mono text-zinc-500 uppercase mb-1">${m[0]}</div>
+                <div class="text-3xl font-mono font-bold text-white mb-2">${m[1]}</div>
+                <h3 class="text-sm font-mono font-bold ${m[2]} mb-2 uppercase">${m[3]}</h3>
+                <p class="text-xs text-zinc-400 leading-relaxed">${m[4]}</p>
+                <div class="mt-4 pt-3 border-t border-zinc-800 text-[11px] font-mono text-zinc-500 flex justify-between">
+                    <span>${m[5]}</span><span class="${m[7]} font-bold">${m[6]}</span>
+                </div>
+            </div>`).join('');
+    }
+    const tlEl = document.querySelector('[data-compact-ledger="idx_timeline"]');
+    if (tlEl) {
+        tlEl.innerHTML = IDX.timeline.map(t => `
+            <div class="data-card p-5 rounded-xl grid md:grid-cols-12 gap-4 items-center border-l-4 ${t[0]}">
+                <div class="md:col-span-3 font-mono"><span class="text-[10px] ${t[1]} block">${t[2]}</span><span class="text-sm font-bold text-white">${t[3]}</span></div>
+                <div class="md:col-span-9 text-xs text-zinc-300 leading-relaxed">${t[4]}</div>
+            </div>`).join('');
+    }
+    const galEl = document.querySelector('[data-compact-ledger="idx_gallery"]');
+    if (galEl) {
+        galEl.innerHTML = IDX.gallery.map(g => `
+            <div class="data-card rounded-xl overflow-hidden group">
+                <div class="relative aspect-video overflow-hidden bg-zinc-950">
+                    <img src="${g[0]}" onerror="if(this.src.includes('assets/'))this.src=this.src.replace('assets/','');" alt="${g[3]}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <span class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-zinc-950/90 border ${g[1]} font-mono text-[10px] font-bold">${g[2]}</span>
+                </div>
+                <div class="p-4 flex justify-between items-center font-mono text-xs gap-2">
+                    <span class="text-white font-bold">${g[3]}</span><span class="${g[5]} shrink-0">${g[4]}</span>
+                </div>
+            </div>`).join('');
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 25: INTERACTIVE FLEET SILHOUETTE SCALER (D1 vs D2 vs D3-D5 vs EF-150)
+// Mounts automatically on: index.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-vessel-scaler',
+    pages: ['index'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-vessel-scaler" class="py-16 md:py-20 bg-[#060a12] border-t border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                            <span>📏 PROPORTIONAL NAVAL ARCHITECTURE // TRUE-TO-SCALE LENGTH &amp; FOIL SPAN SILHOUETTES</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            Interactive Fleet Size &amp; Sub-System Scaling Comparator (3.56m D1 → 28.5m EF-150)
+                        </h2>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <button onclick="highlightScaleVessel(0)" id="vscl-btn-0" class="px-3 py-1.5 rounded bg-tech-cyan text-slate-950 font-bold">Compare All 4 Classes</button>
+                        <button onclick="highlightScaleVessel(1)" id="vscl-btn-1" class="px-3 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700">Focus: D1 (3.56m)</button>
+                        <button onclick="highlightScaleVessel(2)" id="vscl-btn-2" class="px-3 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700">Focus: D2 (15.0m)</button>
+                        <button onclick="highlightScaleVessel(3)" id="vscl-btn-3" class="px-3 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700">Focus: EF-150 (28.5m)</button>
+                    </div>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-4">
+                    <canvas id="vessel-scale-canvas" width="1020" height="220" class="w-full h-auto rounded-xl bg-[#03070e] border border-zinc-800"></canvas>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.highlightScaleVessel = function (mode) {
+            for (let i = 0; i < 4; i++) {
+                const b = document.getElementById(`vscl-btn-${i}`);
+                if (b) b.className = (i === mode) ? 'px-3 py-1.5 rounded bg-tech-cyan text-slate-950 font-bold' : 'px-3 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            const c = document.getElementById('vessel-scale-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            // Scale ruler (1 meter = 11 pixels)
+            ctx.strokeStyle = '#112236'; ctx.lineWidth = 1;
+            for (let x = 0; x < c.width; x += 55) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, c.height); ctx.stroke(); }
+            ctx.strokeStyle = '#38bdf8'; ctx.setLineDash([6, 4]); ctx.beginPath(); ctx.moveTo(20, 145); ctx.lineTo(1000, 145); ctx.stroke(); ctx.setLineDash([]);
+
+            const items = [
+                { id: 1, name: 'D1 (3.56m)', loa: 3.56, x: 40, color: '#00f2ff', sub: '109 kg • 13.4 KT' },
+                { id: 2, name: 'BAYWING-D2 (15.0m)', loa: 15.0, x: 145, color: '#10b981', sub: '40 Pax • 32 KT' },
+                { id: 3, name: 'BAYWING D3–D5 (24.0m)', loa: 24.0, x: 355, color: '#f59e0b', sub: '220 Pax • 35 KT' },
+                { id: 3, name: 'BAYWING EF-150 (28.5m)', loa: 28.5, x: 660, color: '#a855f7', sub: '150 VIP • 38 KT' }
+            ];
+
+            ctx.font = 'bold 11px JetBrains Mono';
+            items.forEach(v => {
+                const wPx = Math.max(40, v.loa * 10.8);
+                const hPx = Math.max(12, v.loa * 1.15);
+                const alpha = (mode === 0 || mode === v.id) ? 1.0 : 0.28;
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = '#071526'; ctx.strokeStyle = v.color; ctx.lineWidth = 2.5;
+                ctx.fillRect(v.x, 115 - hPx, wPx, hPx); ctx.strokeRect(v.x, 115 - hPx, wPx, hPx);
+                // T-foil struts
+                ctx.beginPath();
+                ctx.moveTo(v.x + wPx * 0.22, 115); ctx.lineTo(v.x + wPx * 0.22, 165);
+                ctx.moveTo(v.x + wPx * 0.78, 115); ctx.lineTo(v.x + wPx * 0.78, 165);
+                ctx.stroke();
+                ctx.fillStyle = v.color; ctx.fillText(v.name, v.x, 95 - hPx);
+                ctx.fillStyle = '#cbd5e1'; ctx.fillText(v.sub, v.x, 192);
+                ctx.restore();
+            });
+        };
+        window.highlightScaleVessel(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 26: HKSTP SCIENCE PARK LAB BENCH & HIL FOOTPRINT PLANNER
+// Mounts inside Domain 10 (hkstp) on digital-twin.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'mod-m39',
+    modId: 'm39',
+    navLabel: '10.3 HKSTP Lab Bench & HIL Floorplan',
+    pages: ['twin'],
+    twinDomain: {
+        key: 'hkstp',
+        badge: 'DOMAIN 10',
+        shortLabel: '🏛️ HKSTP Jan 2027 Gate',
+        title: 'DOMAIN 10 // HKSTP INCU-TECH 18-MONTH MILESTONE GATES & CAVITATION BUCKET VERIFIER'
+    },
+    renderHtml: function () {
+        return `
+        <section id="mod-m39" data-mod-id="m39" data-dom="hkstp" class="twin-mod-sec py-12 bg-[#090b0f] border-b border-zinc-800/80" style="display:none;">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="text-xs font-mono text-tech-amber uppercase tracking-widest mb-1">DOMAIN 10 • SUB-MODULE 10.3 // HONG KONG SCIENCE PARK R&amp;D LAB SPACE UTILIZATION</div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">HKSTP Incu-Tech Wet/Dry Lab Floorplan &amp; HIL Dynamometer Bench Allocation</h2>
+                </div>
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 grid md:grid-cols-3 gap-4 font-mono text-xs">
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-tech-cyan/40">
+                        <span class="text-tech-cyan font-bold block">ZONE A // 2oo3 HIL AVIONICS RACK</span>
+                        <p class="text-zinc-300 font-sans mt-2 leading-relaxed">Dual STM32H743 + Jetson Orin Nano benchtop, programmable DC power supplies, logic analyzer, and 1Mbps CAN-FD fault-injection switchboard.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-tech-emerald/40">
+                        <span class="text-tech-emerald font-bold block">ZONE B // IP68 SERVO &amp; FOIL CRADLE</span>
+                        <p class="text-zinc-300 font-sans mt-2 leading-relaxed">3.56m BAYWING-D1 dry assembly cradle, 2.5g static cantilever proof-load frame, and saltwater immersion tank for IP68 titanium rotary servos.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-tech-amber/40">
+                        <span class="text-tech-amber font-bold block">ZONE C // RTH TELEMETRY MISSION DESK</span>
+                        <p class="text-zinc-300 font-sans mt-2 leading-relaxed">Dual workstations for 2 ITF RTH engineers running MATLAB/Simulink, Star-CCM+ CFD, and live 5G/RF telemetry link to Tolo Harbour slipway.</p>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 27: SHEUNG WAN DUAL-BERTH PEAK-HOUR TURNAROUND GANTT SCHEDULER
+// Mounts automatically on: routes-calculator.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-berth-scheduler',
+    pages: ['routes'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-berth-scheduler" class="py-16 md:py-20 bg-[#060a12] border-b border-zinc-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-mono text-xs font-bold mb-2">
+                        <span>⏱️ TERMINAL THROUGHPUT VERIFIER // SHEUNG WAN 25m × 8m DUAL-BERTH PONTOON</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        Peak-Hour Berth Slot &amp; 3.5 MW MCS Charger Turnaround Capacity Calculator
+                    </h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        Proves how our single 25m × 8m Sheung Wan pontoon (Berth A: Sterile International CIQ | Berth B: Domestic Harbour/Island Feeder) processes up to 14 vessel departures and 2,400 passengers per hour with zero berth queuing.
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">BERTH A (STERILE CIQ GBA)</span><span class="text-base font-bold text-tech-emerald mt-1 block">4 Flights/Hr (12m MCSSlot)</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">BERTH B (DOMESTIC FEEDER)</span><span class="text-base font-bold text-tech-cyan mt-1 block">10 Sailings/Hr (4m Slot)</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">PEAK PASSENGER THROUGHPUT</span><span class="text-base font-bold text-white mt-1 block">2,400 Pax / Hour</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">VACUUM MOORING LOCK</span><span class="text-base font-bold text-tech-amber mt-1 block">12.0s Hands-Free Lock</span></div>
+                </div>
+            </div>
+        </section>`;
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 28: GLOBAL COMPETITIVE MOAT & FREEDOM-TO-OPERATE (FTO) MATRIX
+// Mounts automatically on: capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-fto-moat',
+    navLabel: '⚔️ Global Competitive Moat',
+    pages: ['capital'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-fto-moat" class="py-16 md:py-20 bg-[#080d16] border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-purple-500/15 border border-purple-400/40 text-purple-300 font-mono text-xs font-bold mb-2">
+                        <span>⚔️ GLOBAL COMPETITIVE BENCHMARK &amp; FREEDOM-TO-OPERATE (FTO)</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        Why BAYWING Outperforms European Foiling Startups &amp; Legacy Diesel Catamarans
+                    </h2>
+                </div>
+                <div class="data-card rounded-2xl overflow-hidden border border-zinc-800">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left font-mono text-xs">
+                            <thead class="bg-zinc-900 text-zinc-400 border-b border-zinc-800 uppercase text-[10px]">
+                                <tr>
+                                    <th class="py-3.5 px-4">Benchmark Criterion</th>
+                                    <th class="py-3.5 px-4 text-tech-cyan">BAYWING (HKSTP + GBA)</th>
+                                    <th class="py-3.5 px-4">EU Foiling Ferries (Candela / Artemis)</th>
+                                    <th class="py-3.5 px-4 text-right">Legacy Diesel Catamaran</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-800/70 bg-[#070b12] text-zinc-200">
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-white">1. Vessel Capacity &amp; Speed</td>
+                                    <td class="py-3 px-4 text-tech-emerald font-bold">40–400 Pax • 32–38 Knots</td>
+                                    <td class="py-3 px-4">30–150 Pax • 25–34 Knots</td>
+                                    <td class="py-3 px-4 text-right text-zinc-400">150–400 Pax • 28–38 Knots</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-white">2. Energy OPEX / Nautical Mile</td>
+                                    <td class="py-3 px-4 text-tech-emerald font-bold">HK$ 38.22 / NM (-78%)</td>
+                                    <td class="py-3 px-4">~HK$ 45 / NM</td>
+                                    <td class="py-3 px-4 text-right text-red-400">HK$ 175.50 / NM (Diesel)</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-white">3. Unit Hull CapEx (150-Pax Class)</td>
+                                    <td class="py-3 px-4 text-tech-cyan font-bold">HK$ 26.8M (GBA VARTM Yard)</td>
+                                    <td class="py-3 px-4">HK$ 68M – 85M (European Yard)</td>
+                                    <td class="py-3 px-4 text-right text-zinc-400">HK$ 42M – 55M</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-white">4. Shore Grid &amp; Port Integration</td>
+                                    <td class="py-3 px-4 text-tech-emerald font-bold">Full-Stack 22kV + BESS Water-Airport</td>
+                                    <td class="py-3 px-4">Boat-Only (Relies on Client Pier)</td>
+                                    <td class="py-3 px-4 text-right text-zinc-400">Bunker Fuel Barge</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-white">5. Wave Predictive Control IP</td>
+                                    <td class="py-3 px-4 text-tech-cyan font-bold">Bow LiDAR 5–15m Lookahead + 2oo3</td>
+                                    <td class="py-3 px-4">Reactive Ultrasonic / Bow Sensor</td>
+                                    <td class="py-3 px-4 text-right text-red-400">None (27% Seasickness)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    }
+});
+
+// Update Floating Demo Switcher to include all 28 Components
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const dockList = document.querySelector('#hkstp-dock-panel .overflow-y-auto');
+        if (dockList) {
+            const EXTRA_25_28 = [
+                ['25. True-to-Scale Fleet Silhouette Lab', 'index.html#bolton-vessel-scaler', 'text-tech-cyan'],
+                ['26. HKSTP Lab Bench & HIL Floorplan', 'digital-twin.html#mod-m39', 'text-tech-amber'],
+                ['27. Sheung Wan Dual-Berth Gantt Scheduler', 'routes-calculator.html#bolton-berth-scheduler', 'text-tech-emerald'],
+                ['28. Global Competitive Moat & FTO Matrix', 'capital-stakeholders.html#bolton-fto-moat', 'text-purple-400']
+            ];
+            dockList.innerHTML += EXTRA_25_28.map(item => `
+                <a href="${item[1]}" class="block p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-tech-cyan transition-all">
+                    <span class="${item[2]} font-bold block text-[11px]">${item[0]}</span>
+                    <span class="text-[10px] text-zinc-400">${item[1]}</span>
+                </a>`).join('');
+        }
+    }, 300);
+});
