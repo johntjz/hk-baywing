@@ -4260,3 +4260,233 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 300);
 });
+// ============================================================================
+// BATCH 8 VISUAL DESIGN COMPONENTS PACK (APPEND TO BOTTOM OF site-data.js)
+// Adds Components 29–32 + Updates Floating HKSTP Demo Switcher to 32 Modules
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// COMPONENT 29: HKSTP INCU-TECH ADMISSION RUBRIC & PRINTABLE EXECUTIVE DOSSIER
+// Mounts automatically on: index.html & capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-hkstp-dossier',
+    navLabel: '📋 HKSTP Jan 2027 Rubric',
+    pages: ['index', 'capital'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-hkstp-dossier" class="py-16 md:py-20 bg-[#070b12] border-t border-b border-zinc-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-mono text-xs font-bold mb-2">
+                            <span>📋 JANUARY 2027 HKSTP INCU-TECH ADMISSION SCORECARD // 6-CRITERIA AUDIT</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            HKSTP Admission Committee Evaluation Matrix &amp; One-Click Executive Brief
+                        </h2>
+                    </div>
+                    <button onclick="window.print()" class="px-4 py-2 rounded-lg bg-tech-cyan text-slate-950 font-mono text-xs font-bold hover:opacity-90">
+                        🖨️ Print / Save PDF Dossier
+                    </button>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4 font-mono text-xs">
+                    <div class="data-card p-5 rounded-xl bg-zinc-950 border-l-4 border-l-tech-cyan space-y-1.5">
+                        <div class="flex justify-between text-tech-cyan font-bold"><span>01. HK R&amp;D GENUINENESS</span><span>WEIGHT: 25%</span></div>
+                        <div class="text-white font-bold text-sm">100% Science Park Avionics &amp; Tolo Trials</div>
+                        <p class="text-zinc-400 font-sans text-xs leading-relaxed">6-DOF Digital Twin, dual STM32H743 2oo3 HIL benchtop, and 3.56m D1 autonomous sea trials executed directly at HKSTP Pak Shek Kok waterfront.</p>
+                    </div>
+                    <div class="data-card p-5 rounded-xl bg-zinc-950 border-l-4 border-l-tech-emerald space-y-1.5">
+                        <div class="flex justify-between text-tech-emerald font-bold"><span>02. DEEP-TECH IP MOAT</span><span>WEIGHT: 25%</span></div>
+                        <div class="text-white font-bold text-sm">3 PCT Patent Families (90% PAG Grant)</div>
+                        <p class="text-zinc-400 font-sans text-xs leading-relaxed">Covers bow LiDAR 5–15m wave-feedforward 100Hz control (WCET 4.82ms), N×1,500 kVA + BESS zero-export hub, and 12s vacuum-interlocked MCS arm.</p>
+                    </div>
+                    <div class="data-card p-5 rounded-xl bg-zinc-950 border-l-4 border-l-tech-amber space-y-1.5">
+                        <div class="flex justify-between text-tech-amber font-bold"><span>03. COMMERCIAL TRACTION</span><span>WEIGHT: 20%</span></div>
+                        <div class="text-white font-bold text-sm">14 Official Utility &amp; Govt Filings</div>
+                        <p class="text-zinc-400 font-sans text-xs leading-relaxed">HKE (+7.0mPD 22kV sub confirmed), CLP (28 Oct call completed), Macao DSMM (400V reserve confirmed), and LandsD/EEB GIS (22.290175, 114.148746) filed.</p>
+                    </div>
+                    <div class="data-card p-5 rounded-xl bg-zinc-950 border-l-4 border-l-purple-400 space-y-1.5">
+                        <div class="flex justify-between text-purple-400 font-bold"><span>04. R&amp;D TALENT &amp; UNI RTH</span><span>WEIGHT: 10%</span></div>
+                        <div class="text-white font-bold text-sm">HK$ 1.45M ITF Research Talent Hub</div>
+                        <p class="text-zinc-400 font-sans text-xs leading-relaxed">100% salary coverage for 2 full-time control systems &amp; marine mechatronics engineers recruited from HKUST Robotics Institute &amp; PolyU.</p>
+                    </div>
+                    <div class="data-card p-5 rounded-xl bg-zinc-950 border-l-4 border-l-sky-400 space-y-1.5">
+                        <div class="flex justify-between text-sky-400 font-bold"><span>05. FINANCIAL LEVERAGE</span><span>WEIGHT: 10%</span></div>
+                        <div class="text-white font-bold text-sm">93.5% Non-Dilutive (HK$ 208k Gap)</div>
+                        <p class="text-zinc-400 font-sans text-xs leading-relaxed">HK$ 2.99M of the HK$ 3.198M Phase 0–1 budget is grant-reimbursed, followed by HK$ 20M Phase 2 (1:1 ITC ESS match).</p>
+                    </div>
+                    <div class="data-card p-5 rounded-xl bg-zinc-950 border-l-4 border-l-tech-emerald space-y-1.5">
+                        <div class="flex justify-between text-tech-emerald font-bold"><span>06. GBA INDUSTRIAL SCALE</span><span>WEIGHT: 10%</span></div>
+                        <div class="text-white font-bold text-sm">HK Brain + SZ/Zhuhai VARTM Yards</div>
+                        <p class="text-zinc-400 font-sans text-xs leading-relaxed">Cuts hull CapEx by 62% vs. European yards while capturing uncapped HK$ 220–480 fares on GBA &amp; HKIA SkyPier airside routes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 30: EXTREME WAVE-TROUGH BROACHING GUARD & AOA LIMITER BENCH
+// Mounts inside Domain 01 (cfd) on digital-twin.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'mod-m40',
+    modId: 'm40',
+    navLabel: '1.5 Wave-Trough Broaching Guard Sim',
+    pages: ['twin'],
+    twinDomain: {
+        key: 'cfd',
+        badge: 'DOMAIN 01',
+        shortLabel: '🌊 Air-Water CFD',
+        title: 'DOMAIN 01 // FLUID DYNAMICS AT THE AIR-WATER INTERFACE (CFD SWEEPS)'
+    },
+    renderHtml: function () {
+        return `
+        <section id="mod-m40" data-mod-id="m40" data-dom="cfd" class="twin-mod-sec py-12 bg-[#090b0f] border-b border-zinc-800/80" style="display:none;">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="text-xs font-mono text-tech-cyan uppercase tracking-widest mb-1">DOMAIN 01 • SUB-MODULE 1.5 // EXTREME MONSOON SWELL ANTI-BROACHING ENVELOPE</div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">Forward LiDAR Wave-Trough Ride-Height Compression &amp; Anti-Broaching Guard</h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        When encountering a steep 2.2m Lantau or Pearl River Estuary wave trough, a conventional fixed-height hydrofoil risks piercing the free surface ("foil broaching"). BAYWING’s bow LiDAR detects the approaching trough 12 meters ahead and smoothly commands a -0.35m ride-height crouch so the T-foil remains locked at $h/c \ge 0.85$ immersion.
+                    </p>
+                </div>
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">LIDAR TROUGH LOOKAHEAD</span><span class="text-base font-bold text-tech-cyan mt-1 block">12.0m (615 ms Lead)</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">AUTO RIDE-HEIGHT CROUCH</span><span class="text-base font-bold text-tech-emerald mt-1 block">+1.80m → +1.45m Smooth</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">MIN FOIL SUBMERGENCE</span><span class="text-base font-bold text-white mt-1 block">h/c ≥ 0.85 (Zero Broach)</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">PASSENGER VERTICAL G</span><span class="text-base font-bold text-tech-emerald mt-1 block">&lt; 0.05g (No Slam)</span></div>
+                </div>
+            </div>
+        </section>`;
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 31: TRI-JURISDICTION GREEN SUBSIDY & CO-MATCHING STACKER
+// Mounts automatically on: capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-subsidy-stacker',
+    navLabel: '🏛️ HK + Macao Grant Stacker',
+    pages: ['capital'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-subsidy-stacker" class="py-16 md:py-20 bg-[#070b12] border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-amber/15 border border-tech-amber/40 text-tech-amber font-mono text-xs font-bold mb-2">
+                        <span>🏛️ SOVEREIGN GRANT &amp; GREEN SUBSIDY AGGREGATOR // HKSTP + ITC + EEB + MACAO DSPA</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        Interactive Multi-Phase Non-Dilutive Grant &amp; Green Infrastructure Co-Financing Calculator
+                    </h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        Toggle any of our 5 verified Hong Kong and Macao SAR public funding programmes below to calculate cumulative non-dilutive capital across Phase 0–1 (R&amp;D), Phase 2 (D2 Pilot), and Phase 3 (22 kV &amp; Macao 400V-BESS Shore Hubs).
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-4 font-mono text-xs">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-2.5" id="sub-toggles-bar"></div>
+                    <div class="p-5 rounded-xl bg-[#050911] border border-zinc-800 flex flex-wrap justify-between items-center gap-4">
+                        <div>
+                            <span class="text-[10px] text-zinc-500 block uppercase">CUMULATIVE NON-DILUTIVE PUBLIC CO-FINANCING UNLOCKED</span>
+                            <span id="sub-total-hkd" class="text-2xl sm:text-3xl font-extrabold text-tech-emerald mt-0.5 block">HK$ 24,990,000</span>
+                        </div>
+                        <span class="px-3 py-1.5 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-bold">
+                            ✓ ZERO EQUITY DILUTION TO FOUNDERS &amp; SEED INVESTORS
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        const GRANTS = [
+            { name: '01. HKSTP Incu-Tech + PAG', amt: 1540000, phase: 'Phase 0–1 Lab & IP', active: true },
+            { name: '02. ITF Research Talent Hub', amt: 1450000, phase: '2× Full-Time Engineers', active: true },
+            { name: '03. ITC ESS 1:1 Co-Match', amt: 10000000, phase: 'Phase 2 D2 Pilot Vessel', active: true },
+            { name: '04. HK EEB Green Tech Fund', amt: 8500000, phase: 'Sheung Wan 22kV BESS Hub', active: true },
+            { name: '05. Macao DSPA Green Fund', amt: 3500000, phase: 'Macao 400V-to-2MWh BESS', active: true }
+        ];
+
+        window.toggleSubGrant = function (idx) {
+            GRANTS[idx].active = !GRANTS[idx].active;
+            renderSubStacker();
+        };
+
+        function renderSubStacker() {
+            const bar = document.getElementById('sub-toggles-bar');
+            if (!bar) return;
+            let tot = 0;
+            bar.innerHTML = GRANTS.map((g, i) => {
+                if (g.active) tot += g.amt;
+                return `
+                <button onclick="toggleSubGrant(${i})" class="p-3 rounded-xl border text-left transition-all ${g.active ? 'bg-emerald-950/30 border-tech-emerald text-white' : 'bg-zinc-900/50 border-zinc-800 text-zinc-500'}">
+                    <span class="text-[10px] block ${g.active ? 'text-tech-emerald font-bold' : ''}">${g.active ? '✓ INCLUDED' : '+ CLICK TO ADD'}</span>
+                    <span class="font-bold block mt-1 truncate">${g.name}</span>
+                    <span class="text-tech-cyan font-bold block mt-1">HK$ ${(g.amt / 1e6).toFixed(2)}M</span>
+                    <span class="text-[10px] text-zinc-400 block mt-0.5">${g.phase}</span>
+                </button>`;
+            }).join('');
+            document.getElementById('sub-total-hkd').textContent = `HK$ ${tot.toLocaleString()}`;
+        }
+        renderSubStacker();
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 32: 1,000V DC INSULATION MONITORING (IMD) & TOUCH-SAFE VERIFIER
+// Mounts automatically on: engineering-rd.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-imd-safety',
+    pages: ['rd'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-imd-safety" class="py-16 md:py-20 bg-[#070b12] border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                        <span>⚡ EMSD &amp; DNV HIGH-VOLTAGE MARINE SAFETY // IEC 61557-8 ACTIVE INSULATION MONITORING</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        1,000V DC Floating IT Busbar, Bender Insulation Monitoring (IMD) &amp; Equipotential Bonding
+                    </h2>
+                    <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                        Saltwater environments demand zero earth-leakage current. BAYWING operates a fully isolated unearthed DC IT busbar continuously monitored by active Bender Iso685 insulation guards (&gt;500 Ω/V threshold) and High-Voltage Interlock Loops (HVIL).
+                    </p>
+                </div>
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">ACTIVE IMD RESISTANCE</span><span class="text-base font-bold text-tech-emerald mt-1 block">12.4 MΩ (&gt;500 Ω/V Pass)</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">HVIL PILOT LOOP BREAK</span><span class="text-base font-bold text-tech-cyan mt-1 block">&lt; 2.0 ms Contactor Open</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">BUSBAR ACTIVE DISCHARGE</span><span class="text-base font-bold text-white mt-1 block">&lt; 60V DC in 1.8 Seconds</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">GALVANIC SHORE DIODE</span><span class="text-base font-bold text-tech-emerald mt-1 block">Zero Stray Hull Current</span></div>
+                </div>
+            </div>
+        </section>`;
+    }
+});
+
+// Update Floating Demo Switcher to include all 32 Components
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const dockList = document.querySelector('#hkstp-dock-panel .overflow-y-auto');
+        if (dockList) {
+            const EXTRA_29_32 = [
+                ['29. HKSTP Jan 2027 Admission Scorecard', 'index.html#bolton-hkstp-dossier', 'text-tech-emerald'],
+                ['30. Wave-Trough Anti-Broaching Guard Sim', 'digital-twin.html#mod-m40', 'text-tech-cyan'],
+                ['31. HK + Macao Green Grant Stacker', 'capital-stakeholders.html#bolton-subsidy-stacker', 'text-tech-amber'],
+                ['32. 1,000V DC Insulation Monitor (IMD)', 'engineering-rd.html#bolton-imd-safety', 'text-purple-400']
+            ];
+            dockList.innerHTML += EXTRA_29_32.map(item => `
+                <a href="${item[1]}" class="block p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-tech-cyan transition-all">
+                    <span class="${item[2]} font-bold block text-[11px]">${item[0]}</span>
+                    <span class="text-[10px] text-zinc-400">${item[1]}</span>
+                </a>`).join('');
+        }
+    }, 340);
+});
