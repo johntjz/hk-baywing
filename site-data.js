@@ -4490,3 +4490,1043 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 340);
 });
+// ============================================================================
+// BATCH 9 VISUAL DESIGN COMPONENTS PACK (APPEND TO BOTTOM OF site-data.js)
+// Adds Components 33–36 + Updates Floating HKSTP Demo Switcher to 36 Modules
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// COMPONENT 33: INTERACTIVE PASSENGER JOURNEY & INTERMODAL STORYBOARD
+// Mounts automatically on: index.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-passenger-journey',
+    pages: ['index'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-passenger-journey" class="py-16 md:py-20 bg-[#080c14] border-t border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-mono text-xs font-bold mb-2">
+                            <span>🚶‍♂️ FRICTIONLESS PASSENGER EXPERIENCE // WATER-AIRPORT CIQ, SKYPIER APM &amp; 60s OCTOPUS GATES</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            Interactive End-to-End Passenger Journey Storyboard (Select Traveler Persona)
+                        </h2>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <button onclick="selectJourneyPersona(0)" id="jrny-btn-0" class="px-3.5 py-2 rounded-lg bg-tech-emerald text-slate-950 font-bold">01. GBA Executive (Sheung Wan → Macau)</button>
+                        <button onclick="selectJourneyPersona(1)" id="jrny-btn-1" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">02. Global Flyer (SZ Airport → HKIA T1)</button>
+                        <button onclick="selectJourneyPersona(2)" id="jrny-btn-2" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">03. Island Commuter (Cheung Chau → Central)</button>
+                    </div>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="bg-[#03070e] rounded-xl border border-zinc-800 p-4">
+                        <canvas id="journey-storyboard-canvas" width="980" height="150" class="w-full h-auto rounded"></canvas>
+                    </div>
+                    <div id="journey-steps-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs"></div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        const PERSONAS = [
+            {
+                steps: [
+                    ['T+00:00 // SHEUNG WAN MTR EXIT D', '+7.0mPD Covered Travellator', 'Step off MTR Exit D onto our elevated weather-proof moving walkway along the promenade straight to Landing No. 1 (3.2 mins).', '#00f2ff'],
+                    ['T+03:15 // BIOMETRIC CIQ HALL', '2.4-Min e-Channel & X-Ray', 'Clear automated Hong Kong Immigration e-Channels and customs baggage scan inside our Sterile International Zone with zero queues.', '#10b981'],
+                    ['T+06:00 // 38-KNOT FOIL FLIGHT', '<58 dBA Cabin • 0.024g Ride', 'Board BAYWING EF-150 via vacuum-locked gangway; fly +1.8m above Pearl River chop at 38 knots with zero seasickness.', '#a855f7'],
+                    ['T+61:00 // MACAU TAIPA ARRIVAL', '400V-to-BESS 12m Turnaround', 'Disembark rested at Macau Taipa / Outer Harbour while the dockside 2.0 MWh BESS recharges the vessel in 12 minutes.', '#f59e0b']
+                ]
+            },
+            {
+                steps: [
+                    ['T+00:00 // SHENZHEN AIRPORT PORT', 'Through-Checked ULD Bag', 'Check luggage at Shenzhen Bao’an / Shekou directly to final long-haul destination (London/New York) and receive both boarding passes.', '#00f2ff'],
+                    ['T+05:00 // 90s ULD CONTAINER LOAD', 'Automated Stern Bay Lock', '4 modular aviation ULD baggage pods roll onto the EF-150 stern deck in 90 seconds; vessel departs at 38 knots across the estuary.', '#10b981'],
+                    ['T+45:00 // HKIA SKYPIER AIRSIDE', 'Zero HK Immigration Queue', 'Dock at SkyPier bonded airside berth (3.8 MW MCS boost); passengers bypass Hong Kong immigration and customs completely.', '#f59e0b'],
+                    ['T+48:30 // HKIA TERMINAL 1 GATE', '3.5-Min Underground APM', 'Ride the bonded underground Automated People Mover (APM) train straight to HKIA Terminal 1 departure gates—saving 95 minutes.', '#a855f7']
+                ]
+            },
+            {
+                steps: [
+                    ['T+00:00 // CHEUNG CHAU / MUI WO', '60s Octopus Fast-Gate', 'Tap Octopus card at the island pier; vessel arrives at 88% SoC after overnight 400V slow trickle balance.', '#00f2ff'],
+                    ['T+01:00 // ZERO-WAKE TAKE-OFF', '<0.15m Harbour Wake Wash', 'BAYWING-D5 lifts onto submerged carbon T-foils at 16 knots, accelerating to 34 knots with zero diesel fumes or hull slamming.', '#10b981'],
+                    ['T+19:00 // SHEUNG WAN BERTH B', 'Unrestricted Domestic Zone', 'Dock in 12 seconds via 2×100 kN vacuum pads at the Domestic Landside Concourse—cutting commute time from 50 mins to 18–20 mins.', '#f59e0b'],
+                    ['T+20:00 // CENTRAL / KOWLOON LINK', '9-Min 22kV Boost or 3m TST Hop', 'Walk straight to Central/Sheung Wan offices or hop the adjacent 3-minute domestic BAYWING-D3 shuttle across to Tsim Sha Tsui.', '#38bdf8']
+                ]
+            }
+        ];
+
+        window.selectJourneyPersona = function (idx) {
+            const p = PERSONAS[idx] || PERSONAS[0];
+            for (let i = 0; i < 3; i++) {
+                const b = document.getElementById(`jrny-btn-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-emerald text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('journey-steps-grid').innerHTML = p.steps.map(s => `
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800 space-y-1.5">
+                    <span class="text-[10px] font-bold block" style="color:${s[3]}">${s[0]}</span>
+                    <div class="text-white font-bold text-sm">${s[1]}</div>
+                    <p class="text-zinc-400 font-sans text-xs leading-relaxed">${s[2]}</p>
+                </div>`).join('');
+
+            const c = document.getElementById('journey-storyboard-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+            ctx.font = 'bold 11px JetBrains Mono';
+
+            p.steps.forEach((s, i) => {
+                const bx = 25 + i * 242;
+                ctx.fillStyle = '#071322'; ctx.strokeStyle = s[3]; ctx.lineWidth = 2.5;
+                ctx.fillRect(bx, 30, 210, 90); ctx.strokeRect(bx, 30, 210, 90);
+                ctx.fillStyle = s[3]; ctx.fillText(s[0].split('//')[0], bx + 14, 62);
+                ctx.fillStyle = '#ffffff'; ctx.fillText(s[1].slice(0, 24), bx + 14, 92);
+                if (i < 3) {
+                    ctx.strokeStyle = '#00f2ff'; ctx.lineWidth = 3;
+                    ctx.beginPath(); ctx.moveTo(bx + 210, 75); ctx.lineTo(bx + 242, 75); ctx.stroke();
+                }
+            });
+        };
+        window.selectJourneyPersona(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 34: GNSS-DENIED UNDER-BRIDGE DEAD-RECKONING & LIDAR-INERTIAL SIM
+// Mounts inside Domain 04 (fbw) on digital-twin.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'mod-m41',
+    modId: 'm41',
+    navLabel: '4.5 GNSS-Denied Bridge Dead-Reckoning',
+    pages: ['twin'],
+    twinDomain: {
+        key: 'fbw',
+        badge: 'DOMAIN 04',
+        shortLabel: '🧠 2oo3 Fly-by-Wire',
+        title: 'DOMAIN 04 // FAIL-OPERATIONAL FLY-BY-WIRE & EDGE REDUNDANCY'
+    },
+    renderHtml: function () {
+        return `
+        <section id="mod-m41" data-mod-id="m41" data-dom="fbw" class="twin-mod-sec py-12 bg-[#090b0f] border-b border-zinc-800/80" style="display:none;">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="text-xs font-mono text-tech-cyan uppercase tracking-widest mb-1">DOMAIN 04 • SUB-MODULE 4.5 // GNSS-DENIED BRIDGE TRANSIT &amp; MULTIPATH IMMUNITY</div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">Under-Bridge (Tsing Ma / Kap Shui Mun / HZMB) RTK-GNSS Blackout &amp; LiDAR-Inertial Hold</h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        When flying at 35–38 knots beneath the steel decks of the Kap Shui Mun Bridge, Tsing Ma Bridge, or Hong Kong–Zhuhai–Macau Bridge, RTK-GNSS satellite signals suffer multipath reflection or total dropout for 8–25 seconds. Adjust the GNSS blackout duration below to verify how our 15-state EKF fuses dual SBG Ellipse-N tactical IMUs, ultrasonic altimeters, and forward LiDAR surface-feature odometry to hold vertical ride height within $\pm 1.2\text{ cm}$.
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6 pb-4 border-b border-zinc-800 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Under-Bridge GNSS Blackout Duration:</span>
+                                <span id="drk-sec-val" class="text-tech-cyan font-bold">15 Seconds (Tsing Ma Span Transit)</span>
+                            </div>
+                            <input id="drk-sec-slider" type="range" min="5" max="35" step="5" value="15" class="w-full accent-cyan-400 cursor-pointer" oninput="updateDeadReckonSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. LiDAR + Ultrasonic Surface Odometry Aid:</span>
+                                <span id="drk-aid-val" class="text-tech-emerald font-bold">ACTIVE (200Hz Wave-Surface Lock)</span>
+                            </div>
+                            <input id="drk-aid-slider" type="range" min="0" max="1" step="1" value="1" class="w-full accent-emerald-400 cursor-pointer" oninput="updateDeadReckonSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">VERTICAL HEAVE DRIFT (σ_z)</span>
+                            <span id="drk-out-z" class="text-base font-bold text-tech-emerald mt-1 block">±1.1 cm (Bounded Lock)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">LATERAL TRACK DRIFT (σ_y)</span>
+                            <span id="drk-out-y" class="text-base font-bold text-tech-cyan mt-1 block">0.18 m over 290m Span</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">RTK RE-ACQUISITION TIME</span>
+                            <span class="text-base font-bold text-white mt-1 block">&lt; 0.25s Post-Bridge</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">FOIL FLIGHT CONTINUITY</span>
+                            <span id="drk-out-status" class="text-base font-bold text-tech-emerald mt-1 block">✓ 100% FOIL-BORNE</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#050b14] rounded-xl border border-zinc-800 p-4">
+                        <div class="flex flex-wrap justify-between font-mono text-xs mb-2 gap-2">
+                            <span class="text-red-400 font-bold">┄ UNAIDED IMU-ONLY DRIFT (QUADRATIC t² ERROR)</span>
+                            <span class="text-tech-emerald font-bold">━ BAYWING EKF + LIDAR/ULTRASONIC BOUNDED HOLD (CM-GRADE)</span>
+                        </div>
+                        <canvas id="dead-reckon-canvas" width="960" height="180" class="w-full h-auto rounded bg-[#03070e]"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.updateDeadReckonSim = function () {
+            const sec = parseInt(document.getElementById('drk-sec-slider')?.value || 15);
+            const aided = parseInt(document.getElementById('drk-aid-slider')?.value || 1) === 1;
+
+            const zErrCm = aided ? (0.8 + sec * 0.02).toFixed(1) : (2.5 + 0.18 * sec * sec).toFixed(1);
+            const yErrM = aided ? (0.012 * sec).toFixed(2) : (0.045 * sec * sec).toFixed(2);
+
+            if (document.getElementById('drk-sec-val')) {
+                document.getElementById('drk-sec-val').textContent = `${sec} Seconds (${Math.round(sec * 19.5)}m Bridge Span)`;
+                document.getElementById('drk-aid-val').textContent = aided ? 'ACTIVE (200Hz Wave-Surface Lock)' : 'DISABLED (Pure IMU Free-Inertial)';
+                document.getElementById('drk-out-z').textContent = `±${zErrCm} cm`;
+                document.getElementById('drk-out-y').textContent = `${yErrM} m Drift`;
+                document.getElementById('drk-out-status').textContent = aided ? '✓ 100% FOIL-BORNE' : '⚠ ENABLE LIDAR AID';
+            }
+
+            const c = document.getElementById('dead-reckon-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            // Bridge shadow zone box
+            const spanW = (sec / 35) * 760;
+            ctx.fillStyle = 'rgba(245, 158, 11, 0.12)';
+            ctx.fillRect(100, 15, spanW, 150);
+            ctx.fillStyle = '#f59e0b'; ctx.font = 'bold 11px JetBrains Mono';
+            ctx.fillText(`BRIDGE GNSS SHADOW ZONE (${sec}s BLACKOUT)`, 115, 35);
+
+            // Unaided quadratic drift (Red dashed)
+            ctx.strokeStyle = '#ef4444'; ctx.setLineDash([6, 4]); ctx.lineWidth = 2.2;
+            ctx.beginPath();
+            for (let x = 40; x <= 920; x += 8) {
+                const inShadow = Math.max(0, Math.min(spanW, x - 100));
+                const y = 155 - Math.min(135, Math.pow(inShadow / 80, 2) * 18);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke(); ctx.setLineDash([]);
+
+            // Aided EKF + LiDAR/Ultrasonic bounded hold (Emerald solid)
+            ctx.strokeStyle = '#10b981'; ctx.lineWidth = 3;
+            ctx.beginPath();
+            for (let x = 40; x <= 920; x += 8) {
+                const y = 155 - 8 - Math.sin(x * 0.08) * 3;
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+        };
+        window.updateDeadReckonSim();
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 35: HKO NORTHEAST MONSOON & STRONG WIND SCHEDULE RELIABILITY SIM
+// Mounts automatically on: routes-calculator.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-monsoon-uptime',
+    pages: ['routes'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-monsoon-uptime" class="py-16 md:py-20 bg-[#080d14] border-b border-zinc-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                        <span>🌬️ HONG KONG OBSERVATORY (HKO) MARINE WEATHER BENCHMARK // BEAUFORT 3 → SIGNAL NO. 3</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        Monsoon Swell Schedule Regularity: Why Submerged T-Foils Maintain 99.4% Annual Uptime
+                    </h2>
+                    <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                        During Hong Kong’s winter Northeast Monsoon and summer Strong Wind Signal No. 3 days ($H_s = 1.2\text{m}–2.2\text{m}$), conventional surface catamarans suffer severe bow slamming and must throttle back by 30%–45%. Select any HKO marine weather condition below to compare timetable punctuality.
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6 font-mono text-xs">
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="selectMonsoonState(0)" id="mns-btn-0" class="px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold">01. Beaufort 3–4 (240 Days/Yr — Normal Chop)</button>
+                        <button onclick="selectMonsoonState(1)" id="mns-btn-1" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">02. Beaufort 5–6 (95 Days/Yr — NE Monsoon Surge)</button>
+                        <button onclick="selectMonsoonState(2)" id="mns-btn-2" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">03. HKO Signal No. 3 (25 Days/Yr — 2.0m Swell)</button>
+                    </div>
+                    <div id="monsoon-metrics-stage" class="grid grid-cols-2 lg:grid-cols-4 gap-4"></div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        const STATES = [
+            { hs: '0.6m – 1.0m Chop', catSpd: '28 KT (100% Sched)', evSpd: '38.0 KT (100% Sched)', delay: '0 Mins Delay (On-Time)', comfort: '0.018g (Zero Sick)' },
+            { hs: '1.3m – 1.7m Whitecaps', catSpd: '21 KT (-25% Knockdown)', evSpd: '37.2 KT (98% Sched)', delay: 'Catamaran +18m Late / EV On-Time', comfort: '0.024g vs 0.16g Cat' },
+            { hs: '1.8m – 2.2m Steep Swell', catSpd: '16 KT (-43% / Suspended)', evSpd: '35.0 KT (Auto-Crouch Lock)', delay: 'Catamaran Cancelled / EV Active', comfort: '0.038g (Full Foil Lock)' }
+        ];
+
+        window.selectMonsoonState = function (idx) {
+            const s = STATES[idx] || STATES[0];
+            for (let i = 0; i < 3; i++) {
+                const b = document.getElementById(`mns-btn-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('monsoon-metrics-stage').innerHTML = `
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">SIGNIFICANT WAVE (H_s)</span><span class="text-base font-bold text-white mt-1 block">${s.hs}</span></div>
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">LEGACY CATAMARAN SPEED</span><span class="text-base font-bold text-red-400 mt-1 block">${s.catSpd}</span></div>
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">BAYWING FOIL SPEED</span><span class="text-base font-bold text-tech-emerald mt-1 block">${s.evSpd}</span></div>
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">TIMETABLE &amp; COMFORT</span><span class="text-base font-bold text-tech-cyan mt-1 block">${s.comfort}</span></div>
+            `;
+        };
+        window.selectMonsoonState(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 36: SOVEREIGN HK IP EXPORT & GLOBAL AVIONICS ROYALTY SIMULATOR
+// Mounts automatically on: capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-ip-royalty',
+    navLabel: '🌐 Global IP Export & SaaS',
+    pages: ['capital'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-ip-royalty" class="py-16 md:py-20 bg-[#080c14] border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                        <span>🌐 HKMPB &amp; HKSTP SOVEREIGN TECH EXPORT MODEL // ASSET-LIGHT 82%-MARGIN IP LICENSING</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                        Global Avionics Kit &amp; Digital Twin SaaS Royalty Simulator (ASEAN, Middle East &amp; EU)
+                    </h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        Beyond operating our own Hong Kong and GBA fleet, Aero-Marine Systems exports pre-certified "BAYWING Inside" 100Hz 2oo3 Fly-by-Wire Avionics &amp; Titanium Actuator Kits plus cloud Digital Twin predictive maintenance subscriptions to overseas shipyards (Singapore, Japan, Red Sea/UAE, and Mediterranean ferry operators).
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6 font-mono text-xs">
+                    <div class="grid md:grid-cols-2 gap-6 pb-4 border-b border-zinc-800">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Overseas Licensed Vessels Equipped / Year:</span>
+                                <span id="ip-kits-val" class="text-tech-cyan font-bold">25 Overseas Vessels / Yr</span>
+                            </div>
+                            <input id="ip-kits-slider" type="range" min="5" max="80" step="5" value="25" class="w-full accent-cyan-400 cursor-pointer" oninput="updateIpRoyaltySim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. Cumulative Global Installed Base (SaaS Fleet):</span>
+                                <span id="ip-base-val" class="text-tech-emerald font-bold">120 Active Licensed Vessels</span>
+                            </div>
+                            <input id="ip-base-slider" type="range" min="20" max="300" step="10" value="120" class="w-full accent-emerald-400 cursor-pointer" oninput="updateIpRoyaltySim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">AVIONICS &amp; FOIL KIT REV</span>
+                            <span id="ip-out-hw" class="text-base font-bold text-white mt-1 block">HK$ 87.5M / Yr</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">RECURRING DIGITAL TWIN SAAS</span>
+                            <span id="ip-out-saas" class="text-base font-bold text-tech-cyan mt-1 block">HK$ 43.2M / Yr ARR</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">COMBINED IP EXPORT EBITDA</span>
+                            <span id="ip-out-ebitda" class="text-base font-bold text-tech-emerald mt-1 block">+HK$ 107.2M / Yr (82%)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">SHIPYARD CAPEX REQUIRED</span>
+                            <span class="text-base font-bold text-tech-amber mt-1 block">HK$ 0 (Client Yard Builds)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.updateIpRoyaltySim = function () {
+            const kitsYr = parseInt(document.getElementById('ip-kits-slider')?.value || 25);
+            const installedBase = parseInt(document.getElementById('ip-base-slider')?.value || 120);
+            const hwRevM = (kitsYr * 3.5); // HK$ 3.5M per 100Hz 2oo3 Avionics + LiDAR + Servo license kit
+            const saasArrM = (installedBase * 0.36); // HK$ 30k/mo (HK$ 360k/yr) Digital Twin & BIST SaaS per vessel
+            const ebitdaM = ((hwRevM + saasArrM) * 0.82);
+
+            document.getElementById('ip-kits-val').textContent = `${kitsYr} Overseas Vessels / Yr`;
+            document.getElementById('ip-base-val').textContent = `${installedBase} Active Licensed Vessels`;
+            document.getElementById('ip-out-hw').textContent = `HK$ ${hwRevM.toFixed(1)}M / Yr`;
+            document.getElementById('ip-out-saas').textContent = `HK$ ${saasArrM.toFixed(1)}M / Yr ARR`;
+            document.getElementById('ip-out-ebitda').textContent = `+HK$ ${ebitdaM.toFixed(1)}M / Yr (82%)`;
+        };
+        window.updateIpRoyaltySim();
+    }
+});
+
+// Update Floating Demo Switcher to include all 36 Components
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const dockList = document.querySelector('#hkstp-dock-panel .overflow-y-auto');
+        if (dockList) {
+            const EXTRA_33_36 = [
+                ['33. Interactive Passenger Journey Storyboard', 'index.html#bolton-passenger-journey', 'text-tech-emerald'],
+                ['34. GNSS-Denied Bridge Dead-Reckoning Sim', 'digital-twin.html#mod-m41', 'text-tech-cyan'],
+                ['35. HKO Monsoon & Signal No. 3 Uptime Sim', 'routes-calculator.html#bolton-monsoon-uptime', 'text-tech-amber'],
+                ['36. Global HK IP Export & SaaS Royalty Sim', 'capital-stakeholders.html#bolton-ip-royalty', 'text-purple-400']
+            ];
+            dockList.innerHTML += EXTRA_33_36.map(item => `
+                <a href="${item[1]}" class="block p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-tech-cyan transition-all">
+                    <span class="${item[2]} font-bold block text-[11px]">${item[0]}</span>
+                    <span class="text-[10px] text-zinc-400">${item[1]}</span>
+                </a>`).join('');
+        }
+    }, 380);
+});
+// ============================================================================
+// BATCH 10 VISUAL DESIGN COMPONENTS PACK (APPEND TO BOTTOM OF site-data.js)
+// Adds Components 37–40 + Updates Floating HKSTP Demo Switcher to 40 Modules
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// COMPONENT 37: INTERACTIVE HKSTP 18-MONTH GANTT & RTH ENGINEER TASK BOARD
+// Mounts automatically on: index.html & capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-hkstp-gantt',
+    navLabel: '📅 18-Mo HKSTP Gantt',
+    pages: ['index', 'capital'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-hkstp-gantt" class="py-16 md:py-20 bg-[#060a12] border-t border-b border-zinc-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                            <span>📅 HKSTP INCUBATION PROGRAMME (REVAMPED TRACK) // INCUHATCH (MO 1–12) → D-DAY → INCUBOOST (MO 13–18+)</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            Interactive 18-Month R&amp;D Milestone Gantt &amp; ITF RTH Engineer Work-Package Board
+                        </h2>
+                        <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                            Filter by engineering workstream below to inspect how our Principal Architect and 2 full-time ITF Research Talent Hub (RTH) engineers execute every 3-month and 6-month HKSTP Milestone Assessment Gate.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <button onclick="filterGanttStream('all')" id="gnt-btn-all" class="px-3.5 py-1.5 rounded bg-tech-cyan text-slate-950 font-bold">All Workstreams (8)</button>
+                        <button onclick="filterGanttStream('sw')" id="gnt-btn-sw" class="px-3.5 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700">RTH #1: 100Hz RTOS &amp; EKF</button>
+                        <button onclick="filterGanttStream('hw')" id="gnt-btn-hw" class="px-3.5 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700">RTH #2: Mechatronics &amp; D1</button>
+                        <button onclick="filterGanttStream('reg')" id="gnt-btn-reg" class="px-3.5 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700">Architect: IP, Grid &amp; DNV</button>
+                    </div>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-4 font-mono text-xs">
+                    <!-- Month Header Bar -->
+                    <div class="grid grid-cols-12 gap-2 pb-3 border-b border-zinc-800 text-[10px] text-zinc-400 font-bold uppercase">
+                        <div class="col-span-4">Workstream Deliverable &amp; Owner</div>
+                        <div class="col-span-8 grid grid-cols-6 text-center">
+                            <span class="text-tech-cyan">M1–M3 (Rev 1)</span>
+                            <span class="text-tech-cyan">M4–M6 (Gate 1)</span>
+                            <span class="text-tech-emerald">M7–M9 (Build)</span>
+                            <span class="text-tech-amber">M10–M12 (D-Day)</span>
+                            <span class="text-purple-400">M13–M15 (Tolo)</span>
+                            <span class="text-tech-emerald">M16–M18 (IncuBoost)</span>
+                        </div>
+                    </div>
+                    <div id="hkstp-gantt-rows" class="space-y-2.5"></div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        const TASKS = [
+            { stream: 'sw', title: 'WP1: 6-DOF Free-Surface CFD & JONSWAP SIL Twin', owner: 'RTH Engineer #1 (RTOS/Control)', start: 0, span: 2, color: 'bg-tech-cyan', kpi: '<0.5° RMS Pitch in SIL' },
+            { stream: 'sw', title: 'WP2: Dual STM32H743 2oo3 Voter & 4.82ms WCET Lock', owner: 'RTH Engineer #1 (RTOS/Control)', start: 1, span: 2, color: 'bg-tech-emerald', kpi: '1,000-Hr HIL Sign-Off' },
+            { stream: 'hw', title: 'WP3: Autoclave T800S Carbon T-Foil & 2.5g Proof Rig', owner: 'RTH Engineer #2 (Mechatronics)', start: 1, span: 2, color: 'bg-tech-amber', kpi: 'SF = 3.57 @ 2.5g Load' },
+            { stream: 'hw', title: 'WP4: 3.56m BAYWING-D1 Hull, IP68 Servos & LiDAR Integration', owner: 'RTH Engineer #2 (Mechatronics)', start: 2, span: 2, color: 'bg-sky-400', kpi: 'D-Day MVP Ready (Mo 12)' },
+            { stream: 'reg', title: 'WP5: 3 Core PCT Patent Filings (90% PAG Grant Covered)', owner: 'Principal Systems Architect', start: 0, span: 3, color: 'bg-purple-400', kpi: 'PCT-HK-2026-001/002/003' },
+            { stream: 'reg', title: 'WP6: Sheung Wan Cap. 127 STT & HKE/CLP 22kV/11kV Drawings', owner: 'Principal Systems Architect', start: 1, span: 3, color: 'bg-tech-emerald', kpi: 'GIS 22.290175, 114.148746' },
+            { stream: 'hw', title: 'WP7: Tolo Harbour Autonomous 13.4 KT (Fn 1.17) Sea Trials', owner: 'Full Team @ HKSTP Slipway', start: 3, span: 2, color: 'bg-tech-cyan', kpi: '283Hz Full-Scale Equiv' },
+            { stream: 'reg', title: 'WP8: DNV Approval in Principle (AIP) & HK$ 20M ESS Trigger', owner: 'Principal Systems Architect', start: 4, span: 2, color: 'bg-tech-amber', kpi: '15m D2 Shipyard Cut-Carbon' }
+        ];
+
+        window.filterGanttStream = function (st) {
+            ['all', 'sw', 'hw', 'reg'].forEach(k => {
+                const b = document.getElementById(`gnt-btn-${k}`);
+                if (b) b.className = (k === st) ? 'px-3.5 py-1.5 rounded bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700';
+            });
+            const list = st === 'all' ? TASKS : TASKS.filter(t => t.stream === st);
+            document.getElementById('hkstp-gantt-rows').innerHTML = list.map(t => {
+                const leftPct = (t.start / 6) * 100;
+                const widthPct = (t.span / 6) * 100;
+                return `
+                <div class="grid grid-cols-12 gap-2 items-center p-2.5 rounded-xl bg-[#070b12] border border-zinc-800/80">
+                    <div class="col-span-12 md:col-span-4">
+                        <div class="text-white font-bold text-[11px] truncate">${t.title}</div>
+                        <div class="text-[10px] text-zinc-500">${t.owner}</div>
+                    </div>
+                    <div class="col-span-12 md:col-span-8 relative h-7 bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800">
+                        <div class="absolute top-1 bottom-1 ${t.color} rounded-md flex items-center px-2 text-[10px] font-bold text-slate-950 whitespace-nowrap overflow-hidden" style="left:${leftPct}%;width:${widthPct}%">
+                            ${t.kpi}
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        };
+        window.filterGanttStream('all');
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 38: ISLANDED EMERGENCY MICROGRID & PIER BLACK-START SIMULATOR
+// Mounts inside Domain 03 (bms) on digital-twin.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'mod-m42',
+    modId: 'm42',
+    navLabel: '3.5 Emergency Microgrid & Black-Start Sim',
+    pages: ['twin'],
+    twinDomain: {
+        key: 'bms',
+        badge: 'DOMAIN 03',
+        shortLabel: '🔋 MW Battery & HV',
+        title: 'DOMAIN 03 // HIGH-C-RATE MW BATTERY THERMAL & 22 kV GRID LOAD'
+    },
+    renderHtml: function () {
+        return `
+        <section id="mod-m42" data-mod-id="m42" data-dom="bms" class="twin-mod-sec py-12 bg-[#090b0f] border-b border-zinc-800/80" style="display:none;">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="text-xs font-mono text-tech-emerald uppercase tracking-widest mb-1">DOMAIN 03 • SUB-MODULE 3.5 // CIVIL RESILIENCE &amp; ISLANDED MICROGRID BLACK-START</div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">3.3 MWh Islanded Terminal Microgrid &amp; Emergency Disaster Relief Power Simulator</h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        While our grid-tie switchgear enforces 100% unidirectional zero-export into HK Electric and CLP feeders during normal operation, during a catastrophic typhoon blackout or outlying island power outage, an islanding contactor physically isolates the utility street feeder and allows our 1.5 MWh onshore BESS + docked 1.8 MWh vessel (3.3 MWh total) to form an islanded 400V AC emergency microgrid for terminal CIQ lighting, Fire Services seawater pumps, and outlying island clinic backup.
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6 font-mono text-xs">
+                    <div class="grid md:grid-cols-2 gap-6 pb-4 border-b border-zinc-800">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Available Combined BESS + Vessel Reserve:</span>
+                                <span id="emg-mwh-val" class="text-tech-emerald font-bold">3.00 MWh Usable LFP Reserve</span>
+                            </div>
+                            <input id="emg-mwh-slider" type="range" min="1.2" max="3.3" step="0.1" value="3.0" class="w-full accent-emerald-400 cursor-pointer" oninput="updateMicrogridSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. Emergency Critical Load Draw (kW):</span>
+                                <span id="emg-load-val" class="text-tech-cyan font-bold">85 kW (CIQ Hall + FSD Pumps + Comms)</span>
+                            </div>
+                            <input id="emg-load-slider" type="range" min="30" max="250" step="5" value="85" class="w-full accent-cyan-400 cursor-pointer" oninput="updateMicrogridSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">AUTONOMOUS BACKUP DURATION</span>
+                            <span id="emg-out-hrs" class="text-base font-bold text-tech-emerald mt-1 block">35.3 Hours Continuous</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">UTILITY FEEDER ISOLATION</span>
+                            <span class="text-base font-bold text-tech-cyan mt-1 block">ANSI 81/27 Physical Open</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">BLACK-START TRANSFER TIME</span>
+                            <span class="text-base font-bold text-white mt-1 block">12.0 ms UPS-Grade</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">UTILITY BACKFEED RISK</span>
+                            <span class="text-base font-bold text-tech-emerald mt-1 block">0.0 kW (Interlocked)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.updateMicrogridSim = function () {
+            const mwh = parseFloat(document.getElementById('emg-mwh-slider')?.value || 3.0);
+            const kw = parseInt(document.getElementById('emg-load-slider')?.value || 85);
+            const hrs = ((mwh * 1000) / kw).toFixed(1);
+            if (document.getElementById('emg-mwh-val')) {
+                document.getElementById('emg-mwh-val').textContent = `${mwh.toFixed(2)} MWh Usable Reserve`;
+                document.getElementById('emg-load-val').textContent = `${kw} kW Critical Load`;
+                document.getElementById('emg-out-hrs').textContent = `${hrs} Hours Continuous`;
+            }
+        };
+        window.updateMicrogridSim();
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 39: PHASED-ARRAY ULTRASONIC (PAUT) CARBON FOIL NDT SCANNER
+// Mounts automatically on: engineering-rd.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-ndt-scanner',
+    pages: ['rd'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-ndt-scanner" class="py-16 md:py-20 bg-[#080c14] border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-mono text-xs font-bold mb-2">
+                            <span>🔬 DNV-CP-0424 COMPOSITE QUALITY ASSURANCE // PHASED-ARRAY ULTRASONIC (PAUT) C-SCANNER</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            Interactive Autoclave Carbon Spar Void-Content (&lt;0.8%) &amp; Tsing Yi Nightly NDT C-Scan
+                        </h2>
+                        <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                            Click any structural inspection zone along the Toray T800S carbon T-foil spar to inspect ultrasonic attenuation (dB), laminate resin void fraction (&lt;0.8% DNV limit), and sacrificial Ti-6Al-4V shear-pin bushingpreload.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <button onclick="selectNdtZone(0)" id="ndt-btn-0" class="px-3.5 py-2 rounded-lg bg-tech-emerald text-slate-950 font-bold">Zone 01: Ti-6Al-4V Root Shear Box</button>
+                        <button onclick="selectNdtZone(1)" id="ndt-btn-1" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Zone 02: Vertical Strut Torsion Web</button>
+                        <button onclick="selectNdtZone(2)" id="ndt-btn-2" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Zone 03: T-Bulb &amp; Flap Hinge Spar</button>
+                    </div>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-5 font-mono text-xs">
+                    <div class="bg-[#03070e] rounded-xl border border-zinc-800 p-4">
+                        <canvas id="ndt-cscan-canvas" width="960" height="150" class="w-full h-auto rounded"></canvas>
+                    </div>
+                    <div id="ndt-zone-readout" class="grid grid-cols-2 lg:grid-cols-4 gap-4"></div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        const ZONES = [
+            { name: 'Ti-6Al-4V Root Shear-Pin Box (42mm Monolithic T800S)', voidPct: '0.38% Void (<0.8% Limit)', dbLoss: '1.4 dB Attenuation', status: '✓ ZERO DELAMINATION', torque: '480 Nm Calibrated Shear Bolt' },
+            { name: 'Vertical Strut ±45° Carbon Box Spar + Anti-Ventilation Fences', voidPct: '0.44% Void (<0.8% Limit)', dbLoss: '1.6 dB Attenuation', status: '✓ 100% BOND INTEGRITY', torque: '40 kHz Piezo Transducer OK' },
+            { name: 'Submerged Torpedo Bulb & Titanium Flap Hinge Journals', voidPct: '0.31% Void (<0.8% Limit)', dbLoss: '1.2 dB Attenuation', status: '✓ ZERO LEADING-EDGE PIT', torque: '0.02mm Hinge Concentricity' }
+        ];
+
+        window.selectNdtZone = function (idx) {
+            const z = ZONES[idx] || ZONES[0];
+            for (let i = 0; i < 3; i++) {
+                const b = document.getElementById(`ndt-btn-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-emerald text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('ndt-zone-readout').innerHTML = `
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">MEASURED VOID CONTENT</span><span class="text-base font-bold text-tech-emerald mt-1 block">${z.voidPct}</span></div>
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">5 MHz PAUT ECHO LOSS</span><span class="text-base font-bold text-tech-cyan mt-1 block">${z.dbLoss}</span></div>
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">MECHANICAL INTERFACE</span><span class="text-base font-bold text-white mt-1 block">${z.torque}</span></div>
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">DNV SURVEY VERDICT</span><span class="text-base font-bold text-tech-emerald mt-1 block">${z.status}</span></div>
+            `;
+
+            const c = document.getElementById('ndt-cscan-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            // Simulated Ultrasonic C-Scan Heatmap Grid + A-Scan Waveform
+            for (let col = 0; col < 44; col++) {
+                for (let row = 0; row < 5; row++) {
+                    const activeCol = (idx === 0 && col < 15) || (idx === 1 && col >= 15 && col < 30) || (idx === 2 && col >= 30);
+                    ctx.fillStyle = activeCol ? 'rgba(16, 185, 129, 0.72)' : 'rgba(0, 242, 255, 0.18)';
+                    ctx.fillRect(30 + col * 20, 25 + row * 20, 17, 17);
+                }
+            }
+            ctx.fillStyle = '#ffffff'; ctx.font = 'bold 11px JetBrains Mono';
+            ctx.fillText(`5 MHz 64-ELEMENT PHASED-ARRAY ULTRASONIC C-SCAN // ${z.name}`, 30, 140);
+        };
+        window.selectNdtZone(0);
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 40: COMMERCIAL PARTNERSHIP & AIRLINE ACMI WET-LEASE CALCULATOR
+// Mounts automatically on: routes-calculator.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-jv-revshare',
+    pages: ['routes'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-jv-revshare" class="py-16 md:py-20 bg-[#070b12] border-b border-zinc-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-purple-500/15 border border-purple-400/40 text-purple-300 font-mono text-xs font-bold mb-2">
+                            <span>🤝 COMMERCIAL GO-TO-MARKET (GTM) FLEXIBILITY // DIRECT OPS VS. AIRLINE ACMI VS. FERRY JV</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            Interactive Go-To-Market Business Model &amp; Partner Revenue-Share Comparator
+                        </h2>
+                        <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                            Compare how BAYWING monetizes each vessel across 3 commercial contracting structures: (1) Direct Flagship Operations at our Sheung Wan Water-Airport, (2) Guaranteed-Block-Hour ACMI Wet-Lease for HKIA SkyPier Airlines, and (3) 78% Fuel-Saving Joint Venture (JV) with incumbent HK/Macau licensed ferry operators.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <button onclick="selectGtmMode(0)" id="gtm-btn-0" class="px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold">Model A: Direct Water-Airport Ops</button>
+                        <button onclick="selectGtmMode(1)" id="gtm-btn-1" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Model B: Airline ACMI Wet-Lease</button>
+                        <button onclick="selectGtmMode(2)" id="gtm-btn-2" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Model C: Licensed Operator JV</button>
+                    </div>
+                </div>
+
+                <div id="gtm-model-stage" class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs"></div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        const MODELS = [
+            { rev: 'HK$ 64.5M / Yr / Vessel', ebitda: 'HK$ 28.5M / Yr (44%)', risk: 'Direct Farebox + Cargo ULD', partner: '100% Aero-Marine Retained' },
+            { rev: 'HK$ 48.0M / Yr Guaranteed', ebitda: 'HK$ 25.4M / Yr (53%)', risk: 'Zero Load-Factor Risk (ACMI)', partner: 'HKIA Hub Airlines (Through-Ticket)' },
+            { rev: 'HK$ 52.0M / Yr Shared', ebitda: 'HK$ 22.8M / Yr + Fuel Split', risk: 'Uses Partner Route License', partner: 'Incumbent HK / Macau Operators' }
+        ];
+
+        window.selectGtmMode = function (idx) {
+            const m = MODELS[idx] || MODELS[0];
+            for (let i = 0; i < 3; i++) {
+                const b = document.getElementById(`gtm-btn-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('gtm-model-stage').innerHTML = `
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">ANNUAL GROSS REVENUE</span><span class="text-base font-bold text-white mt-1 block">${m.rev}</span></div>
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">BAYWING NET EBITDA</span><span class="text-base font-bold text-tech-emerald mt-1 block">${m.ebitda}</span></div>
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">COMMERCIAL RISK PROFILE</span><span class="text-base font-bold text-tech-cyan mt-1 block">${m.risk}</span></div>
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">COUNTERPARTY STRUCTURE</span><span class="text-base font-bold text-tech-amber mt-1 block">${m.partner}</span></div>
+            `;
+        };
+        window.selectGtmMode(0);
+    }
+});
+
+// Update Floating Demo Switcher to include all 40 Components
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const dockList = document.querySelector('#hkstp-dock-panel .overflow-y-auto');
+        if (dockList) {
+            const EXTRA_37_40 = [
+                ['37. 18-Mo HKSTP Gantt & RTH Task Board', 'capital-stakeholders.html#bolton-hkstp-gantt', 'text-tech-cyan'],
+                ['38. 3.3 MWh Emergency Microgrid Black-Start', 'digital-twin.html#mod-m42', 'text-tech-emerald'],
+                ['39. 5 MHz Ultrasonic Carbon Foil NDT Scanner', 'engineering-rd.html#bolton-ndt-scanner', 'text-tech-amber'],
+                ['40. Airline ACMI & Operator JV Revenue Sim', 'routes-calculator.html#bolton-jv-revshare', 'text-purple-400']
+            ];
+            dockList.innerHTML += EXTRA_37_40.map(item => `
+                <a href="${item[1]}" class="block p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-tech-cyan transition-all">
+                    <span class="${item[2]} font-bold block text-[11px]">${item[0]}</span>
+                    <span class="text-[10px] text-zinc-400">${item[1]}</span>
+                </a>`).join('');
+        }
+    }, 420);
+});
+// ============================================================================
+// BATCH 12 VISUAL DESIGN COMPONENTS PACK (APPEND TO BOTTOM OF site-data.js)
+// Adds Components 45–48 + Updates Floating HKSTP Demo Switcher to 48 Modules
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// COMPONENT 45: SMART-TURNSTILE & DYNAMIC SEAT-YIELD PRICING SIMULATOR
+// Mounts automatically on: index.html & routes-calculator.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-smart-ticketing',
+    pages: ['index', 'routes'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-smart-ticketing" class="py-16 md:py-20 bg-[#080c14] border-t border-b border-zinc-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                            <span>🎫 MULTI-MODAL FAREBOX ENGINE // OCTOPUS FAST-GATE + ALIPAYHK + IATA AIRLINE INTERLINE</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            Interactive Smart-Turnstile &amp; Airline-Style Dynamic Cabin Yield Simulator
+                        </h2>
+                        <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                            Adjust the VIP / Business Lounge seat allocation and peak-hour surge multiplier on the 150-seat BAYWING EF-150 to see how airline-style yield management maximizes revenue per sailing across Sheung Wan Water-Airport and HKIA SkyPier routes.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6 font-mono text-xs">
+                    <div class="grid md:grid-cols-3 gap-6 pb-4 border-b border-zinc-800">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. VIP / Business Cabin Seats (of 150):</span>
+                                <span id="tkt-vip-val" class="text-tech-cyan font-bold">32 VIP Seats / 118 Economy</span>
+                            </div>
+                            <input id="tkt-vip-slider" type="range" min="16" max="64" step="4" value="32" class="w-full accent-cyan-400 cursor-pointer" oninput="updateTicketingSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. Base Economy Cross-Border Fare:</span>
+                                <span id="tkt-eco-val" class="text-tech-emerald font-bold">HK$ 240 / Seat</span>
+                            </div>
+                            <input id="tkt-eco-slider" type="range" min="180" max="340" step="10" value="240" class="w-full accent-emerald-400 cursor-pointer" oninput="updateTicketingSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">3. VIP / Last-Minute Surge Multiplier:</span>
+                                <span id="tkt-mult-val" class="text-tech-amber font-bold">1.85× (HK$ 444 VIP Seat)</span>
+                            </div>
+                            <input id="tkt-mult-slider" type="range" min="1.4" max="2.4" step="0.05" value="1.85" class="w-full accent-amber-400 cursor-pointer" oninput="updateTicketingSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">BLENDED AVG FARE / PAX</span>
+                            <span id="tkt-out-avg" class="text-base font-bold text-tech-cyan mt-1 block">HK$ 283.50 / Pax</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">GROSS REV / SINGLE FLIGHT</span>
+                            <span id="tkt-out-flight" class="text-base font-bold text-white mt-1 block">HK$ 31,896 (75% Load)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">ELECTRICITY COST / FLIGHT</span>
+                            <span class="text-base font-bold text-tech-emerald mt-1 block">Only HK$ 1,375 (36 NM)</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800">
+                            <span class="text-[10px] text-zinc-500 block">GATE CLEARANCE SPEED</span>
+                            <span class="text-base font-bold text-tech-amber mt-1 block">0.3s Octopus / Biometric</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.updateTicketingSim = function () {
+            const vipSeats = parseInt(document.getElementById('tkt-vip-slider')?.value || 32);
+            const ecoSeats = 150 - vipSeats;
+            const ecoFare = parseInt(document.getElementById('tkt-eco-slider')?.value || 240);
+            const mult = parseFloat(document.getElementById('tkt-mult-slider')?.value || 1.85);
+            const vipFare = Math.round(ecoFare * mult);
+            const blended = ((vipSeats * vipFare + ecoSeats * ecoFare) / 150);
+            const flightRev = Math.round(blended * 150 * 0.75);
+
+            document.getElementById('tkt-vip-val').textContent = `${vipSeats} VIP Seats / ${ecoSeats} Economy`;
+            document.getElementById('tkt-eco-val').textContent = `HK$ ${ecoFare} / Seat`;
+            document.getElementById('tkt-mult-val').textContent = `${mult.toFixed(2)}× (HK$ ${vipFare} VIP Seat)`;
+            document.getElementById('tkt-out-avg').textContent = `HK$ ${blended.toFixed(2)} / Pax`;
+            document.getElementById('tkt-out-flight').textContent = `HK$ ${flightRev.toLocaleString()} (75% Load)`;
+        };
+        window.updateTicketingSim();
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 46: 5G + LEO SATELLITE TELEMETRY & CLOUD PREDICTIVE ANOMALY ENGINE
+// Mounts inside Domain 06 (ops) on digital-twin.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'mod-m44',
+    modId: 'm44',
+    navLabel: '6.6 5G + LEO Cloud Predictive BIST',
+    pages: ['twin'],
+    twinDomain: {
+        key: 'ops',
+        badge: 'DOMAIN 06',
+        shortLabel: '⚓ FMEA & Reliability',
+        title: 'DOMAIN 06 // ZERO-TOLERANCE SAFETY, FMEA & RELIABILITY'
+    },
+    renderHtml: function () {
+        return `
+        <section id="mod-m44" data-mod-id="m44" data-dom="ops" class="twin-mod-sec py-12 bg-[#090b0f] border-b border-zinc-800/80" style="display:none;">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div>
+                    <div class="text-xs font-mono text-tech-cyan uppercase tracking-widest mb-1">DOMAIN 06 • SUB-MODULE 6.6 // EDGE-TO-CLOUD DIGITAL TWIN &amp; PREDICTIVE MAINTENANCE</div>
+                    <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">Dual-Band 5G + LEO Maritime Telemetry Link &amp; Servo/Bearing Vibration Anomaly Detector</h2>
+                    <p class="text-sm text-zinc-300 mt-1">
+                        While the 100Hz flight-control loop runs 100% locally on the air-gapped STM32H743 2oo3 voter with zero cloud dependency, an isolated Jetson Orin Nano gateway streams compressed 10Hz health telemetry over dual-SIM 5G (HK/GBA coastal) + LEO satellite fallback to our Tsing Yi MRO base—flagging servo current harmonics or pod bearing wear weeks before failure.
+                    </p>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">FLIGHT CONTROL AIR-GAP</span><span class="text-base font-bold text-tech-emerald mt-1 block">100% Unidirectional TX</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">COASTAL 5G MIMO LINK</span><span class="text-base font-bold text-tech-cyan mt-1 block">18 ms Latency • 45 Mbps</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">FFT BEARING PROGNOSTICS</span><span class="text-base font-bold text-white mt-1 block">250-Hr Early Warning</span></div>
+                    <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">SHORE BESS PRE-COOLING</span><span class="text-base font-bold text-tech-amber mt-1 block">Auto-Triggered 10m Out</span></div>
+                </div>
+            </div>
+        </section>`;
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 47: AUTOCLAVE CURE-CYCLE (180°C @ 7 BAR) & Tg PROFILE SIMULATOR
+// Mounts automatically on: engineering-rd.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-autoclave-cure',
+    pages: ['rd'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-autoclave-cure" class="py-16 md:py-20 bg-[#060a12] border-b border-zinc-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-cyan/15 border border-tech-cyan/40 text-tech-cyan font-mono text-xs font-bold mb-2">
+                            <span>🔥 AEROSPACE COMPOSITE PROCESSING // TORAY T800S/M21 AUTOCLAVE CURE PROFILE</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            Interactive Autoclave Cure-Cycle (180°C @ 7.0 Bar) &amp; Glass-Transition (T_g) Verifier
+                        </h2>
+                        <p class="text-sm text-zinc-300 mt-1 max-w-3xl">
+                            Adjust autoclave consolidation pressure and post-cure dwell time below to inspect laminate fiber volume fraction ($V_f = 60\%$), void suppression ($&lt;0.4\%$), and final glass-transition temperature ($T_g \ge 195^\circ\text{C}$) for our monolithic carbon T-foil spars.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 space-y-6 font-mono text-xs">
+                    <div class="grid md:grid-cols-2 gap-6 pb-4 border-b border-zinc-800">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">1. Autoclave Consolidation Pressure:</span>
+                                <span id="acv-bar-val" class="text-tech-cyan font-bold">7.0 Bar + -0.95 Bar Vacuum Bag</span>
+                            </div>
+                            <input id="acv-bar-slider" type="range" min="3.0" max="8.5" step="0.5" value="7.0" class="w-full accent-cyan-400 cursor-pointer" oninput="updateAutoclaveSim()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-zinc-400">2. 180°C Isothermal Hold Duration:</span>
+                                <span id="acv-min-val" class="text-tech-emerald font-bold">120 Mins Dwell (99.4% Crosslink)</span>
+                            </div>
+                            <input id="acv-min-slider" type="range" min="60" max="180" step="15" value="120" class="w-full accent-emerald-400 cursor-pointer" oninput="updateAutoclaveSim()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">FIBER VOLUME FRACTION</span><span id="acv-out-vf" class="text-base font-bold text-tech-cyan mt-1 block">V_f = 60.2%</span></div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">RESIN VOID FRACTION</span><span id="acv-out-void" class="text-base font-bold text-tech-emerald mt-1 block">0.35% (&lt;0.8% DNV Limit)</span></div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">GLASS TRANSITION (T_g)</span><span id="acv-out-tg" class="text-base font-bold text-white mt-1 block">196.5°C (DMA Verified)</span></div>
+                        <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">INTERLAMINAR SHEAR (ILSS)</span><span class="text-base font-bold text-tech-emerald mt-1 block">98.4 MPa (DNV PASS)</span></div>
+                    </div>
+
+                    <div class="bg-[#03070e] rounded-xl border border-zinc-800 p-4">
+                        <div class="flex flex-wrap justify-between mb-2 gap-2">
+                            <span class="text-amber-400 font-bold">━ AUTOCLAVE TEMPERATURE RAMP &amp; 180°C HOLD (°C)</span>
+                            <span class="text-tech-emerald font-bold">━ DEGREE OF EPOXY CROSSLINK CURE α(t) (0 → 99.4%)</span>
+                        </div>
+                        <canvas id="autoclave-cure-canvas" width="960" height="175" class="w-full h-auto rounded bg-[#02050a]"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        window.updateAutoclaveSim = function () {
+            const bar = parseFloat(document.getElementById('acv-bar-slider')?.value || 7.0);
+            const mins = parseInt(document.getElementById('acv-min-slider')?.value || 120);
+            const vf = (56.0 + bar * 0.6).toFixed(1);
+            const voidPct = Math.max(0.22, (1.15 - bar * 0.11)).toFixed(2);
+            const tg = (178 + (mins / 120) * 18.5).toFixed(1);
+
+            if (document.getElementById('acv-bar-val')) {
+                document.getElementById('acv-bar-val').textContent = `${bar.toFixed(1)} Bar + -0.95 Bar Vacuum`;
+                document.getElementById('acv-min-val').textContent = `${mins} Mins Dwell`;
+                document.getElementById('acv-out-vf').textContent = `V_f = ${vf}%`;
+                document.getElementById('acv-out-void').textContent = `${voidPct}% (${voidPct <= 0.8 ? 'DNV PASS' : 'INCREASE BAR'})`;
+                document.getElementById('acv-out-tg').textContent = `${tg}°C`;
+            }
+
+            const c = document.getElementById('autoclave-cure-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            // Temperature Profile: Ramp 1 -> 110C dwell -> Ramp 2 -> 180C hold -> Cool down
+            ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(40, 155);
+            ctx.lineTo(180, 95);
+            ctx.lineTo(310, 95);
+            ctx.lineTo(440, 35);
+            ctx.lineTo(440 + (mins / 180) * 340, 35);
+            ctx.lineTo(920, 150);
+            ctx.stroke();
+
+            // Sigmoidal Degree of Cure Curve (Emerald)
+            ctx.strokeStyle = '#10b981'; ctx.lineWidth = 2.8;
+            ctx.beginPath();
+            for (let x = 40; x <= 920; x += 10) {
+                const f = (x - 40) / 880;
+                const alpha = 1 / (1 + Math.exp(-(f - 0.42) * 12));
+                const y = 155 - alpha * 120;
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+        };
+        window.updateAutoclaveSim();
+    }
+});
+
+// ----------------------------------------------------------------------------
+// COMPONENT 48: INTERACTIVE ANGEL / SEED / ESS TERM-SHEET TRANCHE STRUCTURER
+// Mounts automatically on: capital-stakeholders.html
+// ----------------------------------------------------------------------------
+window.BAYWING_BOLTONS.push({
+    id: 'bolton-term-sheet',
+    navLabel: '🤝 Investor Term-Sheet Sim',
+    pages: ['capital'],
+    renderHtml: function () {
+        return `
+        <section id="bolton-term-sheet" class="py-16 md:py-20 bg-[#070b12] border-b border-zinc-800/80">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tech-emerald/15 border border-tech-emerald/40 text-tech-emerald font-mono text-xs font-bold mb-2">
+                            <span>🤝 INSTITUTIONAL DEAL ROOM // TRANCHE 1 (PH 0–1 FLOAT) &amp; TRANCHE 2 (PH 2 ITC ESS 1:1 SEED)</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
+                            Interactive Investor Tranche &amp; Grant-Leverage Term-Sheet Calculator (HKD)
+                        </h2>
+                        <p class="text-sm text-zinc-300 mt-1">
+                            Select either investment tranche below and adjust the private ticket size to see how HKSTP Incu-Tech (`HK$ 1.29M`), ITF RTH (`HK$ 1.45M`), PAG (`HK$ 250k`), and ITC ESS (`HK$ 10.0M` 1:1 match) multiply effective R&amp;D and vessel construction purchasing power.
+                        </p>
+                    </div>
+                    <div class="flex gap-2 font-mono text-xs">
+                        <button onclick="selectTrancheMode(0)" id="trn-btn-0" class="px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold">Tranche 1: Phase 0–1 Angel Float</button>
+                        <button onclick="selectTrancheMode(1)" id="trn-btn-1" class="px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700">Tranche 2: Phase 2 D2 Pilot (1:1 ESS)</button>
+                    </div>
+                </div>
+
+                <div id="tranche-struct-stage" class="data-card rounded-2xl p-6 bg-zinc-950 border border-zinc-800 grid grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs"></div>
+            </div>
+        </section>`;
+    },
+    onMount: function () {
+        const TRANCHES = [
+            { ticket: 'HK$ 1.60M Angel Float', grant: '+HK$ 2.99M Grants (93.5%)', totalPower: 'HK$ 3.20M Total R&D', milestone: 'Unlocks D1 Tolo Sea Trial & DNV AIP' },
+            { ticket: 'HK$ 10.0M Seed VC', grant: '+HK$ 10.0M ITC ESS Match', totalPower: 'HK$ 20.0M D2 Pilot Build', milestone: 'Unlocks 15m 40-Pax Commercial Ferry' }
+        ];
+
+        window.selectTrancheMode = function (idx) {
+            const t = TRANCHES[idx] || TRANCHES[0];
+            for (let i = 0; i < 2; i++) {
+                const b = document.getElementById(`trn-btn-${i}`);
+                if (b) b.className = (i === idx) ? 'px-3.5 py-2 rounded-lg bg-tech-cyan text-slate-950 font-bold' : 'px-3.5 py-2 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-700';
+            }
+            document.getElementById('tranche-struct-stage').innerHTML = `
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">PRIVATE CAPITAL COMMITTED</span><span class="text-base font-bold text-white mt-1 block">${t.ticket}</span></div>
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">NON-DILUTIVE PUBLIC MATCH</span><span class="text-base font-bold text-tech-emerald mt-1 block">${t.grant}</span></div>
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">EFFECTIVE CAPITAL DEPLOYED</span><span class="text-base font-bold text-tech-cyan mt-1 block">${t.totalPower}</span></div>
+                <div class="p-4 rounded-xl bg-[#070b12] border border-zinc-800"><span class="text-[10px] text-zinc-500 block">VALUE-INFLECTION GATE</span><span class="text-base font-bold text-tech-amber mt-1 block">${t.milestone}</span></div>
+            `;
+        };
+        window.selectTrancheMode(0);
+    }
+});
+
+// Update Floating Demo Switcher to include all 48 Components
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const dockList = document.querySelector('#hkstp-dock-panel .overflow-y-auto');
+        if (dockList) {
+            const EXTRA_45_48 = [
+                ['45. Smart-Turnstile & Dynamic Seat-Yield Sim', 'routes-calculator.html#bolton-smart-ticketing', 'text-tech-cyan'],
+                ['46. 5G + LEO Cloud Predictive BIST Engine', 'digital-twin.html#mod-m44', 'text-tech-emerald'],
+                ['47. 180°C @ 7 Bar Autoclave Cure-Cycle Sim', 'engineering-rd.html#bolton-autoclave-cure', 'text-tech-amber'],
+                ['48. Investor Term-Sheet & Grant-Match Sim', 'capital-stakeholders.html#bolton-term-sheet', 'text-purple-400']
+            ];
+            dockList.innerHTML += EXTRA_45_48.map(item => `
+                <a href="${item[1]}" class="block p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 hover:border-tech-cyan transition-all">
+                    <span class="${item[2]} font-bold block text-[11px]">${item[0]}</span>
+                    <span class="text-[10px] text-zinc-400">${item[1]}</span>
+                </a>`).join('');
+        }
+    }, 500);
+});
